@@ -37,7 +37,7 @@ public class PlayerObject : NetworkBehaviour {
 		cam = Camera.main;
 		//Command the server to SPAWN our Unit.
 		//CmdSpawnMyCamera();
-		 spawnUnit();
+		 //spawnUnit();
 		 //spawnCamera();
 		Debug.Log("PlayerObject::Start -- Spawning my own personal Camera");
 		//CmdSpawnMyCamera();
