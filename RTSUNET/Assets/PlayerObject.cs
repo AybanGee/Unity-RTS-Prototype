@@ -11,8 +11,10 @@ public class PlayerObject : NetworkBehaviour {
 	public List<GameObject> myUnits = new List<GameObject>();
 	public Camera cam;
 
+	public Color selectedColor;
 	GameObject spawnHolder;
 	float ang;
+
 	// Use this for initialization
 	void Start () {
 		//Is this actually my own local PlayerObject?
@@ -67,11 +69,7 @@ public class PlayerObject : NetworkBehaviour {
 				Debug.Log("You have no units.");
 				return;
 			}
-			Debug.Log("Count of Units" + myUnits.Count);
-			if(myUnits[0] == null){
-				Debug.Log("Bo unot");
-				return;
-			}
+			
 			if(Physics.Raycast(ray,out hit,10000,myUnits[0].GetComponent<Unit>().movementMask)){
 				Debug.Log("We Hit" +  hit.collider.name + " " + hit.point );
 				//Point of Click and location of selected Unit = angle, for formation
@@ -136,6 +134,7 @@ public GameObject myUnit;
 		//Spawn Unit and Assign to a Player
 		GameObject go = NetworkManager.singleton.spawnPrefabs[spawnableObjectIndex];
 		go = Instantiate(go);
+
 	 	NetworkIdentity ni = go.GetComponent<NetworkIdentity>();
 		Debug.Log("Player Object :: --Spawning Unit");
 		bool ToF = NetworkServer.SpawnWithClientAuthority(go,connectionToClient);
@@ -161,6 +160,7 @@ public GameObject myUnit;
 	 	}
 	
 	}
+
 #endregion
 /* 
 	[Command]

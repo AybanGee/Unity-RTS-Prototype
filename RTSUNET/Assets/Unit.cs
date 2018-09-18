@@ -6,6 +6,7 @@ using UnityEngine.Networking;
 public class Unit : NetworkBehaviour {
 public Camera cam;
 	UnityEngine.AI.NavMeshAgent agent;
+	public GameObject graphics;
 	public LayerMask movementMask;
 	// Use this for initialization
  //public NetworkIdentity netIdNiPo;
@@ -27,6 +28,17 @@ public Camera cam;
 		if(hasAuthority == false){
 				return;
 		}
+		agent.SetDestination(point);
+		CmdMove(point);
+	}
+
+	[Command]
+	void CmdMove(Vector3 point){
+		agent.SetDestination(point);
+		RpcMove(point);
+	}
+	[ClientRpc]
+	void RpcMove(Vector3 point){
 		agent.SetDestination(point);
 	}
 	/*
