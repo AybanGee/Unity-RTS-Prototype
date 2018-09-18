@@ -2,19 +2,21 @@
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class CameraController : NetworkBehaviour {
+public class CameraController : MonoBehaviour {
 	public float panSpeed = 50f;
 	public float panBorderThickness = 10f;
-	public Vector2 panLimit;
+	public Vector2 panMax;
+	public Vector2 panMin;
 	public float scrollSpeed = 20f;
 	public float minY = 20f ,maxY = 150f;
 	// Update is called once per frame
-	void Update () {
-		if(hasAuthority == false){
-			return;
-		}
+	void LateUpdate () {
+if(!Application.isFocused)
+return;
 		Vector3 pos = transform.position;
+
 		if(Input.GetKey("w")||Input.mousePosition.y >= Screen.height - panBorderThickness){
+			Debug.Log("W");
 			pos.z += panSpeed * Time.deltaTime;
 		}
 		if(Input.GetKey("s")||Input.mousePosition.y <= panBorderThickness){
@@ -31,8 +33,8 @@ public class CameraController : NetworkBehaviour {
 
 		pos.y -= scroll * scrollSpeed * 100f * Time.deltaTime;
 
-		pos.x = Mathf.Clamp(pos.x, - panLimit.x, panLimit.x);
-		pos.z = Mathf.Clamp(pos.z, - panLimit.y, panLimit.y);
+		pos.x = Mathf.Clamp(pos.x, panMin.x, panMax.x);
+		pos.z = Mathf.Clamp(pos.z,  panMin.y, panMax.y);
 		pos.y = Mathf.Clamp(pos.y, minY, maxY);
 
 
