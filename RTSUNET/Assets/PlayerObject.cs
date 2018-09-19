@@ -11,9 +11,14 @@ public class PlayerObject : NetworkBehaviour {
 	public List<GameObject> myUnits = new List<GameObject>();
 	public Camera cam;
 
-	public Color selectedColor;
+	public List<Color> selectedColor = new List<Color>();
 	GameObject spawnHolder;
 	float ang;
+
+//passed variables
+	public int team;
+	public int faction;
+	public string playerName;
 
 	// Use this for initialization
 	void Start () {
@@ -89,8 +94,12 @@ public class PlayerObject : NetworkBehaviour {
 	int perRow = 6;
 
 	void moveUnits(Vector3 hit){
+		
+		StartCoroutine(coMove(myUnits,hit));
+	}
+	IEnumerator coMove(List<GameObject> gos,Vector3 hit){
 		int rowCount = (-1)*(perRow/2),colCount = 0;
-		for (int i = 0; i < myUnits.Count; i++)
+	for (int i = 0; i < gos.Count; i++)
 		{	
 			float x,z;
 			if(rowCount >= perRow/2){
@@ -103,10 +112,11 @@ public class PlayerObject : NetworkBehaviour {
 
 
 			Vector3 offset = new Vector3(x,0,z);
-			myUnits[i].GetComponent<Unit>().MoveToPoint(hit + offset);
+			gos[i].GetComponent<Unit>().MoveToPoint(hit + offset);
 
 			rowCount ++;
 		}
+		yield return null;
 	}
 #region "Spawn Handler"
 //Move to new script
@@ -134,12 +144,13 @@ public GameObject myUnit;
 		//Spawn Unit and Assign to a Player
 		GameObject go = NetworkManager.singleton.spawnPrefabs[spawnableObjectIndex];
 		go = Instantiate(go);
-
+		go.GetComponent<Unit>().team = team;
+		go.GetComponent<Unit>().graphics.GetComponent<MeshRenderer>().materials[0].color = selectedColor[team -1];
 	 	NetworkIdentity ni = go.GetComponent<NetworkIdentity>();
 		Debug.Log("Player Object :: --Spawning Unit");
 		bool ToF = NetworkServer.SpawnWithClientAuthority(go,connectionToClient);
 		Debug.Log("Player Object :: --Unit Spawned : " + ToF);
-		RpcAssignObject(ni);
+		RpcAssignObject(ni, team);
 	}
 
 
@@ -147,13 +158,14 @@ public GameObject myUnit;
 //DYNAMIC IS NOT FEASIBLE... MUST ACCESS GLOBAL VAR TO WORK
 
 [ClientRpc]
-	void RpcAssignObject(NetworkIdentity id){
+	void RpcAssignObject(NetworkIdentity id,int t){
 		//Debug.Log(id.netId.Value);
 		NetworkIdentity[] ni = FindObjectsOfType<NetworkIdentity>();
 	 	for (int i = 0; i < ni.Length; i++)
 		{
 		 	if(ni[i].netId == id.netId){
 				spawnHolder = ni[i].gameObject;
+				spawnHolder.GetComponent<Unit>().graphics.GetComponent<MeshRenderer>().materials[0].color = selectedColor[t-1];
 				myUnits.Add(spawnHolder);
 			return;
 		 	}

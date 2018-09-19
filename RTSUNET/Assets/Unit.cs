@@ -8,6 +8,8 @@ public Camera cam;
 	UnityEngine.AI.NavMeshAgent agent;
 	public GameObject graphics;
 	public LayerMask movementMask;
+
+	public int team;
 	// Use this for initialization
  //public NetworkIdentity netIdNiPo;
  //public bool hasAuth = false ;

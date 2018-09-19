@@ -1,0 +1,141 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
+using UnityEngine.Networking;
+
+public class LobbyPlayer : NetworkLobbyPlayer {
+
+public int team;
+
+public string P_name;
+
+public int faction;
+
+public bool ready = false;
+
+ComponentHandler CH;
+void Start()
+{
+
+CH = GetComponent<ComponentHandler>();
+    
+     this.transform.SetParent(LobbyManager.singleton.GetComponent<LobbyManager>().playerUIiPanel.transform);
+     
+    
+    	if( isLocalPlayer == false){
+            //this belongs to another player
+               GetComponent<CanvasGroup>().interactable = false;
+				return;
+		}
+       
+     CmdSelectTeam(1);
+     CmdChangeName("Player");
+}
+
+#region "ready player one"
+public void OnClickReady(){
+
+
+	if(!isLocalPlayer)	return;
+
+    ready = !ready;
+    OnClientReady(ready);
+    if(ready){
+        //change UI
+        SendReadyToBeginMessage();
+        CH.components[3].componentObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Ready";
+        // CH.components[3].componentObject.GetComponent<Button>().GetComponent<Image>().color =  new Color(69,180,88,1);
+
+    }else{
+        SendNotReadyToBeginMessage();
+        CH.components[3].componentObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Not Ready";
+        //  CH.components[3].componentObject.GetComponent<Button>().GetComponent<Image>().color = new Color(191,182,151,1);
+
+    }
+}
+
+
+
+public override void OnClientReady(bool state){
+    Debug.Log("READY");
+    if(state){
+        //change UI
+        CH.components[3].componentObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Ready";
+        // CH.components[3].componentObject.GetComponent<Button>().GetComponent<Image>().color =  new Color(69,180,88,1);
+
+    }else{
+        CH.components[3].componentObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Not Ready";
+        //  CH.components[3].componentObject.GetComponent<Button>().GetComponent<Image>().color = new Color(191,182,151,1);
+
+    }
+}
+#endregion
+#region "GameChanges"
+   public void OnChangeTeam(int i){
+      
+       i++;
+         Debug.Log("Changing team to : "+ i);
+         // Clicked red team (team nr 0)
+         CmdSelectTeam(i);
+    }
+
+     public void OnChangeFaction(int f){
+       
+         Debug.Log("Changing faction to : "+ f);
+         // Clicked red team (team nr 0)
+         CmdSelectFaction(f);
+    }
+ 
+    public void OnChangeName(string s){
+         // Clicked blueteam (team nr 1)
+       
+         Debug.Log("Changing name to : "+ s);
+         CmdChangeName(s);
+
+    }
+ 
+
+    [Command]
+    public void CmdChangeName(string newName){
+        Debug.Log("SERVER: change player name from "+P_name+" to "+newName);
+        P_name = newName;
+        RpcChangeName(newName);
+    }
+
+    [Command]
+    public void CmdSelectTeam(int teamIndex){
+        // Set team of player on the server.
+        team = teamIndex;
+        RpcSelectTeam(teamIndex);
+    }
+    [Command]
+    public void CmdSelectFaction(int facitonIndex){
+    // Set team of player on the server.
+        faction = facitonIndex;
+        RpcSelectFaction(facitonIndex);
+    }
+
+    [ClientRpc]
+    public void RpcChangeName(string newName){
+        Debug.Log("Client: change player name from "+P_name+" to "+newName);
+        P_name = newName;
+         CH.components[0].componentObject.GetComponent<TMP_InputField>().text = newName;
+      }
+
+    [ClientRpc]
+    public void RpcSelectTeam(int teamIndex){
+        // Set team of player on the server.
+        team = teamIndex;
+       CH.components[1].componentObject.GetComponent<TMP_Dropdown>().value = Mathf.Clamp(team - 1,0,3);
+    }
+    [ClientRpc]
+    public void RpcSelectFaction(int facitonIndex){
+    // Set team of player on the server.
+        faction = facitonIndex;
+        CH.components[2].componentObject.GetComponent<TMP_Dropdown>().value = faction;
+    }
+
+#endregion
+}
