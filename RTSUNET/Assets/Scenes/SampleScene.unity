@@ -474,6 +474,11 @@ Prefab:
       propertyPath: panMax.y
       value: 414
       objectReference: {fileID: 0}
+    - target: {fileID: 114089510158116946, guid: 715846621a1754f47953ca3892ce458a,
+        type: 2}
+      propertyPath: minY
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114087397200142302, guid: 715846621a1754f47953ca3892ce458a, type: 2}
   m_SourcePrefab: {fileID: 100100000, guid: 715846621a1754f47953ca3892ce458a, type: 2}

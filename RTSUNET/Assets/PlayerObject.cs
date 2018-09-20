@@ -16,8 +16,11 @@ public class PlayerObject : NetworkBehaviour {
 	float ang;
 
 //passed variables
+[SyncVar]
 	public int team;
+[SyncVar]
 	public int faction;
+[SyncVar]
 	public string playerName;
 
 	// Use this for initialization
@@ -70,12 +73,29 @@ public class PlayerObject : NetworkBehaviour {
 			RaycastHit hit;
 
 			//There should be at least 1 selected unit.
-			if(myUnits.Count < 1){
-				Debug.Log("You have no units.");
-				return;
+		
+			if(Physics.Raycast(ray,out hit,10000)){
+				
+				Interactable interactable = hit.collider.GetComponent<Interactable>();
+				Debug.Log("JORI JORI AJA AJA " + hit.collider.name);
+				if(interactable != null){
+					if(interactable.GetComponent<Unit>().team == team){
+						//hard coded stuff;
+						Debug.Log("Oops Same team");
+						return;
+					}
+					if(myUnits.Count > 0)
+					foreach (GameObject unit in myUnits)
+					{	
+						unit.GetComponent<Unit>().SetFocus(interactable);
+					}
+					return;
+				}
 			}
-			
+
+			if(myUnits.Count <= 0)return;
 			if(Physics.Raycast(ray,out hit,10000,myUnits[0].GetComponent<Unit>().movementMask)){
+				//move movement mask to controller
 				Debug.Log("We Hit" +  hit.collider.name + " " + hit.point );
 				//Point of Click and location of selected Unit = angle, for formation
 				
@@ -83,13 +103,19 @@ public class PlayerObject : NetworkBehaviour {
 				//moveUnits(hit.point);
 				moveUnits(hit.point);
 				//myUnit.GetComponent<Unit>().MoveToPoint(hit.point);
+
+
 				//Stop focusing other objects
 			}
+
+			
 
 
 		}		
 	}
 	/////////////////////////////////// FUNCTIONS
+
+	#region "movement"
 	float offsetSize = 2;
 	int perRow = 6;
 
@@ -112,12 +138,14 @@ public class PlayerObject : NetworkBehaviour {
 
 
 			Vector3 offset = new Vector3(x,0,z);
+			gos[i].GetComponent<Unit>().RemoveFocus();
 			gos[i].GetComponent<Unit>().MoveToPoint(hit + offset);
 
 			rowCount ++;
 		}
 		yield return null;
 	}
+	#endregion
 #region "Spawn Handler"
 //Move to new script
 	void spawnUnit(){
@@ -174,18 +202,5 @@ public GameObject myUnit;
 	}
 
 #endregion
-/* 
-	[Command]
-	void CmdSpawnMyCamera(){
-		//We are guaranteed to be on the severe right now.
-		GameObject go = Instantiate(CameraPrefab);
-		//Now that the object exists on the server, propagate it to all
-		//the clients(and also wire up the Network Identity)
-		Debug.Log("Player Object :: --Spawning Camera");
-		NetworkServer.SpawnWithClientAuthority(go,connectionToClient);
-		cam = go.GetComponent<Camera>();
-		Debug.Log("Player Object :: --Camera Spawned");
-		Debug.Log("cam = " + cam.name);
-	}
-*/
+
 }

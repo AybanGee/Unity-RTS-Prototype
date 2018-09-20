@@ -21,7 +21,6 @@ GameObject:
   - component: {fileID: 4495840205940894}
   - component: {fileID: 33798589808563020}
   - component: {fileID: 23736525467499424}
-  - component: {fileID: 136162617615289424}
   m_Layer: 0
   m_Name: Graphics
   m_TagString: Untagged
@@ -41,6 +40,8 @@ GameObject:
   - component: {fileID: 195191349451015882}
   - component: {fileID: 114421189507106826}
   - component: {fileID: 114075745521299872}
+  - component: {fileID: 114071620049233150}
+  - component: {fileID: 136838372543091072}
   m_Layer: 0
   m_Name: Unit
   m_TagString: Untagged
@@ -117,6 +118,19 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1230669326567264}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &114071620049233150
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1917731247129320}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88fa641e0a50dfa47be1b7bf917422ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 2
+  interactionTransform: {fileID: 0}
 --- !u!114 &114075745521299872
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -129,7 +143,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_TransformSyncMode: 1
-  m_SendInterval: 0.1
+  m_SendInterval: 0.25
   m_SyncRotationAxis: 7
   m_RotationSyncCompression: 0
   m_SyncSpin: 0
@@ -186,19 +200,23 @@ MonoBehaviour:
   movementMask:
     serializedVersion: 2
     m_Bits: 512
---- !u!136 &136162617615289424
+  team: 0
+  focus: {fileID: 0}
+  target: {fileID: 0}
+  followDelay: 1
+--- !u!136 &136838372543091072
 CapsuleCollider:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1230669326567264}
+  m_GameObject: {fileID: 1917731247129320}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.5
   m_Height: 2
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!195 &195191349451015882
 NavMeshAgent:
   m_ObjectHideFlags: 1

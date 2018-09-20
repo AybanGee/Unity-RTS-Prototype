@@ -36,11 +36,13 @@ public class LobbyManager : NetworkLobbyManager {
 		playerUIiPanel.SetActive(false);
 			}
 	public override bool OnLobbyServerSceneLoadedForPlayer(GameObject lobbyPlayer,GameObject gamePlayer){
+	
 		LobbyPlayer lb = lobbyPlayer.GetComponent<LobbyPlayer>();
 		PlayerObject po = gamePlayer.GetComponent<PlayerObject>();
 		po.playerName = lb.P_name;
 		po.team = lb.team;
 		po.faction = lb.faction;
+		Debug.Log("Transition method of team" + lb.team);
 		bool value = base.OnLobbyServerSceneLoadedForPlayer(lobbyPlayer,gamePlayer);
 		return value;
 	}
