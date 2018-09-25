@@ -9,6 +9,8 @@ public class LobbyManager : NetworkLobbyManager {
 
 	public GameObject playerUiPrefab;
 	public GameObject playerUIiPanel;
+
+	public GameObject playerCanvas;
 	public  override void OnStartHost(){
 		print("Host started");
 		base.OnStartHost();
@@ -31,9 +33,14 @@ public class LobbyManager : NetworkLobbyManager {
 
 	public override void OnLobbyClientSceneChanged(NetworkConnection conn){
 		Debug.Log("Scene Changed");
-		base.OnLobbyClientSceneChanged(conn);
 		
 		playerUIiPanel.SetActive(false);
+		playerCanvas.SetActive(false);
+		
+		base.OnLobbyClientSceneChanged(conn);
+
+	//	DragSelectionHandler.singleton.StartforClient();
+		
 			}
 	public override bool OnLobbyServerSceneLoadedForPlayer(GameObject lobbyPlayer,GameObject gamePlayer){
 	
@@ -57,6 +64,7 @@ public class LobbyManager : NetworkLobbyManager {
 	public override void OnStopClient(){
 		base.OnStopClient();
 			playerUIiPanel.SetActive(true);
+			playerCanvas.SetActive(true);
 		Debug.Log("Stopped Client");
 	}
 

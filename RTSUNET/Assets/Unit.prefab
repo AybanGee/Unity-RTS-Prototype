@@ -481,6 +481,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackSpeed: 1
   attackCooldown: 0
+  netPlayer: {fileID: 0}
 --- !u!135 &135155682895584528
 SphereCollider:
   m_ObjectHideFlags: 1
