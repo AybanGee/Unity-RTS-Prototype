@@ -12,8 +12,10 @@ public class PlayerObject : NetworkBehaviour {
 	public Camera cam;
 
 	public List<Color> selectedColor = new List<Color>();
-	GameObject spawnHolder;
+	
 	float ang;
+	
+	public LayerMask movementMask;
 
 //passed variables
 [SyncVar]
@@ -23,13 +25,20 @@ public class PlayerObject : NetworkBehaviour {
 [SyncVar]
 	public string playerName;
 
+
 	// Use this for initialization
 	void Start () {
 		//Is this actually my own local PlayerObject?
+		
 		if( isLocalPlayer == false){
 			//This object belongs to another player.
 				return;
 		}
+
+		
+		//Debug.Log("HAS AUTH?" + hasAuthority);
+
+		gameObject.name = gameObject.name + "NID" + GetComponent<NetworkIdentity>().netId;
 
 		//Since the PlayerObject is invisible and not part of the world,
 		//give me something to move around!
@@ -47,7 +56,7 @@ public class PlayerObject : NetworkBehaviour {
 		//CmdSpawnMyCamera();
 		 //spawnUnit();
 		 //spawnCamera();
-		Debug.Log("PlayerObject::Start -- Spawning my own personal Camera");
+		//Debug.Log("PlayerObject::Start -- Spawning my own personal Camera");
 		//CmdSpawnMyCamera();
 
 	}
@@ -76,27 +85,35 @@ public class PlayerObject : NetworkBehaviour {
 		
 			if(Physics.Raycast(ray,out hit,10000)){
 				
-				Interactable interactable = hit.collider.GetComponent<Interactable>();
-				Debug.Log("JORI JORI AJA AJA " + hit.collider.name);
+				Character interactable = hit.collider.GetComponent<Character>();
+				//.Log("JORI JORI AJA AJA " + hit.collider.name);
 				if(interactable != null){
-					if(interactable.GetComponent<Unit>().team == team){
-						//hard coded stuff;
-						Debug.Log("Oops Same team");
-						return;
-					}
+					// if(interactable.GetComponent<Unit>().team == team){
+					// 	//hard coded stuff;
+					// 	Debug.Log("Oops Same team");
+					// 	return;
+					// }
+					Debug.Log("SHIT KALABAN!");
 					if(myUnits.Count > 0)
 					foreach (GameObject unit in myUnits)
-					{	
-						unit.GetComponent<Unit>().SetFocus(interactable);
+					{
+//TO BE REMOVED IF FOUNF SOLUTION ON NOT DELETEiNG OBJECTS
+							if(unit == null){
+								myUnits.Remove(unit);
+								continue;
+							}
+					
+						
+						CmdFocus(unit.GetComponent<NetworkIdentity>(),interactable.GetComponent<NetworkIdentity>());
 					}
 					return;
 				}
 			}
-
+		
 			if(myUnits.Count <= 0)return;
-			if(Physics.Raycast(ray,out hit,10000,myUnits[0].GetComponent<Unit>().movementMask)){
+			if(Physics.Raycast(ray,out hit,10000,movementMask)){
 				//move movement mask to controller
-				Debug.Log("We Hit" +  hit.collider.name + " " + hit.point );
+				//Debug.Log("We Hit" +  hit.collider.name + " " + hit.point );
 				//Point of Click and location of selected Unit = angle, for formation
 				
 				// Move our player to what we hit
@@ -113,6 +130,37 @@ public class PlayerObject : NetworkBehaviour {
 
 		}		
 	}
+
+		[Command]
+			void CmdFocus(NetworkIdentity unitID, NetworkIdentity interactionId){
+				unitID.GetComponent<Unit>().SetFocus(interactionId.GetComponent<Character>());
+				RpcFocus(unitID,interactionId);
+			}
+	[ClientRpc]
+			void RpcFocus(NetworkIdentity unitID, NetworkIdentity interactionId){
+				unitID.GetComponent<Unit>().SetFocus(interactionId.GetComponent<Character>());
+			}
+	
+// 			[Command]
+// 	void CmdChangeAuthority(NetworkIdentity myNet, NetworkIdentity otherNet){
+// 		myNet.AssignClientAuthority(otherNet.connectionToClient);
+// 	}
+
+// 		[Command]
+// 	void CmdRevertAuthority(NetworkIdentity myNet, NetworkIdentity otherNet){
+// 		myNet.RemoveClientAuthority(otherNet.connectionToClient);
+
+// 	}
+// public void AttackEnemy(NetworkIdentity targetIdentity, NetworkIdentity myIdentity){
+	
+// 	CmdAttack(targetIdentity, myIdentity);
+// }
+
+[Command]
+	public void CmdAttack(NetworkIdentity targetIdentity, NetworkIdentity myIdentity){
+		targetIdentity.GetComponent<CharStats>().TakeDamage(myIdentity.GetComponent<CharStats>().damage.GetValue());
+	}
+
 	/////////////////////////////////// FUNCTIONS
 
 	#region "movement"
@@ -138,6 +186,9 @@ public class PlayerObject : NetworkBehaviour {
 
 
 			Vector3 offset = new Vector3(x,0,z);
+			if(gos[i] == null){
+				continue;
+			}
 			gos[i].GetComponent<Unit>().RemoveFocus();
 			gos[i].GetComponent<Unit>().MoveToPoint(hit + offset);
 
@@ -174,9 +225,11 @@ public GameObject myUnit;
 		go = Instantiate(go);
 		go.GetComponent<Unit>().team = team;
 		go.GetComponent<Unit>().graphics.GetComponent<MeshRenderer>().materials[0].color = selectedColor[team -1];
-	 	NetworkIdentity ni = go.GetComponent<NetworkIdentity>();
+		 NetworkIdentity ni = go.GetComponent<NetworkIdentity>();
 		Debug.Log("Player Object :: --Spawning Unit");
-		bool ToF = NetworkServer.SpawnWithClientAuthority(go,connectionToClient);
+		NetworkServer.Spawn(go);
+		bool ToF = go.GetComponent<NetworkIdentity>().AssignClientAuthority(GetComponent<NetworkIdentity>().connectionToClient);
+		
 		Debug.Log("Player Object :: --Unit Spawned : " + ToF);
 		RpcAssignObject(ni, team);
 	}
@@ -187,20 +240,77 @@ public GameObject myUnit;
 
 [ClientRpc]
 	void RpcAssignObject(NetworkIdentity id,int t){
+		//	if(!isLocalPlayer)return;
+
+
 		//Debug.Log(id.netId.Value);
-		NetworkIdentity[] ni = FindObjectsOfType<NetworkIdentity>();
-	 	for (int i = 0; i < ni.Length; i++)
-		{
-		 	if(ni[i].netId == id.netId){
-				spawnHolder = ni[i].gameObject;
-				spawnHolder.GetComponent<Unit>().graphics.GetComponent<MeshRenderer>().materials[0].color = selectedColor[t-1];
-				myUnits.Add(spawnHolder);
-			return;
-		 	}
-	 	}
+		GameObject spawnHolder = id.gameObject;
+		
+		spawnHolder.name = team +" - unit - " + netId;
+		spawnHolder.GetComponent<Unit>().graphics.GetComponent<MeshRenderer>().materials[0].color = selectedColor[t-1];
+		spawnHolder.GetComponent<CharStats>().netPlayer = this;
+		spawnHolder.GetComponent<UnitCombat>().netPlayer = this;
+		myUnits.Add(spawnHolder);
+
 	
 	}
 
 #endregion
+#region "DeSpawning"
+	public void despawnUnit(GameObject go){
+		Debug.Log("ABOUT TO UNSPAWN : " + go.name);
+
+		// if(!isLocalPlayer){
+		// 	Debug.Log("Another client tries to command");
+		// 	if(!hasAuthority){
+		// 	Debug.Log("and Client has no authority");
+		// 	return;
+		// 	}
+		// 	return;
+		// }
+		// if(!hasAuthority){
+		// 	Debug.Log("Client has no authority");
+		// 	return;
+		// }
+		Debug.Log("Unspawning NID" + GetComponent<NetworkIdentity>().netId);
+
+		 CmdDeSpawnObject(go.GetComponent<NetworkIdentity>());
+	}
+
+[Command]
+	void CmdDeSpawnObject(NetworkIdentity id){
+		Debug.Log("CmdDespawnObject");
+		
+	//id.AssignClientAuthority(other.connectionToClient);
+	//myUnits.Remove(id.gameObject);
+	NetworkServer.Destroy(id.gameObject);
+
+
+	}
+
+	
+
+
+
+
+#endregion
+
+
+// [ClientRpc]
+// 	void RpcAssignObject(NetworkIdentity id,int t){
+// 		//Debug.Log(id.netId.Value);
+// 		NetworkIdentity[] ni = FindObjectsOfType<NetworkIdentity>();
+// 	 	for (int i = 0; i < ni.Length; i++)
+// 		{
+// 		 	if(ni[i].netId == id.netId){
+// 				spawnHolder = ni[i].gameObject;
+// 				spawnHolder.GetComponent<Unit>().graphics.GetComponent<MeshRenderer>().materials[0].color = selectedColor[t-1];
+// 				spawnHolder.GetComponent<CharStats>().netPlayer = this;
+// 				myUnits.Add(spawnHolder);
+// 			return;
+// 		 	}
+// 	 	}
+	
+// 	}
 
 }

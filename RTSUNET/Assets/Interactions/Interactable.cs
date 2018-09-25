@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 
-public class Interactable : MonoBehaviour {
+public class Interactable : NetworkBehaviour {
 public float radius = 5f;
 
 bool isFocus = false;
@@ -8,19 +9,25 @@ bool isFocus = false;
 public Transform interactionTransform;
 Transform unit;
 bool hasInteracted = false;
-
-void Start()
+public bool isInteracting = false;
+public void Start()
 {
 	if(interactionTransform == null)
 	interactionTransform = this.transform;
 }
 public virtual void Interact(){
+	isInteracting = true;
 	//meant to be overriden
-	Debug.Log("Interacting with " + this.name);
+Debug.Log("Interacting with " + this.name);
+}
+public virtual void StopInteract(){
+	hasInteracted =false;
 }
 
-void Update(){
+public void Update(){
+	//Debug.Log("lol");
 	if(isFocus && !hasInteracted){
+		Debug.Log("Going to interact");
 		float distance = Vector3.Distance(unit.position,interactionTransform.position);
 		if(distance <= radius){
 			Interact();
@@ -29,15 +36,20 @@ void Update(){
 	}
 }
 public void OnFocused(Transform unitTransform){
+	
+				Debug.Log("OnFocused" + hasInteracted);
 	isFocus = true;
 	unit = unitTransform;
 	hasInteracted =false;
 }
 
 public void OnDefocused(){
+	 
+	 if(hasInteracted)
+	 StopInteract();
 	isFocus = false;
 	unit = null;
-	hasInteracted =false;
+	isInteracting =false;
 }
 	void OnDrawGizmosSelected()
 	{

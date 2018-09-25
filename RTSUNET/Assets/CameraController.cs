@@ -16,7 +16,6 @@ return;
 		Vector3 pos = transform.position;
 
 		if(Input.GetKey("w")||Input.mousePosition.y >= Screen.height - panBorderThickness){
-			Debug.Log("W");
 			pos.z += panSpeed * Time.deltaTime;
 		}
 		if(Input.GetKey("s")||Input.mousePosition.y <= panBorderThickness){
