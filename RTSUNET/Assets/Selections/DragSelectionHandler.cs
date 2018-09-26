@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
-public class DragSelectionHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerClickHandler {
+public class DragSelectionHandler : NetworkBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerClickHandler {
 
 	[SerializeField]
 	Image selectionBoxImage;
@@ -13,49 +13,57 @@ public class DragSelectionHandler : MonoBehaviour, IBeginDragHandler, IDragHandl
 	Rect selectionRect;
 	public static DragSelectionHandler singleton;
 	public PlayerObject playerObject;
-
 	void Awake () {
 		singleton = this;
 	}
 	private void Start () {
 		
-		GameObject po = LobbyManager.singleton.client.connection.playerControllers[0].gameObject;
-		playerObject = po.GetComponent<PlayerObject> ();
-
-		if (playerObject == null) {
-			//if player object still still null
-			Debug.LogError ("Player Object not found in DragSelectionHandler!");
-			return;
-		}
-		Color boxColor = playerObject.selectedColor[playerObject.team - 1];
-		boxColor.a = 1f;
-		selectionBoxImage.color = boxColor;
+		
+		// GameObject po = LobbyManager.singleton.client.connection.playerControllers[0].gameObject;
+	
+		// playerObject = po.GetComponent<PlayerObject> ();
+		// if (playerObject == null) {
+		// 	playerObject = PlayerObject.singleton;
+		// }
+		// if (playerObject == null) {
+		// 	//if player object still still null
+		// 	Debug.LogError ("Player Object not found in DragSelectionHandler!");
+		// 	return;
+		// }
+	
 
 	}
-	public void StartforClient () {
-		if (playerObject != null) return;
+	public void AssignPlayerObject(PlayerObject po){
+		playerObject = po;
 
-		PlayerObject[] pos = FindObjectsOfType<PlayerObject> ();
-		if (pos.Length <= 0) {
-			Debug.LogError ("Cannot find on client");
-			return;
-		}
-		for (int i = 0; i < pos.Length; i++) {
-			if (pos[i].isLocalPlayer) {
-				playerObject = pos[i];
-				break;
-			}
-		}
-
-		if (playerObject == null) {
-			//if player object still still null
-			Debug.LogError ("Player Object not found in CLIENT DragSelectionHandler!");
-			return;
-		}
 		Color boxColor = playerObject.selectedColor[playerObject.team - 1];
 		boxColor.a = 1f;
 		selectionBoxImage.color = boxColor;
 	}
+	// public void LateStart () {
+	// 	if (playerObject != null) return;
+
+	// 	PlayerObject[] pos = FindObjectsOfType<PlayerObject> ();
+	// 	if (pos.Length <= 0) {
+	// 		Debug.LogError ("Cannot find on client");
+	// 		return;
+	// 	}
+	// 	for (int i = 0; i < pos.Length; i++) {
+	// 		if (pos[i].singleton != null) {
+	// 			playerObject = pos[i].singleton;
+	// 			break;
+	// 		}
+	// 	}
+
+	// 	if (playerObject == null) {
+	// 		//if player object still still null
+	// 		Debug.LogError ("Player Object not found in CLIENT DragSelectionHandler!");
+	// 		return;
+	// 	}
+	// 	Color boxColor = playerObject.selectedColor[playerObject.team - 1];
+	// 	boxColor.a = 1f;
+	// 	selectionBoxImage.color = boxColor;
+	// }
 	public void OnBeginDrag (PointerEventData eventData) {
 		if (!Input.GetKey (KeyCode.LeftControl) && !Input.GetKey (KeyCode.RightControl))
 			playerObject.DeselectAll (new BaseEventData (EventSystem.current));

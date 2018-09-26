@@ -24,6 +24,13 @@ public class PlayerObject : NetworkBehaviour {
 	[SyncVar]
 	public string playerName;
 
+	//public static PlayerObject singleton;
+	void Awake () {
+
+		// if (isLocalPlayer)
+		// singleton = this;
+	}
+
 	// Use this for initialization
 	void Start () {
 		//Is this actually my own local PlayerObject?
@@ -32,7 +39,9 @@ public class PlayerObject : NetworkBehaviour {
 			//This object belongs to another player.
 			return;
 		}
-
+		if (DragSelectionHandler.singleton.playerObject == null) {
+			DragSelectionHandler.singleton.AssignPlayerObject (this);
+		}
 		//Debug.Log("HAS AUTH?" + hasAuthority);
 
 		gameObject.name = gameObject.name + "NID" + GetComponent<NetworkIdentity> ().netId;
@@ -57,12 +66,28 @@ public class PlayerObject : NetworkBehaviour {
 		//CmdSpawnMyCamera();
 
 	}
+
+	//SELECTION FUNCTIONS
 	public void DeselectAll (BaseEventData eventData) { //if(!isLocalPlayer)return;
+	CleanSelection(selectedUnits);
 		foreach (GameObject unit in selectedUnits) {
+		
 			unit.GetComponent<UnitSelectable> ().OnDeselect (eventData);
 		}
 		selectedUnits.Clear ();
 	}
+	public void CleanSelection(List<GameObject> sUnits){
+		for (int i = sUnits.Count - 1; i >= 0; i--)
+		{
+			if(sUnits[i]==null){
+				sUnits.RemoveAt(i);
+			}
+		}
+		selectedUnits = sUnits;
+	}
+
+
+
 
 	// Update is called once per frame
 	void Update () {

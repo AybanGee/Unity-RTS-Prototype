@@ -7,6 +7,8 @@ public class UnitSelectable : MonoBehaviour, ISelectHandler, IPointerClickHandle
 	public bool isSelected;
 	public PlayerObject playerObject;
 
+	public Unit unit;
+
 	Renderer myRenderer;
 
 	[SerializeField]
@@ -16,6 +18,7 @@ public class UnitSelectable : MonoBehaviour, ISelectHandler, IPointerClickHandle
 	void Start(){
 		//if(!isLocalPlayer)return;
 		myRenderer = GetComponentInChildren<Renderer>();
+		unit = GetComponent<Unit>();
 		if(myRenderer == null)return;
 		unselectedMat = myRenderer.material;
 		Color color = unselectedMat.color;
@@ -26,6 +29,8 @@ public class UnitSelectable : MonoBehaviour, ISelectHandler, IPointerClickHandle
 		g=Mathf.Clamp(color.g + add,0f,1f);
 		selectedMat= new Material(unselectedMat);
 		selectedMat.color = new Color(r,g,b);
+
+	
 		
 	}
 
@@ -43,7 +48,8 @@ public class UnitSelectable : MonoBehaviour, ISelectHandler, IPointerClickHandle
     }
 
     public void OnPointerClick(PointerEventData eventData)
-    {
+    {	
+		if(!IsOnTeam())return;
 		if(!Input.GetKey(KeyCode.LeftControl) && !Input.GetKey(KeyCode.RightControl))
         DeselectAll(eventData);
         OnSelect(eventData);
@@ -52,6 +58,8 @@ public class UnitSelectable : MonoBehaviour, ISelectHandler, IPointerClickHandle
     public void OnSelect(BaseEventData eventData)
     {//if(!isLocalPlayer)return;
        // selectedUnits.Add(this);
+	//	if(!IsOnTeam())return;
+
 	   Debug.Log("SELECT");
 	          if (isSelected && Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl))
         {
@@ -70,4 +78,11 @@ public class UnitSelectable : MonoBehaviour, ISelectHandler, IPointerClickHandle
     {//if(!isLocalPlayer)return;
         playerObject.DeselectAll(eventData);
     }
+
+	public bool IsOnTeam(){
+		if(playerObject.team == unit.team)
+		return true;
+		else
+		return false;
+	}
 }
