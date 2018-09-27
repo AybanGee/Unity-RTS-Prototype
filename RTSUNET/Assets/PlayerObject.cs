@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.EventSystems;
 using UnityEngine.Networking;
 
@@ -8,14 +9,11 @@ public class PlayerObject : NetworkBehaviour {
 
 	public List<GameObject> selectedUnits = new List<GameObject> ();
 	public List<GameObject> myUnits = new List<GameObject> ();
+	public List<GameObject> myBuildings = new List<GameObject> ();
 	public Camera cam;
-
 	public List<Color> selectedColor = new List<Color> ();
-
 	float ang;
-
 	public LayerMask movementMask;
-
 	//passed variables
 	[SyncVar]
 	public int team;
@@ -23,18 +21,11 @@ public class PlayerObject : NetworkBehaviour {
 	public int faction;
 	[SyncVar]
 	public string playerName;
-
-	//public static PlayerObject singleton;
-	void Awake () {
-
-		// if (isLocalPlayer)
-		// singleton = this;
-	}
+	public int manna;
 
 	// Use this for initialization
 	void Start () {
 		//Is this actually my own local PlayerObject?
-
 		if (isLocalPlayer == false) {
 			//This object belongs to another player.
 			return;
@@ -42,54 +33,25 @@ public class PlayerObject : NetworkBehaviour {
 		if (DragSelectionHandler.singleton.playerObject == null) {
 			DragSelectionHandler.singleton.AssignPlayerObject (this);
 		}
-		//Debug.Log("HAS AUTH?" + hasAuthority);
 
 		gameObject.name = gameObject.name + "NID" + GetComponent<NetworkIdentity> ().netId;
 
-		//Since the PlayerObject is invisible and not part of the world,
-		//give me something to move around!
-
 		Debug.Log ("PlayerObject::Start -- Spawning my own personal Unit");
 
-		//Instantiate() only creates an object on the LOCAL COMPUTER.
-		//Even if it has a NetworkIdentity it still will NOT exist on
-		//the network (and therefore not on any other client) UNLESS
-		//NetworkSerever.Spawn() is called on this object.
-
-		//Instantiate(PlayerUnitPrefab);
 		cam = Camera.main;
-		//Command the server to SPAWN our Unit.
-		//CmdSpawnMyCamera();
-		//spawnUnit();
-		//spawnCamera();
-		//Debug.Log("PlayerObject::Start -- Spawning my own personal Camera");
-		//CmdSpawnMyCamera();
 
 	}
-
-	//SELECTION FUNCTIONS
-	public void DeselectAll (BaseEventData eventData) { //if(!isLocalPlayer)return;
-	CleanSelection(selectedUnits);
-		foreach (GameObject unit in selectedUnits) {
-		
-			unit.GetComponent<UnitSelectable> ().OnDeselect (eventData);
-		}
-		selectedUnits.Clear ();
-	}
-	public void CleanSelection(List<GameObject> sUnits){
-		for (int i = sUnits.Count - 1; i >= 0; i--)
-		{
-			if(sUnits[i]==null){
-				sUnits.RemoveAt(i);
-			}
-		}
-		selectedUnits = sUnits;
-	}
-
-
-
-
-	// Update is called once per frame
+	//builder vars
+	bool buildMode = false;
+	public int selectedCreateBuildingIndex;
+	GameObject buildingPlaceholder;
+	BuildingCreationTrigger buildingCreationTrigger;
+	[SerializeField]
+	Material placeholderMat;
+	[SerializeField]
+	Material invalidPlaceholderMat;
+	Renderer[] placeHolderRenderers;
+	bool isValidLocation = true;
 	void Update () {
 		//Remember: Update runs on EVERYONE's computer, wether or not they own this
 		//particular player object.
@@ -97,77 +59,193 @@ public class PlayerObject : NetworkBehaviour {
 			return;
 		}
 
-		//Debug.Log(myUnit.name);
-		//	
-		if (Input.GetKeyDown (KeyCode.E)) {
+		//Spawns Unit DEBUG ONLY
+		if (Input.GetKeyDown (KeyCode.Space)) {
 			spawnUnit ();
 		}
-
-		// if (Input.GetMouseButtonDown (0)) {
-		// 	Ray ray = cam.ScreenPointToRay (Input.mousePosition);
-		// 	RaycastHit hit;
-
-		// 	if (Physics.Raycast (ray, out hit, 10000)) {
-
-		// 		Unit pUnit = hit.collider.GetComponent<Unit> ();
-		// 		//.Log("JORI JORI AJA AJA " + hit.collider.name);
-		// 		if (pUnit == null) {
-		// 			DeselectAll (new BaseEventData (EventSystem.current));
-		// 		}
-
-		// 	}
-
-		// }
-		if (Input.GetMouseButtonDown (1)) {
-			//Slow script
-
+		if (Input.GetKeyDown (KeyCode.B)) {
+			ToggleBuildMode ();
+		}
+		if (buildMode) {
+			if (Input.GetKeyDown (KeyCode.Escape)) {
+				ToggleBuildMode ();
+			}
 			Ray ray = cam.ScreenPointToRay (Input.mousePosition);
 			RaycastHit hit;
+			Vector3 mouseWorldPointPosition;
+			if (Physics.Raycast (ray, out hit, 10000, movementMask))
+				mouseWorldPointPosition = hit.point;
+			else
+				return;
 
-			//There should be at least 1 selected unit.
+			if (buildingPlaceholder != null) {
 
-			if (Physics.Raycast (ray, out hit, 10000)) {
+				buildingPlaceholder.transform.position = mouseWorldPointPosition;
+				//check validity of location
+				if (buildingCreationTrigger != null) {
+					if (buildingCreationTrigger.colliderCount > 0) {
+						isValidLocation = false;
+						TogglePlaceholderColor ();
 
-				Character interactable = hit.collider.GetComponent<Character> ();
-				//.Log("JORI JORI AJA AJA " + hit.collider.name);
-				if (interactable != null) {
-					if (interactable.GetComponent<Unit> ().team == team) {
-						//hard coded stuff;
-						Debug.Log ("Oops Same team");
+					} else {
+						isValidLocation = true;
+						TogglePlaceholderColor ();
+					}
+				}
+
+			}
+			if (Input.GetMouseButtonDown (0) && isValidLocation) {
+				manna -= NetworkManager.singleton.spawnPrefabs[selectedCreateBuildingIndex].GetComponent<BuildingUnit> ().buildingPrice;
+				CmdSpawnBuilding (selectedCreateBuildingIndex, mouseWorldPointPosition);
+				ToggleBuildMode ();
+			}
+		} else
+			//Move selected units to point
+			if (Input.GetMouseButtonDown (1)) {
+				//Slow script
+
+				Ray ray = cam.ScreenPointToRay (Input.mousePosition);
+				RaycastHit hit;
+
+				//There should be at least 1 selected unit.
+
+				if (Physics.Raycast (ray, out hit, 10000)) {
+
+					Character interactable = hit.collider.GetComponent<Character> ();
+					//.Log("JORI JORI AJA AJA " + hit.collider.name);
+					if (interactable != null) {
+						if (interactable.GetComponent<Unit> ().team == team) {
+							//hard coded stuff;
+							Debug.Log ("Oops Same team");
+							return;
+						}
+						Debug.Log ("SHIT KALABAN!");
+						if (myUnits.Count > 0)
+							foreach (GameObject unit in selectedUnits) {
+								//TO BE REMOVED IF FOUNF SOLUTION ON NOT DELETEiNG OBJECTS
+								if (unit == null) {
+									selectedUnits.Remove (unit);
+									continue;
+								}
+
+								CmdFocus (unit.GetComponent<NetworkIdentity> (), interactable.GetComponent<NetworkIdentity> ());
+							}
 						return;
 					}
-					Debug.Log ("SHIT KALABAN!");
-					if (myUnits.Count > 0)
-						foreach (GameObject unit in selectedUnits) {
-							//TO BE REMOVED IF FOUNF SOLUTION ON NOT DELETEiNG OBJECTS
-							if (unit == null) {
-								selectedUnits.Remove (unit);
-								continue;
-							}
-
-							CmdFocus (unit.GetComponent<NetworkIdentity> (), interactable.GetComponent<NetworkIdentity> ());
-						}
-					return;
 				}
+
+				if (myUnits.Count <= 0) return;
+				if (Physics.Raycast (ray, out hit, 10000, movementMask)) {
+					//move movement mask to controller
+					//Debug.Log("We Hit" +  hit.collider.name + " " + hit.point );
+					//Point of Click and location of selected Unit = angle, for formation
+
+					// Move our player to what we hit
+					//moveUnits(hit.point);
+					moveUnits (hit.point);
+					//myUnit.GetComponent<Unit>().MoveToPoint(hit.point);
+
+					//Stop focusing other objects
+				}
+
 			}
+	}
+	#region "Building System"
+	public void ToggleBuildMode () {
+		// if we are in build mode turn it off 
+		//we can check here if manna is sufficient for the selected building
+		//Condition NetworkManager.singleton.spawnPrefabs[selectedCreateBuildingIndex].GetComponent<BuildingUnit> ().buildingPrice > manna
+		if (false) {
+			Debug.Log ("Insufficient funds");
+			if (buildingPlaceholder)
+				Destroy (buildingPlaceholder);
+			buildMode = false;
+			return;
+		}
+		if (buildMode) {
+			Debug.Log ("Exit Build Mode");
 
-			if (myUnits.Count <= 0) return;
-			if (Physics.Raycast (ray, out hit, 10000, movementMask)) {
-				//move movement mask to controller
-				//Debug.Log("We Hit" +  hit.collider.name + " " + hit.point );
-				//Point of Click and location of selected Unit = angle, for formation
+			Destroy (buildingPlaceholder);
 
-				// Move our player to what we hit
-				//moveUnits(hit.point);
-				moveUnits (hit.point);
-				//myUnit.GetComponent<Unit>().MoveToPoint(hit.point);
-
-				//Stop focusing other objects
-			}
+		} else {
+			Debug.Log ("Entering Build Mode");
+			buildingPlaceholder = Instantiate (NetworkManager.singleton.spawnPrefabs[selectedCreateBuildingIndex]);
+			buildingCreationTrigger = buildingPlaceholder.GetComponent<BuildingCreationTrigger> ();
+			placeHolderRenderers = buildingPlaceholder.GetComponentsInChildren<Renderer> ();
+			TogglePlaceholderColor ();
 
 		}
+
+		buildMode = !buildMode;
 	}
 
+	public void TogglePlaceholderColor () {
+		if (buildingPlaceholder != null)
+			if (placeHolderRenderers.Length > 0)
+				for (int i = 0; i < placeHolderRenderers.Length; i++) {
+					if (isValidLocation)
+						placeHolderRenderers[i].material = placeholderMat;
+					else
+						placeHolderRenderers[i].material = invalidPlaceholderMat;
+				}
+	}
+
+	[SerializeField]
+	int obstacleSizeCut = 2;
+	[SerializeField]
+	int obstacleHeightAdd = 2;
+	[Command]
+	void CmdSpawnBuilding (int spawnableIndex, Vector3 position) {
+
+		GameObject go = NetworkManager.singleton.spawnPrefabs[spawnableIndex];
+		go = Instantiate (go, position, Quaternion.identity);
+		Renderer[] renderers = go.GetComponent<BuildingUnit> ().teamColoredGfx;
+		if (renderers.Length > 0)
+			for (int i = 0; i < renderers.Length; i++) {
+				renderers[i].material.color = selectedColor[team - 1];
+			}
+
+		
+		Vector3 navMeshObstacleSize = go.GetComponent<BoxCollider> ().size;
+	
+
+		Destroy (go.GetComponent<Rigidbody> ());
+		//Destroy(go.GetComponent<BoxCollider>());
+		Destroy (go.GetComponent<BuildingCreationTrigger> ());
+
+		go.GetComponent<BuildingUnit> ().team = team;
+		NetworkIdentity ni = go.GetComponent<NetworkIdentity> ();
+		Debug.Log ("Player Object :: --Spawning Unit");
+		NetworkServer.Spawn (go);
+		bool ToF = go.GetComponent<NetworkIdentity> ().AssignClientAuthority (GetComponent<NetworkIdentity> ().connectionToClient);
+
+		Debug.Log ("Player Object :: --Unit Spawned : " + ToF);
+		RpcAssignBuilding (ni, team, navMeshObstacleSize);
+	}
+
+[ClientRpc]
+	void RpcAssignBuilding (NetworkIdentity id, int t, Vector3 navMeshObstacleSize) {
+		//	if(!isLocalPlayer)return;
+
+		//Debug.Log(id.netId.Value);
+		GameObject spawnHolder = id.gameObject;
+		NavMeshObstacle navMeshObstacle = spawnHolder.AddComponent (typeof (NavMeshObstacle)) as NavMeshObstacle;
+		navMeshObstacleSize.x -= obstacleSizeCut;
+		navMeshObstacleSize.y -= obstacleSizeCut;
+		navMeshObstacleSize.z += obstacleHeightAdd;
+		navMeshObstacle.size = navMeshObstacleSize;
+		navMeshObstacle.carving = true;
+		spawnHolder.name = team + " - bldg - " + netId;
+		Renderer[] renderers = spawnHolder.GetComponent<BuildingUnit> ().teamColoredGfx;
+		if (renderers.Length > 0)
+			for (int i = 0; i < renderers.Length; i++) {
+				renderers[i].material.color = selectedColor[t - 1];
+			}
+		myBuildings.Add (spawnHolder);
+
+	}
+	#endregion
+	#region "Interactions"
 	[Command]
 	void CmdFocus (NetworkIdentity unitID, NetworkIdentity interactionId) {
 		unitID.GetComponent<Unit> ().SetFocus (interactionId.GetComponent<Character> ());
@@ -179,28 +257,31 @@ public class PlayerObject : NetworkBehaviour {
 		unitID.GetComponent<Unit> ().SetFocus (interactionId.GetComponent<Character> ());
 	}
 
-	// 			[Command]
-	// 	void CmdChangeAuthority(NetworkIdentity myNet, NetworkIdentity otherNet){
-	// 		myNet.AssignClientAuthority(otherNet.connectionToClient);
-	// 	}
-
-	// 		[Command]
-	// 	void CmdRevertAuthority(NetworkIdentity myNet, NetworkIdentity otherNet){
-	// 		myNet.RemoveClientAuthority(otherNet.connectionToClient);
-
-	// 	}
-	// public void AttackEnemy(NetworkIdentity targetIdentity, NetworkIdentity myIdentity){
-
-	// 	CmdAttack(targetIdentity, myIdentity);
-	// }
-
 	[Command]
 	public void CmdAttack (NetworkIdentity targetIdentity, NetworkIdentity myIdentity) {
 		targetIdentity.GetComponent<CharStats> ().TakeDamage (myIdentity.GetComponent<CharStats> ().damage.GetValue ());
 	}
-
+	#endregion
 	/////////////////////////////////// FUNCTIONS
+	//SELECTION FUNCTIONS
+	#region "Unit Selection"
+	public void DeselectAll (BaseEventData eventData) { //if(!isLocalPlayer)return;
+		CleanSelection (selectedUnits);
+		foreach (GameObject unit in selectedUnits) {
 
+			unit.GetComponent<UnitSelectable> ().OnDeselect (eventData);
+		}
+		selectedUnits.Clear ();
+	}
+	public void CleanSelection (List<GameObject> sUnits) {
+		for (int i = sUnits.Count - 1; i >= 0; i--) {
+			if (sUnits[i] == null) {
+				sUnits.RemoveAt (i);
+			}
+		}
+		selectedUnits = sUnits;
+	}
+	#endregion
 	#region "movement"
 	float offsetSize = 2;
 	int perRow = 6;
@@ -238,12 +319,6 @@ public class PlayerObject : NetworkBehaviour {
 	void spawnUnit () {
 		CmdSpawnObject (0);
 	}
-	/* 
-		void spawnCamera(){
-			CmdSpawnObject(1);
-			cam = spawnHolder;
-		}
-	*/
 	//////////////////////////////////// COMMANDS
 	// Commands are special functions that ONLY get executed on the server.
 	public GameObject myUnit;
@@ -260,9 +335,6 @@ public class PlayerObject : NetworkBehaviour {
 		GameObject go = NetworkManager.singleton.spawnPrefabs[spawnableObjectIndex];
 		go = Instantiate (go);
 		go.GetComponent<Unit> ().team = team;
-		//go.GetComponent<Unit> ().graphics.GetComponent<MeshRenderer> ().materials[0].color = selectedColor[team - 1];
-		//go.AddComponent<Selectable> ();
-		//	go.GetComponent<Selectable> ().playerObject = this;
 		NetworkIdentity ni = go.GetComponent<NetworkIdentity> ();
 		Debug.Log ("Player Object :: --Spawning Unit");
 		NetworkServer.Spawn (go);
@@ -298,18 +370,6 @@ public class PlayerObject : NetworkBehaviour {
 	public void despawnUnit (GameObject go) {
 		Debug.Log ("ABOUT TO UNSPAWN : " + go.name);
 
-		// if(!isLocalPlayer){
-		// 	Debug.Log("Another client tries to command");
-		// 	if(!hasAuthority){
-		// 	Debug.Log("and Client has no authority");
-		// 	return;
-		// 	}
-		// 	return;
-		// }
-		// if(!hasAuthority){
-		// 	Debug.Log("Client has no authority");
-		// 	return;
-		// }
 		Debug.Log ("Unspawning NID" + GetComponent<NetworkIdentity> ().netId);
 
 		CmdDeSpawnObject (go.GetComponent<NetworkIdentity> ());
@@ -319,29 +379,10 @@ public class PlayerObject : NetworkBehaviour {
 	void CmdDeSpawnObject (NetworkIdentity id) {
 		Debug.Log ("CmdDespawnObject");
 
-		//id.AssignClientAuthority(other.connectionToClient);
-		//myUnits.Remove(id.gameObject);
 		NetworkServer.Destroy (id.gameObject);
 
 	}
 
 	#endregion
-
-	// [ClientRpc]
-	// 	void RpcAssignObject(NetworkIdentity id,int t){
-	// 		//Debug.Log(id.netId.Value);
-	// 		NetworkIdentity[] ni = FindObjectsOfType<NetworkIdentity>();
-	// 	 	for (int i = 0; i < ni.Length; i++)
-	// 		{
-	// 		 	if(ni[i].netId == id.netId){
-	// 				spawnHolder = ni[i].gameObject;
-	// 				spawnHolder.GetComponent<Unit>().graphics.GetComponent<MeshRenderer>().materials[0].color = selectedColor[t-1];
-	// 				spawnHolder.GetComponent<CharStats>().netPlayer = this;
-	// 				myUnits.Add(spawnHolder);
-	// 			return;
-	// 		 	}
-	// 	 	}
-
-	// 	}
 
 }

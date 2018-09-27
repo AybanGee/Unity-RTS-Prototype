@@ -70,20 +70,15 @@ public void MoveToPoint(Vector3 point){
 	[ClientRpc]
 	void RpcFollowTarget(NetworkIdentity targetNi){
 
-	NetworkIdentity[] ni = FindObjectsOfType<NetworkIdentity>();
 		Transform newTarget = null;
-	 	for (int i = 0; i < ni.Length; i++)
-		{
-		 	if(ni[i].netId == targetNi.netId){
-				newTarget = ni[i].transform;
-			return;
-		 	}
-			 i++;
-	 	}
+	 
+	
+				newTarget = targetNi.gameObject.transform;
+	
 		if(newTarget == null) return;
 
 		Character interactable = newTarget.GetComponent<Character>();
-		agent.stoppingDistance = interactable.radius * .5f;
+		agent.stoppingDistance = interactable.radius * .8f;
 		agent.updateRotation = false;
 		target = interactable.interactionTransform;
 		StartCoroutine(corFollowTarget(target));
