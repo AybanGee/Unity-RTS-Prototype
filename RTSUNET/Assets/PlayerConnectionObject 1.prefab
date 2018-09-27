@@ -99,7 +99,7 @@ MonoBehaviour:
   team: 0
   faction: 0
   playerName: 
-  manna: 5000
+  manna: 500000
   selectedCreateBuildingIndex: 1
   placeholderMat: {fileID: 2100000, guid: 52bf1a9597eb85640baf52953d2e8a6b, type: 2}
   invalidPlaceholderMat: {fileID: 2100000, guid: 1cbb0278905ea504c98ae4b6e20e2ae0,

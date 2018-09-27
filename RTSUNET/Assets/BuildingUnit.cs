@@ -8,5 +8,36 @@ public class BuildingUnit : MonoBehaviour {
 
 	public int buildingPrice;
 	public int sellingPrice;
+	public float constructionTime;
+
+
+	Vector3 originalPos;
+	Vector3 startingPos;
+	private float startTime;
+    private float journeyLength;
+	void Start(){
+		startingPos = originalPos = this.transform.position;
+		startingPos.y -= 14;
+		transform.position = startingPos;
+		startTime = Time.time;
+		 journeyLength = Vector3.Distance(startingPos, originalPos);
+		StartCoroutine(Ascend());
+	}
+	[SerializeField]
+	float ascendSpeed = 1;
+	IEnumerator Ascend(){
+		while(startingPos != originalPos){
+		float distCovered = (Time.time - startTime) * ascendSpeed;
+        float fracJourney = distCovered / journeyLength;
+			transform.position = Vector3.Lerp(transform.position,originalPos,fracJourney);
+				if(Vector3.Distance(transform.position, originalPos) < 0.5){
+					transform.position = originalPos;
+					break;
+				}
+				yield return null;
+		}
+		Debug.Log("Finished ascension");
+		yield return null;
+	}
 
 }

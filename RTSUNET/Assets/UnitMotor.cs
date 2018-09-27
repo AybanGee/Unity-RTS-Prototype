@@ -20,6 +20,7 @@ void Start()
 	IEnumerator corFollowTarget(Transform newTarget){
 		while(true){
 				if(newTarget != null){
+					if(hasAuthority)
 				CmdMove(newTarget.position);
 				FaceTarget();
 				}
@@ -77,7 +78,7 @@ public void MoveToPoint(Vector3 point){
 	
 		if(newTarget == null) return;
 
-		Character interactable = newTarget.GetComponent<Character>();
+		Interactable interactable = newTarget.GetComponent<Interactable>();
 		agent.stoppingDistance = interactable.radius * .8f;
 		agent.updateRotation = false;
 		target = interactable.interactionTransform;

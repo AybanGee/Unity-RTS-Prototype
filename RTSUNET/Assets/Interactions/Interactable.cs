@@ -4,11 +4,11 @@ using UnityEngine.Networking;
 public class Interactable : NetworkBehaviour {
 public float radius = 5f;
 
-bool isFocus = false;
+public bool isFocus = false;
 
 public Transform interactionTransform;
-Transform unit;
-bool hasInteracted = false;
+public Transform unit;
+public bool hasInteracted = false;
 public bool isInteracting = false;
 public void Start()
 {
@@ -18,7 +18,13 @@ public void Start()
 public virtual void Interact(){
 	isInteracting = true;
 	//meant to be overriden
-Debug.Log("Interacting with " + this.name);
+//Debug.Log("Interacting with " + this.name);
+}
+
+public virtual void Interact(Unit interactor){
+	isInteracting = true;
+	//meant to be overriden
+//Debug.Log("Interacting with " + this.name);
 }
 public virtual void StopInteract(){
 	hasInteracted =false;
@@ -35,6 +41,9 @@ public void Update(){
 		}
 	}
 }
+
+
+
 public void OnFocused(Transform unitTransform){
 	
 				Debug.Log("OnFocused" + hasInteracted);
@@ -43,7 +52,7 @@ public void OnFocused(Transform unitTransform){
 	hasInteracted =false;
 }
 
-public void OnDefocused(){
+public virtual void OnDefocused(){
 	 
 	 if(hasInteracted)
 	 StopInteract();

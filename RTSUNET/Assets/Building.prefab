@@ -21,7 +21,6 @@ GameObject:
   - component: {fileID: 4450974664412046}
   - component: {fileID: 33142587451061948}
   - component: {fileID: 23520189906901484}
-  - component: {fileID: 65620617543347392}
   m_Layer: 0
   m_Name: Additionals
   m_TagString: Untagged
@@ -39,7 +38,6 @@ GameObject:
   - component: {fileID: 4332804889439708}
   - component: {fileID: 33604110138006220}
   - component: {fileID: 23743646439050282}
-  - component: {fileID: 65916744312019168}
   m_Layer: 0
   m_Name: Additionals
   m_TagString: Untagged
@@ -74,7 +72,6 @@ GameObject:
   - component: {fileID: 4105931805304722}
   - component: {fileID: 33033229643909590}
   - component: {fileID: 23467900270595778}
-  - component: {fileID: 65859191060700366}
   m_Layer: 0
   m_Name: Additionals
   m_TagString: Untagged
@@ -92,7 +89,6 @@ GameObject:
   - component: {fileID: 4588959638641910}
   - component: {fileID: 33903993084019898}
   - component: {fileID: 23738612010239080}
-  - component: {fileID: 65747689079158952}
   m_Layer: 0
   m_Name: Additionals
   m_TagString: Untagged
@@ -132,6 +128,8 @@ GameObject:
   - component: {fileID: 114622807580260428}
   - component: {fileID: 114699346435953640}
   - component: {fileID: 54967986424715766}
+  - component: {fileID: 114606411612308572}
+  - component: {fileID: 114203635938896144}
   m_Layer: 0
   m_Name: Building
   m_TagString: Untagged
@@ -545,18 +543,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
---- !u!65 &65620617543347392
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1206245134985536}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!65 &65659630893022988
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -569,42 +555,23 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 18, y: 9, z: 13}
   m_Center: {x: 0, y: 4.5, z: 0}
---- !u!65 &65747689079158952
-BoxCollider:
+--- !u!114 &114203635938896144
+MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1429960143755882}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_GameObject: {fileID: 1680590169875568}
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!65 &65859191060700366
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1411804411666292}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!65 &65916744312019168
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1275874222613824}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22d17389108882e49bf129481daa858f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 5
+  isFocus: 0
+  interactionTransform: {fileID: 0}
+  unit: {fileID: 0}
+  hasInteracted: 0
+  isInteracting: 0
 --- !u!114 &114582907771894974
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -624,6 +591,26 @@ MonoBehaviour:
   team: 0
   buildingPrice: 300
   sellingPrice: 250
+  constructionTime: 10
+  ascendSpeed: 1
+--- !u!114 &114606411612308572
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1680590169875568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fa8f059711c08a44801244893f8684d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  currentHealth: 0
+  damage:
+    baseValue: 0
+  armor:
+    baseValue: 0
+  netPlayer: {fileID: 0}
 --- !u!114 &114622807580260428
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -65,6 +65,7 @@ public class DragSelectionHandler : NetworkBehaviour, IBeginDragHandler, IDragHa
 	// 	selectionBoxImage.color = boxColor;
 	// }
 	public void OnBeginDrag (PointerEventData eventData) {
+		if(!Input.GetMouseButton(0))return;
 		if (!Input.GetKey (KeyCode.LeftControl) && !Input.GetKey (KeyCode.RightControl))
 			playerObject.DeselectAll (new BaseEventData (EventSystem.current));
 		selectionBoxImage.gameObject.SetActive (true);
@@ -73,6 +74,7 @@ public class DragSelectionHandler : NetworkBehaviour, IBeginDragHandler, IDragHa
 	}
 
 	public void OnDrag (PointerEventData eventData) {
+		if(!Input.GetMouseButton(0))return;
 		if (eventData.position.x < startPosition.x) {
 			selectionRect.xMin = eventData.position.x;
 			selectionRect.xMax = startPosition.x;
@@ -94,6 +96,7 @@ public class DragSelectionHandler : NetworkBehaviour, IBeginDragHandler, IDragHa
 	}
 
 	public void OnEndDrag (PointerEventData eventData) {
+		if(!Input.GetMouseButtonUp(0))return;
 		selectionBoxImage.gameObject.SetActive (false);
 		List<GameObject> units = playerObject.myUnits;
 		foreach (GameObject unit in units) {
@@ -104,6 +107,7 @@ public class DragSelectionHandler : NetworkBehaviour, IBeginDragHandler, IDragHa
 	}
 
 	public void OnPointerClick (PointerEventData eventData) {
+	//	if(!Input.GetMouseButton(0))return;
 
 		List<RaycastResult> results = new List<RaycastResult> ();
 		EventSystem.current.RaycastAll (eventData, results);

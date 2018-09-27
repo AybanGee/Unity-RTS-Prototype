@@ -8,7 +8,7 @@ public class Unit : NetworkBehaviour {
 
 	public int team;
 	
-	public Character focus;
+	public Interactable focus;
 
 	public UnitMotor motor;
 
@@ -21,7 +21,7 @@ public class Unit : NetworkBehaviour {
 		
 	}
 
-	public void SetFocus(Character newFocus){
+	public void SetFocus(Interactable newFocus){
 		if(newFocus != focus){
 			Debug.Log("focus");
 			if(focus != null){

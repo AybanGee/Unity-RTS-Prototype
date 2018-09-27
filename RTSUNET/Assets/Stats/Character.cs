@@ -39,8 +39,7 @@ public class Character : Interactable {
 		if(isInteracting)
 		if(isAttacking){
 //Debug.Log("aTTACK");
-	
-
+if(unitCombat != null)
 			unitCombat.Attack(myStats);
 			}
 			else{

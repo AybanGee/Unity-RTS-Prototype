@@ -25,10 +25,18 @@ public class UnitCombat : NetworkBehaviour {
 		attackCooldown -= Time.deltaTime;
 	}
 
-	[Command]
-	void CmdAttack (NetworkIdentity ni) {
-		//CharStats targetStats = ni.gameObject.GetComponent<CharStats>();
+	public void Attack (BuildingStats targetStats) {
 
+		if (targetStats == null) return;
+		if (attackCooldown <= 0f) {
+
+			//netPlayer.CmdAttack(targetStats.GetComponent<NetworkIdentity>(),this.GetComponent<NetworkIdentity>());
+			targetStats.TakeDamage (myStats.damage.GetValue ());
+			attackCooldown = 1f / attackSpeed;
+		}
+		attackCooldown -= Time.deltaTime;
 	}
+
+
 
 }
