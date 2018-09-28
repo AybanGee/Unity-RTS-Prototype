@@ -82,6 +82,10 @@ public class PlayerObject : NetworkBehaviour {
 				return;
 
 			if (buildingPlaceholder != null) {
+				if (Input.GetKeyDown (KeyCode.Less) || Input.GetKeyDown (KeyCode.Comma))
+					buildingPlaceholder.transform.Rotate (0, -45, 0);
+				else if (Input.GetKeyDown (KeyCode.Greater) || Input.GetKeyDown (KeyCode.Period))
+					buildingPlaceholder.transform.Rotate (0, 45, 0);
 
 				buildingPlaceholder.transform.position = mouseWorldPointPosition;
 				//check validity of location
@@ -99,7 +103,7 @@ public class PlayerObject : NetworkBehaviour {
 			}
 			if (Input.GetMouseButtonDown (0) && isValidLocation) {
 				manna -= NetworkManager.singleton.spawnPrefabs[selectedCreateBuildingIndex].GetComponent<BuildingUnit> ().buildingPrice;
-				CmdSpawnRubble (selectedCreateBuildingIndex, mouseWorldPointPosition, team);
+				CmdSpawnRubble (selectedCreateBuildingIndex, mouseWorldPointPosition, buildingPlaceholder.transform.rotation, team);
 				ToggleBuildMode ();
 			}
 		} else
@@ -118,7 +122,7 @@ public class PlayerObject : NetworkBehaviour {
 					//.Log("JORI JORI AJA AJA " + hit.collider.name);
 					if (interactable != null) {
 						//Checks if enemy unit
-						if (interactable.GetComponent<Unit> () != null ) {
+						if (interactable.GetComponent<Unit> () != null) {
 							if (interactable.GetComponent<Unit> ().team == team) {
 								//hard coded stuff;
 								Debug.Log ("Oops Same team");
@@ -138,8 +142,47 @@ public class PlayerObject : NetworkBehaviour {
 								return;
 							}
 						}
-						else if (interactable.GetComponent<BuildingUnit>() != null) {
-							if (interactable.GetComponent<BuildingUnit>().team == team) {
+						//Check if supply 
+						else if (interactable.GetComponent<SupplyInteractable> () != null) {
+							Debug.Log ("Lets Get Rich");
+							if (myUnits.Count > 0)
+								foreach (GameObject unit in selectedUnits) {
+									//TO BE REMOVED IF FOUNF SOLUTION ON NOT DELETEiNG OBJECTS
+									if (unit == null) {
+										selectedUnits.Remove (unit);
+										continue;
+									}
+									Unit myUnit = unit.GetComponent<Unit> ();
+									if (myUnit != null) {
+										if (myUnit.unitType == UnitType.Builder)
+											CmdFocus (unit.GetComponent<NetworkIdentity> (), interactable.GetComponent<NetworkIdentity> ());
+										break;
+									}
+								}
+
+						}
+						//Check for supply chain
+						else if (interactable.GetComponent<SupplyChainInteractable> () != null) {
+							if (interactable.GetComponent<BuildingUnit> ().team == team) {
+								Debug.Log ("Lets Get Rich Again");
+								if (myUnits.Count > 0)
+									foreach (GameObject unit in selectedUnits) {
+										//TO BE REMOVED IF FOUNF SOLUTION ON NOT DELETEiNG OBJECTS
+										if (unit == null) {
+											selectedUnits.Remove (unit);
+											continue;
+										}
+										Unit myUnit = unit.GetComponent<Unit> ();
+										if (myUnit != null) {
+											if (myUnit.unitType == UnitType.Builder)
+												CmdFocus (unit.GetComponent<NetworkIdentity> (), interactable.GetComponent<NetworkIdentity> ());
+											break;
+										}
+									}
+							}
+
+						} else if (interactable.GetComponent<BuildingUnit> () != null) {
+							if (interactable.GetComponent<BuildingUnit> ().team == team) {
 								//hard coded stuff;
 								Debug.Log ("Oops Same team");
 								return;
@@ -169,7 +212,7 @@ public class PlayerObject : NetworkBehaviour {
 											selectedUnits.Remove (unit);
 											continue;
 										}
-										if (unit.GetComponent<Builder> () != null) {
+										if (unit.GetComponent<Unit> () != null) {
 											CmdFocus (unit.GetComponent<NetworkIdentity> (), interactable.GetComponent<NetworkIdentity> ());
 											break;
 										}
@@ -221,6 +264,7 @@ public class PlayerObject : NetworkBehaviour {
 		} else {
 			Debug.Log ("Entering Build Mode");
 			buildingPlaceholder = Instantiate (NetworkManager.singleton.spawnPrefabs[selectedCreateBuildingIndex]);
+			buildingPlaceholder.GetComponent<BuildingUnit> ().AscendOnStart = false;
 			buildingCreationTrigger = buildingPlaceholder.GetComponent<BuildingCreationTrigger> ();
 			placeHolderRenderers = buildingPlaceholder.GetComponentsInChildren<Renderer> ();
 			TogglePlaceholderColor ();
@@ -247,10 +291,10 @@ public class PlayerObject : NetworkBehaviour {
 	int obstacleHeightAdd = 2;
 	#region "Network Spawn Building"
 	[Command]
-	public void CmdSpawnBuilding (int spawnableIndex, Vector3 position) {
+	public void CmdSpawnBuilding (int spawnableIndex, Vector3 position, Quaternion rotation) {
 
 		GameObject go = NetworkManager.singleton.spawnPrefabs[spawnableIndex];
-		go = Instantiate (go, position, Quaternion.identity);
+		go = Instantiate (go, position, rotation);
 		Renderer[] renderers = go.GetComponent<BuildingUnit> ().teamColoredGfx;
 		if (renderers.Length > 0)
 			for (int i = 0; i < renderers.Length; i++) {
@@ -259,17 +303,16 @@ public class PlayerObject : NetworkBehaviour {
 		//Assign data
 		Vector3 navMeshObstacleSize = go.GetComponent<BoxCollider> ().size;
 		go.GetComponent<BuildingUnit> ().team = team;
-		BuildingInteractable buildingInteractable = go.GetComponent<BuildingInteractable>();
-		if(navMeshObstacleSize.x > navMeshObstacleSize.z)
-		buildingInteractable.radius = navMeshObstacleSize.x + 1;
+		BuildingInteractable buildingInteractable = go.GetComponent<BuildingInteractable> ();
+		if (navMeshObstacleSize.x > navMeshObstacleSize.z)
+			buildingInteractable.radius = navMeshObstacleSize.x + 1;
 		else
-		buildingInteractable.radius = navMeshObstacleSize.z + 1;
-		
+			buildingInteractable.radius = navMeshObstacleSize.z + 1;
+
 		//DESTROY COMPONENTS NOT NEEDED
 		Destroy (go.GetComponent<Rigidbody> ());
 		Destroy (go.GetComponent<BuildingCreationTrigger> ());
 
-		
 		//SPAWNING AND AUTHORIZE BLDG
 		NetworkServer.Spawn (go);
 		bool ToF = go.GetComponent<NetworkIdentity> ().AssignClientAuthority (GetComponent<NetworkIdentity> ().connectionToClient);
@@ -305,7 +348,7 @@ public class PlayerObject : NetworkBehaviour {
 	#endregion
 	#region "Network Spawn Rubble"
 	[Command]
-	void CmdSpawnRubble (int buildingSpawnIndex, Vector3 position, int t) {
+	void CmdSpawnRubble (int buildingSpawnIndex, Vector3 position, Quaternion rotation, int t) {
 		int rubbleIndex = 2;
 		//Copying the components of the building to the rubble
 		GameObject rubble = NetworkManager.singleton.spawnPrefabs[rubbleIndex];
@@ -334,7 +377,7 @@ public class PlayerObject : NetworkBehaviour {
 			constructionInteractable.radius = rubbleSize.z + 1;
 		constructionInteractable.playerObject = this;
 		//Instantiating the rubble
-		rubble = Instantiate (rubble, position, Quaternion.identity);
+		rubble = Instantiate (rubble, position, rotation);
 
 		NetworkIdentity ni = rubble.GetComponent<NetworkIdentity> ();
 		Debug.Log ("Player Object :: --Spawning Unit");
@@ -442,7 +485,9 @@ public class PlayerObject : NetworkBehaviour {
 		//Spawn Unit and Assign to a Player
 		GameObject go = NetworkManager.singleton.spawnPrefabs[spawnableObjectIndex];
 		go = Instantiate (go);
-		go.GetComponent<Unit> ().team = team;
+		Unit unit = go.GetComponent<Unit> ();
+		unit.team = team;
+		unit.playerObject = this;
 		NetworkIdentity ni = go.GetComponent<NetworkIdentity> ();
 		Debug.Log ("Player Object :: --Spawning Unit");
 		NetworkServer.Spawn (go);
@@ -460,7 +505,9 @@ public class PlayerObject : NetworkBehaviour {
 
 		//Debug.Log(id.netId.Value);
 		GameObject spawnHolder = id.gameObject;
-		spawnHolder.GetComponent<Unit> ().team = team;
+		Unit unit = spawnHolder.GetComponent<Unit> ();
+		unit.team = team;
+		unit.playerObject = this;
 		spawnHolder.name = team + " - unit - " + netId;
 		spawnHolder.GetComponent<Unit> ().graphics.GetComponent<MeshRenderer> ().materials[0].color = selectedColor[t - 1];
 

@@ -114,6 +114,98 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 23800000, guid: 246756ef8000ef84099e56c6f2d3414c, type: 2}
+--- !u!1001 &8542186
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -190.51201
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: -0.6885796
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -135.26247
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_RootOrder
+      value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 1339857170769884, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_Name
+      value: Manna Supply (5)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+  m_IsPrefabAsset: 0
+--- !u!1001 &91289187
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 173.96928
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: -0.68857956
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -201.93153
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_RootOrder
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 1339857170769884, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_Name
+      value: Manna Supply (7)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+  m_IsPrefabAsset: 0
 --- !u!1 &170076733
 GameObject:
   m_ObjectHideFlags: 0
@@ -180,6 +272,48 @@ Transform:
   m_Father: {fileID: 1597381485}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 26.404001, y: -21.028002, z: 14.158001}
+--- !u!1001 &202729999
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 202
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: -0.72
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 185.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_RootOrder
+      value: 18
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+  m_IsPrefabAsset: 0
 --- !u!1 &310982336
 GameObject:
   m_ObjectHideFlags: 0
@@ -252,6 +386,144 @@ Transform:
   m_Father: {fileID: 1597381485}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &480878674
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 38.018932
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 4.940029
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -83.95069
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_RootOrder
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1339857170769884, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_Name
+      value: Manna Supply (13)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+  m_IsPrefabAsset: 0
+--- !u!1001 &567924180
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 161.00322
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: -0.68857956
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 183.242
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_RootOrder
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 1339857170769884, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_Name
+      value: Manna Supply (2)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+  m_IsPrefabAsset: 0
+--- !u!1001 &915174830
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 13.351836
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 12.484085
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 104.91752
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_RootOrder
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 1339857170769884, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_Name
+      value: Manna Supply (12)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+  m_IsPrefabAsset: 0
 --- !u!1 &1124786300
 GameObject:
   m_ObjectHideFlags: 0
@@ -313,7 +585,7 @@ MonoBehaviour:
   m_SpawnPrefabs:
   - {fileID: 1917731247129320, guid: a184a5e9acefd2248a59ff4bb95c2020, type: 2}
   - {fileID: 1955368973885496, guid: 715846621a1754f47953ca3892ce458a, type: 2}
-  - {fileID: 1442950839271940, guid: 93bf70c8f470fb740a25911b9bf35ff1, type: 2}
+  - {fileID: 0}
   m_CustomConfig: 0
   m_MaxConnections: 4
   m_ConnectionConfig:
@@ -380,7 +652,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1182379046
 GameObject:
@@ -442,8 +714,238 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 23
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1219249249
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 201.99086
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: -0.6885795
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -203.03825
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_RootOrder
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1339857170769884, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_Name
+      value: Manna Supply (9)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+  m_IsPrefabAsset: 0
+--- !u!1001 &1294721956
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 15.633957
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: -0.68857193
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -7.0270996
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1339857170769884, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_Name
+      value: Manna Supply (17)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+  m_IsPrefabAsset: 0
+--- !u!1001 &1372708782
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -196.2092
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: -0.68857956
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -186.12851
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_RootOrder
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 1339857170769884, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_Name
+      value: Manna Supply (4)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+  m_IsPrefabAsset: 0
+--- !u!1001 &1495727925
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 33.203323
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: -0.6885872
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 51.87796
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1339857170769884, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_Name
+      value: Manna Supply (15)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+  m_IsPrefabAsset: 0
+--- !u!1001 &1510176204
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 199.71559
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: -0.68857956
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -175.18681
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_RootOrder
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1339857170769884, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_Name
+      value: Manna Supply (8)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+  m_IsPrefabAsset: 0
 --- !u!1 &1597381484
 GameObject:
   m_ObjectHideFlags: 0
@@ -626,6 +1128,52 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1634048799}
   m_CullTransparentMesh: 0
+--- !u!1001 &1664279931
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 47.135666
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: -0.68857956
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 19.704376
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1339857170769884, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_Name
+      value: Manna Supply (14)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+  m_IsPrefabAsset: 0
 --- !u!1 &1825014881
 GameObject:
   m_ObjectHideFlags: 0
@@ -714,7 +1262,7 @@ RectTransform:
   - {fileID: 1630739949}
   - {fileID: 1634048800}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 22
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -758,7 +1306,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4341542652262124, guid: 715846621a1754f47953ca3892ce458a, type: 2}
       propertyPath: m_RootOrder
-      value: 2
+      value: 19
       objectReference: {fileID: 0}
     - target: {fileID: 1955368973885496, guid: 715846621a1754f47953ca3892ce458a, type: 2}
       propertyPath: m_TagString
@@ -829,6 +1377,52 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   m_MaxRayIntersections: 0
+--- !u!1001 &1863992667
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -170.5057
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: -0.68857956
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -188.95627
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_RootOrder
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1339857170769884, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_Name
+      value: Manna Supply (6)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+  m_IsPrefabAsset: 0
 --- !u!1001 &1910838562
 Prefab:
   m_ObjectHideFlags: 0
@@ -866,7 +1460,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 459968, guid: 407bd5cbe8c43334bb1b25c0f3826974, type: 2}
       propertyPath: m_RootOrder
-      value: 5
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 11455738, guid: 407bd5cbe8c43334bb1b25c0f3826974, type: 2}
       propertyPath: lastTab
@@ -984,3 +1578,233 @@ Camera:
   m_CorrespondingSourceObject: {fileID: 2056488, guid: 407bd5cbe8c43334bb1b25c0f3826974,
     type: 2}
   m_PrefabInternal: {fileID: 1910838562}
+--- !u!1001 &1965158578
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 104.49228
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 5.3644476
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -16.337162
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_RootOrder
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1339857170769884, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_Name
+      value: Manna Supply (10)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+  m_IsPrefabAsset: 0
+--- !u!1001 &1991480933
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -184.18317
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: -0.68857956
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 193.52686
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1339857170769884, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_Name
+      value: Manna Supply (3)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+  m_IsPrefabAsset: 0
+--- !u!1001 &2002834331
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -52.401634
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 8.609671
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 50.245388
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1339857170769884, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_Name
+      value: Manna Supply (11)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+  m_IsPrefabAsset: 0
+--- !u!1001 &2056829392
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -0.054779053
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: -0.68857193
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 24.71109
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1339857170769884, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_Name
+      value: Manna Supply (16)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+  m_IsPrefabAsset: 0
+--- !u!1001 &2114314478
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 206.05965
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: -0.68857956
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 130.4657
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604205468419712, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1339857170769884, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+      propertyPath: m_Name
+      value: Manna Supply (1)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f1e81fcbd98164a45af12a5b295aff53, type: 2}
+  m_IsPrefabAsset: 0

@@ -12,6 +12,10 @@ public class Unit : NetworkBehaviour {
 
 	public UnitMotor motor;
 
+	public UnitType unitType;
+
+	public PlayerObject playerObject;
+
 	// Use this for initialization
  //public NetworkIdentity netIdNiPo;
  //public bool hasAuth = false ;

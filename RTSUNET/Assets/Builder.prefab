@@ -82,6 +82,7 @@ GameObject:
   - component: {fileID: 114146507392874116}
   - component: {fileID: 114288183008304996}
   - component: {fileID: 114196605126657582}
+  - component: {fileID: 114477895156221688}
   m_Layer: 0
   m_Name: Builder
   m_TagString: Untagged
@@ -395,6 +396,8 @@ MonoBehaviour:
   team: 0
   focus: {fileID: 0}
   motor: {fileID: 0}
+  unitType: 4
+  playerObject: {fileID: 0}
 --- !u!114 &114196605126657582
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -476,6 +479,19 @@ MonoBehaviour:
   armor:
     baseValue: 0
   netPlayer: {fileID: 0}
+--- !u!114 &114477895156221688
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1730401945541026}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7b43d25f2ce9254da1536a7ef567d7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mannaCapacity: 10
+  mannaAmount: 0
 --- !u!114 &114633988386805784
 MonoBehaviour:
   m_ObjectHideFlags: 1

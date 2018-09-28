@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-[RequireComponent(typeof(UnityEngine.AI.NavMeshAgent))]
+[RequireComponent (typeof (UnityEngine.AI.NavMeshAgent))]
 public class UnitMotor : NetworkBehaviour {
 
 	public Transform target;
@@ -11,104 +11,102 @@ public class UnitMotor : NetworkBehaviour {
 	UnityEngine.AI.NavMeshAgent agent;
 	public float followDelay = .25f;
 
-void Start()
-{
-	
-		agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
-}
+	void Start () {
 
-	IEnumerator corFollowTarget(Transform newTarget){
-		while(true){
-				if(newTarget != null){
-					if(hasAuthority)
-				CmdMove(newTarget.position);
-				FaceTarget();
-				}
-		yield return new WaitForSeconds(followDelay);
+		agent = GetComponent<UnityEngine.AI.NavMeshAgent> ();
+	}
+
+	IEnumerator corFollowTarget (Transform newTarget) {
+		while (true) {
+			if (newTarget != null) {
+				if (hasAuthority)
+					CmdMove (newTarget.position);
+				FaceTarget ();
+			}
+			yield return new WaitForSeconds (followDelay);
 		}
 	}
 
-	
-public void MoveToPoint(Vector3 point){
-		if(hasAuthority == false){
-				return;
+	public void MoveToPoint (Vector3 point) {
+		if (hasAuthority == false) {
+			return;
 		}
-		agent.SetDestination(point);
-		CmdMove(point);
+		agent.SetDestination (point);
+		CmdMove (point);
 	}
-	
-
 
 	#region  "moveServer"
 	[Command]
-	void CmdMove(Vector3 point){
+	void CmdMove (Vector3 point) {
 		//agent.SetDestination(point);
-		
-		RpcMove(point);
+
+		RpcMove (point);
 	}
+
 	[ClientRpc]
-	void RpcMove(Vector3 point){
-		agent.SetDestination(point);
+	void RpcMove (Vector3 point) {
+		agent.SetDestination (point);
 	}
 	#endregion
 
-	public void FollowTarget(Interactable newTarget){
-			if(hasAuthority == false){
-				return;
+	public void FollowTarget (Interactable newTarget) {
+		if (hasAuthority == false) {
+			return;
 		}
 		agent.stoppingDistance = newTarget.radius * .8f;
 		agent.updateRotation = false;
-			target = newTarget.interactionTransform;
-			StartCoroutine(corFollowTarget(target));
-			CmdFollowTarget(target.GetComponent<NetworkIdentity>());
+		target = newTarget.interactionTransform;
+		StartCoroutine (corFollowTarget (target));
+		CmdFollowTarget (target.GetComponent<NetworkIdentity> ());
 	}
-#region  "followServer"
+	#region  "followServer"
 	[Command]
-	void CmdFollowTarget(NetworkIdentity targetNi){
-		 RpcFollowTarget(targetNi);
+	void CmdFollowTarget (NetworkIdentity targetNi) {
+		RpcFollowTarget (targetNi);
 	}
 
 	[ClientRpc]
-	void RpcFollowTarget(NetworkIdentity targetNi){
-
+	void RpcFollowTarget (NetworkIdentity targetNi) {
+		if (targetNi == null){
+		Debug.LogWarning("Interactable has is not on network");
+			return;
+		}
 		Transform newTarget = null;
-	 
-	
-				newTarget = targetNi.gameObject.transform;
-	
-		if(newTarget == null) return;
 
-		Interactable interactable = newTarget.GetComponent<Interactable>();
+		newTarget = targetNi.gameObject.transform;
+
+		if (newTarget == null) return;
+
+		Interactable interactable = newTarget.GetComponent<Interactable> ();
 		agent.stoppingDistance = interactable.radius * .8f;
 		agent.updateRotation = false;
 		target = interactable.interactionTransform;
-		StartCoroutine(corFollowTarget(target));
+		StartCoroutine (corFollowTarget (target));
 	}
-#endregion
-	public void StopFollowingTarget(){
-	 StopAllCoroutines();
-	 agent.stoppingDistance = 0;
-	 	agent.updateRotation = true;
+	#endregion
+	public void StopFollowingTarget () {
+		StopAllCoroutines ();
+		agent.stoppingDistance = 0;
+		agent.updateRotation = true;
 	}
-#region  "stop follow Server"
-[Command]
-void CmdStopFollowingTarget(){
-RpcStopFollowingTarget();
-}
-[ClientRpc]
-void RpcStopFollowingTarget(){
- StopAllCoroutines();
-	 agent.stoppingDistance = 0;
-	 	agent.updateRotation = true;
-}
-#endregion
+	#region  "stop follow Server"
+	[Command]
+	void CmdStopFollowingTarget () {
+		RpcStopFollowingTarget ();
+	}
 
+	[ClientRpc]
+	void RpcStopFollowingTarget () {
+		StopAllCoroutines ();
+		agent.stoppingDistance = 0;
+		agent.updateRotation = true;
+	}
+	#endregion
 
-	void FaceTarget(){
+	void FaceTarget () {
 		Vector3 direction = (target.position - transform.position).normalized;
-		Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x,0,direction.z));
-		transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
+		Quaternion lookRotation = Quaternion.LookRotation (new Vector3 (direction.x, 0, direction.z));
+		transform.rotation = Quaternion.Slerp (transform.rotation, lookRotation, Time.deltaTime * 5f);
 	}
-	
 
 }

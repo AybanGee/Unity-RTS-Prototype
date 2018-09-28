@@ -43,8 +43,8 @@ public class ConstructionInteractable : Interactable {
 
 	public void Finished () {
 		Debug.Log ("Construction Complete");
-		if(hasAuthority){
-		playerObject.CmdSpawnBuilding(buildingIndex,this.transform.position);
+		if(playerObject.hasAuthority){
+		playerObject.CmdSpawnBuilding(buildingIndex,this.transform.position,this.transform.rotation);
 		CmdDestroyMe();
 		}else
 		Debug.Log("No Authority to Create Building");

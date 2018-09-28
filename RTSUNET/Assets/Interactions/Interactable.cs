@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
 
-public class Interactable : NetworkBehaviour {
+public abstract class Interactable : NetworkBehaviour {
 public float radius = 5f;
 
 public bool isFocus = false;
