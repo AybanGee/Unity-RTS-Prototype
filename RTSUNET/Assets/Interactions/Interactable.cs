@@ -16,13 +16,17 @@ public void Start()
 	interactionTransform = this.transform;
 }
 public virtual void Interact(){
+		Debug.Log("interacting");
 	isInteracting = true;
 	//meant to be overriden
 //Debug.Log("Interacting with " + this.name);
 }
 
 public virtual void Interact(Unit interactor){
+			Debug.Log("interacting");
+
 	isInteracting = true;
+	
 	//meant to be overriden
 //Debug.Log("Interacting with " + this.name);
 }
@@ -36,6 +40,7 @@ public void Update(){
 		Debug.Log("Going to interact");
 		float distance = Vector3.Distance(unit.position,interactionTransform.position);
 		if(distance <= radius){
+			Debug.Log("interacting");
 			Interact();
 			hasInteracted = true;
 		}
@@ -46,7 +51,7 @@ public void Update(){
 
 public void OnFocused(Transform unitTransform){
 	
-				Debug.Log("OnFocused" + hasInteracted);
+	Debug.Log("OnFocused" + hasInteracted);
 	isFocus = true;
 	unit = unitTransform;
 	hasInteracted =false;

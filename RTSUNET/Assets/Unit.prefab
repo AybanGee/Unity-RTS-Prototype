@@ -96,9 +96,9 @@ GameObject:
   - component: {fileID: 114327582611424052}
   - component: {fileID: 114075745521299872}
   - component: {fileID: 114969662613111720}
-  - component: {fileID: 114266026553638372}
   - component: {fileID: 114871956189181334}
   - component: {fileID: 136838372543091072}
+  - component: {fileID: 114454430395350744}
   m_Layer: 0
   m_Name: Unit
   m_TagString: Untagged
@@ -408,20 +408,6 @@ MonoBehaviour:
     i15: 32
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 1
---- !u!114 &114266026553638372
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1917731247129320}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 850d03264424a1143a1a55f2c8f0cd6f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  radius: 5
-  interactionTransform: {fileID: 0}
-  isInteracting: 0
 --- !u!114 &114327582611424052
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -450,6 +436,25 @@ MonoBehaviour:
   team: 0
   focus: {fileID: 0}
   motor: {fileID: 0}
+  unitType: 0
+  playerObject: {fileID: 0}
+--- !u!114 &114454430395350744
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1917731247129320}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f14c184263b0564ba71889987d5458d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 2
+  isFocus: 0
+  interactionTransform: {fileID: 0}
+  unit: {fileID: 0}
+  hasInteracted: 0
+  isInteracting: 0
 --- !u!114 &114871956189181334
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -480,8 +485,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackSpeed: 1
-  attackCooldown: 0
-  netPlayer: {fileID: 0}
 --- !u!135 &135155682895584528
 SphereCollider:
   m_ObjectHideFlags: 1

@@ -1,31 +1,30 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class BuildingInteractable : Interactable {
-
-	BuildingStats myStats;
+[RequireComponent (typeof (CharStats))]
+public class UnitInteractable : Interactable {
+	CharStats myStats;
 	UnitCombat enemyCombat;
 	bool isAttacking = false;
 	new void Start () {
-		base.Start ();
-		myStats = GetComponent<BuildingStats> ();
+	base.Start();
+		myStats = GetComponent<CharStats> ();
 	}
 	public override void Interact () {
 		isAttacking = true;
 		enemyCombat = unit.GetComponent<UnitCombat> ();
 		enemyCombat.Attack (targetStats:myStats);
-		Debug.Log ("Attacking Bldg");
 		base.Interact ();
-
 	}
 	public override void StopInteract () {
-
-		base.StopInteract ();
 		isAttacking = false;
+		base.StopInteract ();
 		enemyCombat.StopAttack ();
 		enemyCombat = null;
 	}
-
 	
+
+
 }

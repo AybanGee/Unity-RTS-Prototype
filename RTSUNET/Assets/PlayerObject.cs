@@ -122,7 +122,8 @@ public class PlayerObject : NetworkBehaviour {
 					//.Log("JORI JORI AJA AJA " + hit.collider.name);
 					if (interactable != null) {
 						//Checks if enemy unit
-						if (interactable.GetComponent<Unit> () != null) {
+						if (interactable.GetComponent<UnitInteractable> () != null) {
+						//	UnitInteractable unitInteractable = interactable.GetComponent<UnitInteractable>();
 							if (interactable.GetComponent<Unit> ().team == team) {
 								//hard coded stuff;
 								Debug.Log ("Oops Same team");
@@ -136,7 +137,10 @@ public class PlayerObject : NetworkBehaviour {
 											selectedUnits.Remove (unit);
 											continue;
 										}
+										if(unit.GetComponent<Unit>().unitType == UnitType.Builder)
+										continue;
 
+										
 										CmdFocus (unit.GetComponent<NetworkIdentity> (), interactable.GetComponent<NetworkIdentity> ());
 									}
 								return;
@@ -408,10 +412,6 @@ public class PlayerObject : NetworkBehaviour {
 		unitID.GetComponent<Unit> ().SetFocus (interactionId.GetComponent<Interactable> ());
 	}
 
-	[Command]
-	public void CmdAttack (NetworkIdentity targetIdentity, NetworkIdentity myIdentity) {
-		targetIdentity.GetComponent<CharStats> ().TakeDamage (myIdentity.GetComponent<CharStats> ().damage.GetValue ());
-	}
 	#endregion
 	/////////////////////////////////// FUNCTIONS
 	//SELECTION FUNCTIONS
@@ -513,8 +513,6 @@ public class PlayerObject : NetworkBehaviour {
 
 		if (spawnHolder.GetComponent<CharStats> () != null)
 			spawnHolder.GetComponent<CharStats> ().netPlayer = this;
-		if (spawnHolder.GetComponent<UnitCombat> () != null)
-			spawnHolder.GetComponent<UnitCombat> ().netPlayer = this;
 
 		spawnHolder.AddComponent<UnitSelectable> ();
 		spawnHolder.GetComponent<UnitSelectable> ().playerObject = this;

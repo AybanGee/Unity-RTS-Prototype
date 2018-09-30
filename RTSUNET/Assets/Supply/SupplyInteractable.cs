@@ -5,6 +5,7 @@ using UnityEngine;
 [RequireComponent (typeof (SupplyStash))]
 public class SupplyInteractable : Interactable {
 	SupplyStash supplyStash;
+	public float pickupDelay = 1.5f;
 	new private void Start () {
 		base.Start ();
 		supplyStash = GetComponent<SupplyStash> ();
@@ -25,7 +26,13 @@ public class SupplyInteractable : Interactable {
 			return;
 		}
 
-		if (supplyStash.MannaAmount >= unitSupply.mannaCapacity) {
+		StartCoroutine(getDelay(unitSupply));
+	}
+
+	IEnumerator getDelay(UnitSupply unitSupply){
+
+		yield return new WaitForSeconds(pickupDelay);
+			if (supplyStash.MannaAmount >= unitSupply.mannaCapacity) {
 			supplyStash.MannaAmount -= unitSupply.mannaCapacity;
 			unitSupply.mannaAmount = unitSupply.mannaCapacity;
 		} else {

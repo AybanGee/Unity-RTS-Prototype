@@ -5,38 +5,40 @@ using UnityEngine.Networking;
 [RequireComponent (typeof (CharStats))]
 public class UnitCombat : NetworkBehaviour {
 	public float attackSpeed = 1f;
-	public float attackCooldown = 0f;
 	CharStats myStats;
-
-	public PlayerObject netPlayer;
+	bool isAttacking = false;
 	void Start () {
 
 		myStats = GetComponent<CharStats> ();
 	}
-	public void Attack (CharStats targetStats) {
-
+	public void Attack (UnitStats targetStats) {
+Debug.Log("gonna ATTACKING");
 		if (targetStats == null) return;
-		if (attackCooldown <= 0f) {
+	//	if(!isLocalPlayer) return;
 
-			//netPlayer.CmdAttack(targetStats.GetComponent<NetworkIdentity>(),this.GetComponent<NetworkIdentity>());
-			targetStats.TakeDamage (myStats.damage.GetValue ());
-			attackCooldown = 1f / attackSpeed;
-		}
-		attackCooldown -= Time.deltaTime;
+		isAttacking = true;
+		StartCoroutine(AttackWithCooldown(targetStats));
 	}
 
-	public void Attack (BuildingStats targetStats) {
-
-		if (targetStats == null) return;
-		if (attackCooldown <= 0f) {
-
-			//netPlayer.CmdAttack(targetStats.GetComponent<NetworkIdentity>(),this.GetComponent<NetworkIdentity>());
+	IEnumerator AttackWithCooldown (UnitStats targetStats) {
+		while(isAttacking){
+			Debug.Log("ATTACKING");
+			if(targetStats == null)
+			{
+				 StopAttack ();
+				break;
+			}
+			
 			targetStats.TakeDamage (myStats.damage.GetValue ());
-			attackCooldown = 1f / attackSpeed;
+
+			yield return new WaitForSeconds(attackSpeed);
 		}
-		attackCooldown -= Time.deltaTime;
+		yield return null;
 	}
 
-
+	public void StopAttack () {
+		isAttacking = false;
+		//StopCoroutine ("AttackWithCooldown");
+	}
 
 }
