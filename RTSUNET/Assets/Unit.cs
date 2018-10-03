@@ -26,21 +26,28 @@ public class Unit : NetworkBehaviour {
 	}
 
 	public void SetFocus(Interactable newFocus){
+		if(!newFocus.isValidInteractor(this.GetComponent<Interactable>()))return;
 		if(newFocus != focus){
-			Debug.Log("focus");
+			//Debug.Log(this.name + " is focusing on " + newFocus);
 			if(focus != null){
-				focus.OnDefocused();
+				//Debug.Log("FOCUS is null assigning" + GetComponent<Interactable>());
+				focus.OnDefocused(GetComponent<Interactable>());
 				Debug.Log("OnDefocused");
 			}
 			focus = newFocus;
 			motor.FollowTarget(newFocus);
 		}
-		newFocus.OnFocused(transform);
+		//Debug.Log("New Focus " + GetComponent<Interactable>());
+		newFocus.OnFocused(GetComponent<Interactable>());
 	}
 
 	public void RemoveFocus(){
-			if(focus != null)
-			focus.OnDefocused();
+			if(focus != null){
+				
+			focus.OnDefocused(GetComponent<Interactable>());
+			Debug.Log(" has a focus to be defocused!!!");
+
+			}
 		focus = null;
 		 motor.StopFollowingTarget();
 	}

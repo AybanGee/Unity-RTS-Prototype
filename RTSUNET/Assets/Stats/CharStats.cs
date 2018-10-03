@@ -2,15 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
-
+[RequireComponent (typeof (UnitInteractable))]
 public class CharStats : UnitStats {
 	public PlayerObject netPlayer;
-
+	public UnitInteractable unitInteractable;
+	public void Start () {
+		unitInteractable = GetComponent<UnitInteractable>();
+	}
 	public override void Die () {
 
 		base.Die ();
 		// bool found = netPlayer.myUnits.Remove(this.gameObject);
-		// Debug.Log("Success remove "+ found);
+		// Debug.Log("Success remove "+ found);	
+		
+		// foreach(UnitInteractable unit in unitInteractable.interactors){
+		// 	unit.GetComponent<Unit>().RemoveFocus();
+		// }
 
 		CmdDie ();
 	}

@@ -123,31 +123,22 @@ public class PlayerObject : NetworkBehaviour {
 					if (interactable != null) {
 						//Checks if enemy unit
 						if (interactable.GetComponent<UnitInteractable> () != null) {
-						//	UnitInteractable unitInteractable = interactable.GetComponent<UnitInteractable>();
-							if (interactable.GetComponent<Unit> ().team == team) {
-								//hard coded stuff;
-								Debug.Log ("Oops Same team");
-								return;
-							} else {
-								Debug.Log ("SHIT KALABAN!");
-								if (myUnits.Count > 0)
-									foreach (GameObject unit in selectedUnits) {
-										//TO BE REMOVED IF FOUNF SOLUTION ON NOT DELETEiNG OBJECTS
-										if (unit == null) {
-											selectedUnits.Remove (unit);
-											continue;
-										}
-										if(unit.GetComponent<Unit>().unitType == UnitType.Builder)
+							//	UnitInteractable unitInteractable = interactable.GetComponent<UnitInteractable>();
+							if (myUnits.Count > 0)
+								foreach (GameObject unit in selectedUnits) {
+									//TO BE REMOVED IF FOUNF SOLUTION ON NOT DELETEiNG OBJECTS
+									if (unit == null) {
+										selectedUnits.Remove (unit);
 										continue;
-
-										
-										CmdFocus (unit.GetComponent<NetworkIdentity> (), interactable.GetComponent<NetworkIdentity> ());
 									}
-								return;
-							}
+									
+
+									unit.GetComponent<Unit> ().SetFocus (interactable);
+								}
+							return;
 						}
 						//Check if supply 
-						else if (interactable.GetComponent<SupplyInteractable> () != null) {
+						if (interactable.GetComponent<SupplyInteractable> () != null) {
 							Debug.Log ("Lets Get Rich");
 							if (myUnits.Count > 0)
 								foreach (GameObject unit in selectedUnits) {
@@ -158,32 +149,29 @@ public class PlayerObject : NetworkBehaviour {
 									}
 									Unit myUnit = unit.GetComponent<Unit> ();
 									if (myUnit != null) {
-										if (myUnit.unitType == UnitType.Builder)
-											CmdFocus (unit.GetComponent<NetworkIdentity> (), interactable.GetComponent<NetworkIdentity> ());
-										break;
+										unit.GetComponent<Unit> ().SetFocus (interactable);
 									}
 								}
+							return;
 
 						}
 						//Check for supply chain
 						else if (interactable.GetComponent<SupplyChainInteractable> () != null) {
-							if (interactable.GetComponent<BuildingUnit> ().team == team) {
-								Debug.Log ("Lets Get Rich Again");
-								if (myUnits.Count > 0)
-									foreach (GameObject unit in selectedUnits) {
-										//TO BE REMOVED IF FOUNF SOLUTION ON NOT DELETEiNG OBJECTS
-										if (unit == null) {
-											selectedUnits.Remove (unit);
-											continue;
-										}
-										Unit myUnit = unit.GetComponent<Unit> ();
-										if (myUnit != null) {
-											if (myUnit.unitType == UnitType.Builder)
-												CmdFocus (unit.GetComponent<NetworkIdentity> (), interactable.GetComponent<NetworkIdentity> ());
-											break;
-										}
+
+							Debug.Log ("Lets Get Rich Again");
+							if (myUnits.Count > 0)
+								foreach (GameObject unit in selectedUnits) {
+									//TO BE REMOVED IF FOUNF SOLUTION ON NOT DELETEiNG OBJECTS
+									if (unit == null) {
+										selectedUnits.Remove (unit);
+										continue;
 									}
-							}
+									Unit myUnit = unit.GetComponent<Unit> ();
+									if (myUnit != null)
+										unit.GetComponent<Unit> ().SetFocus (interactable);
+
+								}
+							return;
 
 						} else if (interactable.GetComponent<BuildingUnit> () != null) {
 							if (interactable.GetComponent<BuildingUnit> ().team == team) {
@@ -207,25 +195,22 @@ public class PlayerObject : NetworkBehaviour {
 						}
 						//Checks if construction
 						else if (interactable.GetComponent<ConstructionInteractable> () != null) {
-							if (interactable.GetComponent<ConstructionInteractable> ().team == team) {
-								Debug.Log ("Lets Construct");
-								if (myUnits.Count > 0)
-									foreach (GameObject unit in selectedUnits) {
-										//TO BE REMOVED IF FOUNF SOLUTION ON NOT DELETEiNG OBJECTS
-										if (unit == null) {
-											selectedUnits.Remove (unit);
-											continue;
-										}
-										if (unit.GetComponent<Unit> () != null) {
-											CmdFocus (unit.GetComponent<NetworkIdentity> (), interactable.GetComponent<NetworkIdentity> ());
-											break;
-										}
-									}
-							} else {
 
-								Debug.Log ("Not ours! Your team:" + team + "  rubbles team:" + interactable.GetComponent<ConstructionInteractable> ().team);
-								return;
-							}
+							Debug.Log ("Lets Construct");
+							if (myUnits.Count > 0)
+								foreach (GameObject unit in selectedUnits) {
+									//TO BE REMOVED IF FOUNF SOLUTION ON NOT DELETEiNG OBJECTS
+									if (unit == null) {
+										selectedUnits.Remove (unit);
+										continue;
+									}
+									if (unit.GetComponent<Unit> () != null) {
+										//CmdFocus (unit.GetComponent<NetworkIdentity> (), interactable.GetComponent<NetworkIdentity> ());
+										unit.GetComponent<Unit> ().SetFocus (interactable);
+
+									}
+								}
+							return;
 
 						}
 
@@ -309,9 +294,9 @@ public class PlayerObject : NetworkBehaviour {
 		go.GetComponent<BuildingUnit> ().team = team;
 		BuildingInteractable buildingInteractable = go.GetComponent<BuildingInteractable> ();
 		if (navMeshObstacleSize.x > navMeshObstacleSize.z)
-			buildingInteractable.radius = navMeshObstacleSize.x + 1;
+			buildingInteractable.influenceRadius = navMeshObstacleSize.x + 1;
 		else
-			buildingInteractable.radius = navMeshObstacleSize.z + 1;
+			buildingInteractable.influenceRadius = navMeshObstacleSize.z + 1;
 
 		//DESTROY COMPONENTS NOT NEEDED
 		Destroy (go.GetComponent<Rigidbody> ());
@@ -341,7 +326,9 @@ public class PlayerObject : NetworkBehaviour {
 		spawnHolder.name = team + " - bldg - " + netId;
 
 		spawnHolder.GetComponent<BuildingStats> ().netPlayer = this;
-		Renderer[] renderers = spawnHolder.GetComponent<BuildingUnit> ().teamColoredGfx;
+		BuildingUnit buildingUnit = spawnHolder.GetComponent<BuildingUnit> ();
+		buildingUnit.team = team;
+		Renderer[] renderers = buildingUnit.teamColoredGfx;
 		if (renderers.Length > 0)
 			for (int i = 0; i < renderers.Length; i++) {
 				renderers[i].material.color = selectedColor[t - 1];
@@ -376,9 +363,9 @@ public class PlayerObject : NetworkBehaviour {
 		constructionInteractable.buildingIndex = buildingSpawnIndex;
 		constructionInteractable.team = t;
 		if (rubbleSize.x > rubbleSize.z)
-			constructionInteractable.radius = rubbleSize.x + 1;
+			constructionInteractable.influenceRadius = rubbleSize.x + 1;
 		else
-			constructionInteractable.radius = rubbleSize.z + 1;
+			constructionInteractable.influenceRadius = rubbleSize.z + 1;
 		constructionInteractable.playerObject = this;
 		//Instantiating the rubble
 		rubble = Instantiate (rubble, position, rotation);
@@ -508,7 +495,7 @@ public class PlayerObject : NetworkBehaviour {
 		Unit unit = spawnHolder.GetComponent<Unit> ();
 		unit.team = team;
 		unit.playerObject = this;
-		spawnHolder.name = team + " - unit - " + netId;
+		spawnHolder.name = team + " - unit" + spawnHolder.GetComponent<NetworkIdentity>().netId;
 		spawnHolder.GetComponent<Unit> ().graphics.GetComponent<MeshRenderer> ().materials[0].color = selectedColor[t - 1];
 
 		if (spawnHolder.GetComponent<CharStats> () != null)

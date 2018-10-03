@@ -453,10 +453,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f14c184263b0564ba71889987d5458d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 2
+  radius: 3
   isFocus: 0
   interactionTransform: {fileID: 0}
-  unit: {fileID: 0}
+  interactors: []
   hasInteracted: 0
   isInteracting: 0
 --- !u!114 &114367732698114856

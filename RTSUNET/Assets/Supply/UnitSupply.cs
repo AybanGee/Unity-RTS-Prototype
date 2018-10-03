@@ -84,6 +84,7 @@ public class UnitSupply : MonoBehaviour {
 	void getSupply () {
 		if (supplyInteract == null) {
 			Debug.LogError ("No assigned supply stash to Interact");
+			return;
 		}
 
 		isDeliveringSupply = false;

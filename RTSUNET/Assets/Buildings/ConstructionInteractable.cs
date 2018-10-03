@@ -12,37 +12,62 @@ public class ConstructionInteractable : Interactable {
 
 	public PlayerObject playerObject;
 
+	Coroutine construction;
 
-	public override void Interact (Unit interactor) {
-		base.Interact(interactor);
-		if (assignedBuilder == null && interactor != null) {
-			if (interactor.team == team)
-				assignedBuilder = interactor;
+	public override void Interact (Interactable interactable) {
+		base.Interact(interactable);
+		if (assignedBuilder == null && interactable != null) {
+			if (interactable.GetComponent<Unit>().team == team)
+				assignedBuilder = GetComponent<Unit>();
 			else{
 				Debug.Log("NOPE not your team boy!");
 				return;
 
 			}
 		}
-			if(interactor == null){
+			if(interactable == null){
 			Debug.Log("OH NO");
 			return;
 			}
-	
-		constructionTime -= Time.deltaTime;
+		if(construction == null)
+		construction = StartCoroutine(constructBuilding());
+	}
+	IEnumerator constructBuilding(){
+		while(true){
+			Debug.Log("Coroutine Cycle");
+			constructionTime -= 1 * interactors.Count;
 		if (constructionTime <= 0) {
 			hasInteracted = true;
 			Finished ();
 		}
+		yield return new WaitForSeconds(1f);
+		}
+		
 	}
-	public override void OnDefocused () {
-		base.OnDefocused ();
-		assignedBuilder = null;
+	// public override void OnDefocused (Interactable interactor) {
+	// 	base.OnDefocused (interactor);
+	// 	Debug.Log("CONSTRUCTOR");
+	// 	if(interactors.Count == 0 && construction != null){
+			
+	// 	StopCoroutine(construction);
+	// 	}
+	// 	assignedBuilder = null;
+	// 	construction = null;
 
-	}
-
+	// }
 	public void Finished () {
+		if(construction!=null)
+		StopCoroutine(construction);
+		construction = null;
 		Debug.Log ("Construction Complete");
+		//defocus all constructors
+		List<Interactable> constructors = interactors;
+		for (int i = 0; i < constructors.Count; i++)
+		{
+			Unit thisuUnit = constructors[i].GetComponent<Unit>();
+			if(thisuUnit !=null)
+			thisuUnit.RemoveFocus();
+		}
 		if(playerObject.hasAuthority){
 		playerObject.CmdSpawnBuilding(buildingIndex,this.transform.position,this.transform.rotation);
 		CmdDestroyMe();
@@ -53,19 +78,16 @@ public class ConstructionInteractable : Interactable {
 	void CmdDestroyMe(){
 		Destroy(this.gameObject);
 	}
-
-	
-	new void Update () {
-
-	if(isFocus && !hasInteracted){
-	//	Debug.Log("Going to interact");
-		float distance = Vector3.Distance(unit.position,interactionTransform.position);
-		if(distance <= radius){
-			Interact(unit.GetComponent<Unit>());
-			//hasInteracted = true;
-		}
-	}
+	public override bool isValidInteractor(Interactable interactor){
+		if(interactor == null)return false;
+		//check if team mate
+		Unit unitInteractor = interactor.GetComponent<Unit>();
+		if(unitInteractor == null) return false;
+		if(unitInteractor.team != team)return false;
+		if(unitInteractor.unitType != UnitType.Builder)return false;
 
 
+
+		return true;
 	}
 }

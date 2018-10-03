@@ -53,7 +53,7 @@ public class UnitMotor : NetworkBehaviour {
 		if (hasAuthority == false) {
 			return;
 		}
-		agent.stoppingDistance = newTarget.radius * .8f;
+		agent.stoppingDistance = GetComponent<Interactable>().rangeRadius * .8f;
 		agent.updateRotation = false;
 		target = newTarget.interactionTransform;
 		StartCoroutine (corFollowTarget (target));
@@ -78,7 +78,7 @@ public class UnitMotor : NetworkBehaviour {
 		if (newTarget == null) return;
 
 		Interactable interactable = newTarget.GetComponent<Interactable> ();
-		agent.stoppingDistance = interactable.radius * .8f;
+		agent.stoppingDistance =  GetComponent<Interactable>().rangeRadius * .8f;
 		agent.updateRotation = false;
 		target = interactable.interactionTransform;
 		StartCoroutine (corFollowTarget (target));

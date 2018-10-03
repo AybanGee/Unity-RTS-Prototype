@@ -10,9 +10,9 @@ public class SupplyInteractable : Interactable {
 		base.Start ();
 		supplyStash = GetComponent<SupplyStash> ();
 	}
-	public override void Interact () {
-		base.Interact ();
-		UnitSupply unitSupply = unit.GetComponent<UnitSupply> ();
+	public override void Interact (Interactable interactor) {
+		base.Interact (interactor);
+		UnitSupply unitSupply = interactor.GetComponent<UnitSupply> ();
 		if (unitSupply == null) {
 			Debug.LogError ("Unit Supply Component was not found on Interactor");
 		}
@@ -20,6 +20,8 @@ public class SupplyInteractable : Interactable {
 
 
 		if (supplyStash.MannaAmount <= 0) {
+			//add SEARCH to a new supply stash here
+			
 			supplyStash.MannaAmount = 0;
 			unitSupply.stopInteractions ();
 			Debug.LogError ("Unit Supply is empty");
@@ -42,4 +44,5 @@ public class SupplyInteractable : Interactable {
 		unitSupply.supplyChainInteract = null;
 		unitSupply.StartBehaviour ();
 	}
+	//ADD INTERACTOR VALIDATION HERE
 }

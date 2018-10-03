@@ -5,26 +5,45 @@ using UnityEngine.Networking;
 
 [RequireComponent (typeof (CharStats))]
 public class UnitInteractable : Interactable {
-	CharStats myStats;
-	UnitCombat enemyCombat;
-	bool isAttacking = false;
+	public CharStats myStats;
+	public UnitCombat interactorCombat;
+public	bool isAttacking = false;
 	new void Start () {
-	base.Start();
+		base.Start ();
 		myStats = GetComponent<CharStats> ();
 	}
-	public override void Interact () {
+	public override void Interact (Interactable interactor) {
 		isAttacking = true;
-		enemyCombat = unit.GetComponent<UnitCombat> ();
-		enemyCombat.Attack (targetStats:myStats);
-		base.Interact ();
+		interactorCombat = interactor.GetComponent<UnitCombat> ();
+		if(interactorCombat == null){
+			Debug.Log(" NULL INTERACTOR ");
+			return;			
+		} 
+		interactorCombat.Attack (myStats);
+		base.Interact (interactor);
 	}
-	public override void StopInteract () {
+	public override void StopInteract (Interactable interactor) {
 		isAttacking = false;
-		base.StopInteract ();
-		enemyCombat.StopAttack ();
-		enemyCombat = null;
+		Debug.Log("STOPPING " + interactor);
+		base.StopInteract (interactor);
+		interactorCombat.StopAttack ();
+		interactorCombat = null;
 	}
-	
+
+	public override void OnInteractorFocused(Interactable interactable){
+		Debug.Log(interactable + " has been focused to " + this);
+	}
 
 
+
+	public override bool isValidInteractor (Interactable interactor) {
+		if (interactor == null) return false;
+		Unit unitInteractor = interactor.GetComponent<Unit> ();
+		Unit myUnit = GetComponent<Unit> ();
+		if (unitInteractor == null || myUnit == null) return false;
+		if (unitInteractor.team == myUnit.team) return false;
+		if(unitInteractor.unitType == UnitType.Builder) return false;
+
+		return true;
+	}
 }

@@ -578,12 +578,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6aec4bc7077e5f44e9edb134ed82a2c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 8
+  rangeRadius: 5
+  influenceRadius: 5
   isFocus: 0
   interactionTransform: {fileID: 4909315774033846}
-  unit: {fileID: 0}
+  interactors: []
   hasInteracted: 0
   isInteracting: 0
+  myStats: {fileID: 0}
+  enemyCombat: {fileID: 0}
+  isAttacking: 0
+  dropDelay: 1
 --- !u!114 &114482351253468296
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -603,7 +608,7 @@ MonoBehaviour:
   team: 0
   buildingPrice: 300
   sellingPrice: 250
-  constructionTime: 3
+  constructionTime: 15
   buildingType: 1
   AscendOnStart: 1
   ascendSpeed: 1

@@ -33,5 +33,4 @@ public class UnitStats : NetworkBehaviour {
 	public virtual void Die () {
 		Debug.Log (transform.name + " died.");
 	}
-
 }
