@@ -69,7 +69,7 @@ public class ConstructionInteractable : Interactable {
 			thisuUnit.RemoveFocus();
 		}
 		if(playerObject.hasAuthority){
-		playerObject.CmdSpawnBuilding(buildingIndex,this.transform.position,this.transform.rotation);
+		playerObject.BuildSys.CmdSpawnBuilding(buildingIndex,this.transform.position,this.transform.rotation);
 		CmdDestroyMe();
 		}else
 		Debug.Log("No Authority to Create Building");

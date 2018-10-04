@@ -178,7 +178,7 @@ MonoBehaviour:
   constructionTime: 15
   assignedBuilder: {fileID: 0}
   buildingIndex: 4
-  team: 2
+  team: 1
   playerObject: {fileID: 0}
 --- !u!114 &114506195844053734
 MonoBehaviour:

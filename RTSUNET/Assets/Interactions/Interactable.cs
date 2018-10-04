@@ -34,7 +34,7 @@ public abstract class Interactable : NetworkBehaviour {
 		//Debug.Log("lol");
 		if(interactors.Count > 0)
 		foreach (Interactable interactor in interactors) {
-			Debug.Log(interactor.name + " is now interacting");
+//			Debug.Log(interactor.name + " is now interacting");
 			if (isFocus && !interactor.hasInteracted) {
 				float distance = Vector3.Distance (interactor.transform.position, interactionTransform.position);
 

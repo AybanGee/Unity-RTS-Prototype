@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4899728561153142}
   - component: {fileID: 114214745242076926}
   - component: {fileID: 114949821193209664}
+  - component: {fileID: 114605971129237458}
   m_Layer: 0
   m_Name: PlayerConnectionObject 1
   m_TagString: Untagged
@@ -73,6 +74,24 @@ MonoBehaviour:
     i15: 91
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 1
+--- !u!114 &114605971129237458
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1825360176485784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7998434eb539747449572d1f56dd5d31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buildMode: 0
+  selectedCreateBuildingIndex: 4
+  placeholderMat: {fileID: 2100000, guid: 52bf1a9597eb85640baf52953d2e8a6b, type: 2}
+  invalidPlaceholderMat: {fileID: 2100000, guid: 1cbb0278905ea504c98ae4b6e20e2ae0,
+    type: 2}
+  obstacleSizeCut: 2
+  obstacleHeightAdd: 2
 --- !u!114 &114949821193209664
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -84,6 +103,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40500831f84171249b1b7c2f9468c3dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BuildSys: {fileID: 0}
   selectedUnits: []
   myUnits: []
   myBuildings: []
@@ -96,14 +116,9 @@ MonoBehaviour:
   movementMask:
     serializedVersion: 2
     m_Bits: 512
+  playerId: 0
   team: 0
   faction: 0
   playerName: 
   manna: 500000
-  selectedCreateBuildingIndex: 4
-  placeholderMat: {fileID: 2100000, guid: 52bf1a9597eb85640baf52953d2e8a6b, type: 2}
-  invalidPlaceholderMat: {fileID: 2100000, guid: 1cbb0278905ea504c98ae4b6e20e2ae0,
-    type: 2}
-  obstacleSizeCut: 2
-  obstacleHeightAdd: 2
   myUnit: {fileID: 0}
