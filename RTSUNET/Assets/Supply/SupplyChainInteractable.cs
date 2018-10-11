@@ -63,8 +63,10 @@ public class SupplyChainInteractable : BuildingInteractable {
 		if (unitInteractor == null) return false;
 		if (myUnit == null) return false;
 		//VALIDATE ACCESS TYPE
-		Debug.LogWarning ("Unit " +unitInteractor.team+ " is attacking the building "+myUnit.team+"!");
+//		Debug.LogWarning ("Unit " +unitInteractor.team+ " is attacking the building "+myUnit.team+"!");
 		if (unitInteractor.team == myUnit.team) {
+			Debug.LogWarning ("Unit is supplying the building!");
+
 			//is team mate
 			if (unitInteractor.unitType != UnitType.Builder) return false;
 			accessType = BattleType.Sustaining;

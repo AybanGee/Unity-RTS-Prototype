@@ -124,7 +124,7 @@ GameObject:
   - component: {fileID: 54813144}
   - component: {fileID: 54813143}
   m_Layer: 5
-  m_Name: View
+  m_Name: Viewport1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -217,7 +217,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 184.34877, y: -17.5}
+  m_AnchoredPosition: {x: 203.09877, y: -17.5}
   m_SizeDelta: {x: 285.5, y: 28.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &56676682
@@ -1402,7 +1402,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 587.8463, y: -17.5}
+  m_AnchoredPosition: {x: 644.0963, y: -17.5}
   m_SizeDelta: {x: 355.1, y: 28.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1235680099
@@ -2088,7 +2088,6 @@ MonoBehaviour:
   - {fileID: 1680590169875568, guid: ca0c376331ae75d4e8993c258f5149d5, type: 2}
   - {fileID: 1473980715398178, guid: e5c220c5bd404bc4f9d39e1db61ac22c, type: 2}
   - {fileID: 1730401945541026, guid: a89aa74603ddd57429c1f77692b59cb7, type: 2}
-  - {fileID: 1423246232395846, guid: a9bb082eb71c214418cf9b6282211f8c, type: 2}
   m_CustomConfig: 0
   m_MaxConnections: 4
   m_ConnectionConfig:
@@ -2159,6 +2158,7 @@ MonoBehaviour:
     type: 2}
   playerUIiPanel: {fileID: 898915529}
   playerCanvas: {fileID: 1485033897}
+  gameColors: {fileID: 11400000, guid: a3f1b23a64d05c942951b148676dd825, type: 2}
 --- !u!1 &2113563213
 GameObject:
   m_ObjectHideFlags: 0

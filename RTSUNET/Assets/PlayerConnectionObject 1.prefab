@@ -22,6 +22,8 @@ GameObject:
   - component: {fileID: 114214745242076926}
   - component: {fileID: 114949821193209664}
   - component: {fileID: 114605971129237458}
+  - component: {fileID: 114799433701067554}
+  - component: {fileID: 114349574003385586}
   m_Layer: 0
   m_Name: PlayerConnectionObject 1
   m_TagString: Untagged
@@ -74,6 +76,19 @@ MonoBehaviour:
     i15: 91
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 1
+--- !u!114 &114349574003385586
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1825360176485784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39fc9b689bfe7204bbd4c79f5ba24b66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obstacleSizeCut: 2
+  obstacleHeightAdd: 2
 --- !u!114 &114605971129237458
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -85,13 +100,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7998434eb539747449572d1f56dd5d31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  constructor: {fileID: 0}
+  buildingGroups: {fileID: 0}
   buildMode: 0
-  selectedCreateBuildingIndex: 4
+  isGrid: 1
+  prefabBuildingIndex: 1
+  selectedBuildingIndex: 1
   placeholderMat: {fileID: 2100000, guid: 52bf1a9597eb85640baf52953d2e8a6b, type: 2}
   invalidPlaceholderMat: {fileID: 2100000, guid: 1cbb0278905ea504c98ae4b6e20e2ae0,
     type: 2}
+  PO: {fileID: 0}
+  buildingOffset: {x: 0, y: 0, z: 0}
   obstacleSizeCut: 2
   obstacleHeightAdd: 2
+--- !u!114 &114799433701067554
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1825360176485784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1705c2bbe6de8ed46b447f278499dd38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114949821193209664
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -104,21 +136,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BuildSys: {fileID: 0}
+  UnitSys: {fileID: 0}
   selectedUnits: []
   myUnits: []
   myBuildings: []
   cam: {fileID: 0}
-  selectedColor:
-  - {r: 1, g: 0.3019608, b: 0, a: 1}
-  - {r: 0.99765015, g: 0, b: 1, a: 1}
-  - {r: 0, g: 0.5929899, b: 1, a: 1}
-  - {r: 0.39382136, g: 1, b: 0, a: 1}
+  buildingFactionGroups: {fileID: 11400000, guid: 44b765f7598b035428e1710b856a3e9c,
+    type: 2}
   movementMask:
     serializedVersion: 2
     m_Bits: 512
   playerId: 0
   team: 0
-  faction: 0
+  factionIndex: 0
   playerName: 
+  colorIndex: 0
   manna: 500000
-  myUnit: {fileID: 0}

@@ -70,7 +70,7 @@ Transform:
   m_GameObject: {fileID: 1473980715398178}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 7, y: 1, z: 7}
+  m_LocalScale: {x: 3, y: 1, z: 3}
   m_Children:
   - {fileID: 4263406273765664}
   m_Father: {fileID: 0}
@@ -169,16 +169,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rangeRadius: 5
-  influenceRadius: 8
+  influenceRadius: 4
   isFocus: 0
   interactionTransform: {fileID: 0}
   interactors: []
   hasInteracted: 0
   isInteracting: 0
-  constructionTime: 15
+  constructionTime: 50
   assignedBuilder: {fileID: 0}
-  buildingIndex: 4
-  team: 1
+  buildingIndex: 1
+  team: 0
   playerObject: {fileID: 0}
 --- !u!114 &114506195844053734
 MonoBehaviour:

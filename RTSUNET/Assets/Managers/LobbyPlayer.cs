@@ -13,6 +13,8 @@ public string P_name;
 
 public int faction;
 
+public int colorIndex;
+
 public bool ready = false;
 
 ComponentHandler CH;
@@ -87,6 +89,13 @@ public override void OnClientReady(bool state){
          // Clicked red team (team nr 0)
          CmdSelectFaction(f);
     }
+
+    public void OnChangeColor(int c){
+       
+         Debug.Log("Changing color to : "+c);
+         // Clicked red team (team nr 0)
+         CmdSelectColor(c);
+    }
  
     public void OnChangeName(string s){
          // Clicked blueteam (team nr 1)
@@ -116,6 +125,12 @@ public override void OnClientReady(bool state){
         faction = facitonIndex;
         RpcSelectFaction(facitonIndex);
     }
+     [Command]
+    public void CmdSelectColor(int cIndex){
+    // Set team of player on the server.
+        colorIndex = cIndex;
+        RpcSelectColor(cIndex);
+    }
 
     [ClientRpc]
     public void RpcChangeName(string newName){
@@ -135,6 +150,12 @@ public override void OnClientReady(bool state){
     // Set team of player on the server.
         faction = facitonIndex;
         CH.components[2].componentObject.GetComponent<TMP_Dropdown>().value = faction;
+    }
+    [ClientRpc]
+    public void RpcSelectColor(int cIndex){
+    // Set team of player on the server.
+        colorIndex = cIndex;
+        CH.components[4].componentObject.GetComponent<Dropdown>().value = cIndex;
     }
 
 #endregion

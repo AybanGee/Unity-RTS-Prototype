@@ -8,7 +8,7 @@ public abstract class Interactable : NetworkBehaviour {
 	public bool isFocus = false;
 
 	public Transform interactionTransform;
-	public List<Interactable> interactors;
+	public List<Interactable> interactors = new List<Interactable>();
 	public bool hasInteracted = false;
 	public bool isInteracting = false;
 	public void Start () {
@@ -36,6 +36,7 @@ public abstract class Interactable : NetworkBehaviour {
 		foreach (Interactable interactor in interactors) {
 //			Debug.Log(interactor.name + " is now interacting");
 			if (isFocus && !interactor.hasInteracted) {
+				//if(interactor == null){isFocus = false; return;}
 				float distance = Vector3.Distance (interactor.transform.position, interactionTransform.position);
 
 			//	Debug.Log ("Going to interact distance = " + distance);

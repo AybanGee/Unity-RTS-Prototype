@@ -1,13 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Networking;
+﻿using UnityEngine;
 using UnityEngine.AI;
-[RequireComponent(typeof(PlayerObject))]
+using UnityEngine.Networking;
+[RequireComponent (typeof (PlayerObject))]
 public class BuildingSystem : NetworkBehaviour {
-
+	public BuildingConstructor constructor;
+	public BuildingGroups buildingGroups;
 	public bool buildMode = false;
-	public int selectedCreateBuildingIndex;
+	public bool isGrid = true;
+	public int prefabBuildingIndex = 1;
+	public int selectedBuildingIndex;
 	GameObject buildingPlaceholder;
 	BuildingCreationTrigger buildingCreationTrigger;
 	[SerializeField]
@@ -16,60 +17,82 @@ public class BuildingSystem : NetworkBehaviour {
 	Material invalidPlaceholderMat;
 	Renderer[] placeHolderRenderers;
 	bool isValidLocation = true;
-	PlayerObject PO;
-	void Start()
-	{
-		PO = GetComponent<PlayerObject>();
+	[HideInInspector]
+	public PlayerObject PO;
+	[SerializeField]
+	Vector3 buildingOffset = new Vector3 (0, 0, 0);
+	[SerializeField]
+	int obstacleSizeCut = 2;
+	[SerializeField]
+	int obstacleHeightAdd = 2;
+	void Awake () {
+		//Move to spawn manager
+		PO = GetComponent<PlayerObject> ();
 	}
-	public void BuildingControl(){
+	void Start () {
+		constructor = GetComponent<BuildingConstructor> ();
+		if (constructor == null) { Debug.LogError ("Building Constructor Not Found"); }
+	}
+	public void BuildingControl () {
 		if (Input.GetKeyDown (KeyCode.Escape)) {
-				ToggleBuildMode ();
+			ToggleBuildMode ();
+		}
+		Ray ray = PO.cam.ScreenPointToRay (Input.mousePosition);
+		RaycastHit hit;
+		Vector3 mouseWorldPointPosition;
+		if (Physics.Raycast (ray, out hit, 10000, PO.movementMask)) {
+			mouseWorldPointPosition = hit.point + buildingOffset;
+			if (isGrid) {
+				Vector3 clamped = mouseWorldPointPosition;
+				clamped.x = Mathf.Round (clamped.x);
+				clamped.z = Mathf.Round (clamped.z);
+				mouseWorldPointPosition = clamped;
 			}
-			Ray ray = PO.cam.ScreenPointToRay (Input.mousePosition);
-			RaycastHit hit;
-			Vector3 mouseWorldPointPosition;
-			if (Physics.Raycast (ray, out hit, 10000, PO.movementMask))
-				mouseWorldPointPosition = hit.point;
-			else
-				return;
+		} else
+			return;
 
-			if (buildingPlaceholder != null) {
-				if (Input.GetKeyDown (KeyCode.Less) || Input.GetKeyDown (KeyCode.Comma))
-					buildingPlaceholder.transform.Rotate (0, -45, 0);
-				else if (Input.GetKeyDown (KeyCode.Greater) || Input.GetKeyDown (KeyCode.Period))
-					buildingPlaceholder.transform.Rotate (0, 45, 0);
+		if (buildingPlaceholder != null) {
+			if (Input.GetKeyDown (KeyCode.Less) || Input.GetKeyDown (KeyCode.Comma))
+				buildingPlaceholder.transform.Rotate (0, -45, 0);
+			else if (Input.GetKeyDown (KeyCode.Greater) || Input.GetKeyDown (KeyCode.Period))
+				buildingPlaceholder.transform.Rotate (0, 45, 0);
 
-				buildingPlaceholder.transform.position = mouseWorldPointPosition;
-				//check validity of location
-				if (buildingCreationTrigger != null) {
-					if (buildingCreationTrigger.colliderCount > 0) {
-						isValidLocation = false;
-						TogglePlaceholderColor ();
+			buildingPlaceholder.transform.position = mouseWorldPointPosition;
+			//check validity of location
+			if (buildingCreationTrigger != null) {
+				if (buildingCreationTrigger.colliderCount > 0) {
+					isValidLocation = false;
+					TogglePlaceholderColor ();
 
-					} else {
-						isValidLocation = true;
-						TogglePlaceholderColor ();
-					}
+				} else {
+					isValidLocation = true;
+					TogglePlaceholderColor ();
 				}
+			}
 
-			}
-			if (Input.GetMouseButtonDown (0) && isValidLocation) {
-				PO.manna -= NetworkManager.singleton.spawnPrefabs[selectedCreateBuildingIndex].GetComponent<BuildingUnit> ().buildingPrice;
-				CmdSpawnRubble (selectedCreateBuildingIndex, mouseWorldPointPosition, buildingPlaceholder.transform.rotation, PO.team);
-				ToggleBuildMode ();
-			}
+		}
+		if (Input.GetMouseButtonDown (0) && isValidLocation) {
+			PO.manna -= buildingGroups.buildings[selectedBuildingIndex].manaCost;
+			constructor.SpawnRubble (prefabBuildingIndex, mouseWorldPointPosition - buildingOffset, buildingPlaceholder.transform.rotation, PO.team);
+			ToggleBuildMode ();
+		}
 	}
 	public void ToggleBuildMode () {
 		// if we are in build mode turn it off 
 		//we can check here if manna is sufficient for the selected building
 		//Condition NetworkManager.singleton.spawnPrefabs[selectedCreateBuildingIndex].GetComponent<BuildingUnit> ().buildingPrice > manna
-		if (NetworkManager.singleton.spawnPrefabs[selectedCreateBuildingIndex].GetComponent<BuildingUnit> ().buildingPrice > PO.manna) {
+		if (buildingGroups.buildings[selectedBuildingIndex].manaCost > PO.manna) {
 			Debug.Log ("Insufficient funds");
 			if (buildingPlaceholder)
 				Destroy (buildingPlaceholder);
 			buildMode = false;
 			return;
 		}
+
+		TogglePlaceholder ();
+		buildMode = !buildMode;
+	}
+	void TogglePlaceholder () {
 		if (buildMode) {
 			Debug.Log ("Exit Build Mode");
 
@@ -77,17 +100,20 @@ public class BuildingSystem : NetworkBehaviour {
 
 		} else {
 			Debug.Log ("Entering Build Mode");
-			buildingPlaceholder = Instantiate (NetworkManager.singleton.spawnPrefabs[selectedCreateBuildingIndex]);
-			buildingPlaceholder.GetComponent<BuildingUnit> ().AscendOnStart = false;
-			buildingCreationTrigger = buildingPlaceholder.GetComponent<BuildingCreationTrigger> ();
+			buildingPlaceholder = Instantiate (buildingGroups.buildings[selectedBuildingIndex].graphics);
+
+			buildingOffset.y = buildingPlaceholder.transform.localScale.y / 2;
+
+			BoxCollider buildingCollider = buildingPlaceholder.AddComponent<BoxCollider> ();
+			buildingCollider.isTrigger = true;
+			buildingCollider.size = buildingCollider.size + buildingGroups.buildings[selectedBuildingIndex].addedColliderScale;
+
+			buildingCreationTrigger = buildingPlaceholder.AddComponent<BuildingCreationTrigger> ();
 			placeHolderRenderers = buildingPlaceholder.GetComponentsInChildren<Renderer> ();
 			TogglePlaceholderColor ();
 
 		}
-
-		buildMode = !buildMode;
 	}
-
 	public void TogglePlaceholderColor () {
 		if (buildingPlaceholder != null)
 			if (placeHolderRenderers.Length > 0)
@@ -99,29 +125,23 @@ public class BuildingSystem : NetworkBehaviour {
 				}
 	}
 
-	[SerializeField]
-	int obstacleSizeCut = 2;
-	[SerializeField]
-	int obstacleHeightAdd = 2;
 	#region "Network Spawn Building"
-	[Command]
-	public void CmdSpawnBuilding (int spawnableIndex, Vector3 position, Quaternion rotation) {
+	public void SpawnBuilding (int spawnableIndex, Vector3 position, Quaternion rotation) {
+		CmdSpawnObject (spawnableIndex, position, rotation);
+	}
 
-		GameObject go = NetworkManager.singleton.spawnPrefabs[spawnableIndex];
+	[Command]
+	public void CmdSpawnObject (int spawnableIndex, Vector3 position, Quaternion rotation) {
+
+		GameObject go = NetworkManager.singleton.spawnPrefabs[prefabBuildingIndex];
+
+		//if (graphics == null) { Debug.LogError ("No graphics"); }
 		go = Instantiate (go, position, rotation);
-		Renderer[] renderers = go.GetComponent<BuildingUnit> ().teamColoredGfx;
-		if (renderers.Length > 0)
-			for (int i = 0; i < renderers.Length; i++) {
-				renderers[i].material.color = PO.selectedColor[PO.team - 1];
-			}
-		//Assign data
+
+		BuildingUnit buildingUnit = go.GetComponent<BuildingUnit> ();
 		Vector3 navMeshObstacleSize = go.GetComponent<BoxCollider> ().size;
-		go.GetComponent<BuildingUnit> ().team = PO.team;
-		BuildingInteractable buildingInteractable = go.GetComponent<BuildingInteractable> ();
-		if (navMeshObstacleSize.x > navMeshObstacleSize.z)
-			buildingInteractable.influenceRadius = navMeshObstacleSize.x + 1;
-		else
-			buildingInteractable.influenceRadius = navMeshObstacleSize.z + 1;
+
+		AssignData (go, spawnableIndex, buildingUnit, navMeshObstacleSize);
 
 		//DESTROY COMPONENTS NOT NEEDED
 		Destroy (go.GetComponent<Rigidbody> ());
@@ -133,83 +153,72 @@ public class BuildingSystem : NetworkBehaviour {
 
 		//SYNCING TO CLIENTS
 		NetworkIdentity ni = go.GetComponent<NetworkIdentity> ();
-		RpcAssignBuilding (ni, PO.team, navMeshObstacleSize);
+
+		RpcAssignObject (ni, spawnableIndex);
 	}
 
 	[ClientRpc]
-	void RpcAssignBuilding (NetworkIdentity id, int t, Vector3 navMeshObstacleSize) {
+	public void RpcAssignObject (NetworkIdentity id, int spawnableIndex) {
 		//	if(!isLocalPlayer)return;
 
 		//Debug.Log(id.netId.Value);
 		GameObject spawnHolder = id.gameObject;
+		GameObject graphics = buildingGroups.buildings[spawnableIndex].graphics;
+		Vector3 grapihicsOffset = new Vector3 (0, graphics.transform.localScale.y / 2, 0);
+		graphics = Instantiate (graphics, spawnHolder.transform.position + grapihicsOffset, spawnHolder.transform.rotation, spawnHolder.transform);
+		graphics.GetComponent<GraphicsHolder> ().colorize (LobbyManager.singleton.GetComponent<LobbyManager> ().gameColors.gameColorList () [PO.colorIndex]);
+		BuildingUnit buildingUnit = spawnHolder.GetComponent<BuildingUnit> ();
+		Vector3 navMeshObstacleSize = spawnHolder.GetComponent<BoxCollider> ().size;
+
+		AssignData (spawnHolder, spawnableIndex, buildingUnit, navMeshObstacleSize);
+
+		if (spawnHolder.transform.childCount <= 0) { Debug.LogError ("No graphics"); }
 		NavMeshObstacle navMeshObstacle = spawnHolder.AddComponent (typeof (NavMeshObstacle)) as NavMeshObstacle;
 		navMeshObstacleSize.x -= obstacleSizeCut;
 		navMeshObstacleSize.y -= obstacleSizeCut;
 		navMeshObstacleSize.z += obstacleHeightAdd;
 		navMeshObstacle.size = navMeshObstacleSize;
 		navMeshObstacle.carving = true;
-		spawnHolder.name = PO.team + " - bldg - " + netId;
+		spawnHolder.name = PO.team + " - bldg - " + id.netId;
 
 		spawnHolder.GetComponent<BuildingStats> ().netPlayer = PO;
-		BuildingUnit buildingUnit = spawnHolder.GetComponent<BuildingUnit> ();
+		GraphicsHolder graphicsHolder = spawnHolder.GetComponentInChildren<GraphicsHolder> ();
+
 		buildingUnit.team = PO.team;
-		Renderer[] renderers = buildingUnit.teamColoredGfx;
-		if (renderers.Length > 0)
-			for (int i = 0; i < renderers.Length; i++) {
-				renderers[i].material.color = PO.selectedColor[t - 1];
-			}
+		if (graphicsHolder != null)
+			graphicsHolder.colorize (LobbyManager.singleton.GetComponent<LobbyManager> ().gameColors.gameColorList () [PO.colorIndex]);
 		PO.myBuildings.Add (spawnHolder);
 
 	}
 	#endregion
-	#region "Network Spawn Rubble"
-	[Command]
-	void CmdSpawnRubble (int buildingSpawnIndex, Vector3 position, Quaternion rotation, int t) {
-		int rubbleIndex = 2;
-		//Copying the components of the building to the rubble
-		GameObject rubble = NetworkManager.singleton.spawnPrefabs[rubbleIndex];
-		GameObject building = NetworkManager.singleton.spawnPrefabs[buildingSpawnIndex];
-		BoxCollider buildingCollider = building.GetComponent<BoxCollider> ();
-		Vector3 rubbleSize = rubble.transform.localScale;
-		rubbleSize.x = buildingCollider.size.x;
-		rubbleSize.z = buildingCollider.size.z;
-		rubble.transform.localScale = rubbleSize;
 
-		NavMeshObstacle navMeshObstacle = rubble.GetComponent<NavMeshObstacle> ();
-		Vector3 obstacleSize = new Vector3 (1, 1, 1);
-		obstacleSize.x -= Mathf.Clamp (obstacleSizeCut, 1, int.MaxValue) / 10f;
-		obstacleSize.y += Mathf.Clamp (obstacleHeightAdd / 100f, 2, int.MaxValue);
-		obstacleSize.z -= Mathf.Clamp (obstacleSizeCut, 1, int.MaxValue) / 10f;
-		navMeshObstacle.size = obstacleSize;
+	public void AssignData (GameObject spawnHolder, int spawnableIndex, BuildingUnit buildingUnit, Vector3 navMeshObstacleSize) {
+		//Assign data
 
-		//Assign data for the rubble
-		ConstructionInteractable constructionInteractable = rubble.GetComponent<ConstructionInteractable> ();
-		constructionInteractable.constructionTime = building.GetComponent<BuildingUnit> ().constructionTime;
-		constructionInteractable.buildingIndex = buildingSpawnIndex;
-		constructionInteractable.team = t;
-		if (rubbleSize.x > rubbleSize.z)
-			constructionInteractable.influenceRadius = rubbleSize.x + 1;
+		buildingUnit.team = PO.team;
+		buildingUnit.buildingType = buildingGroups.buildings[spawnableIndex].type;
+
+		BuildingInteractable buildingInteractable = null;
+		switch (buildingGroups.buildings[spawnableIndex].type) {
+			case BuildingType.Barracks:
+				buildingInteractable = spawnHolder.AddComponent<BuildingInteractable> ();
+				break;
+			case BuildingType.TownCenter:
+				buildingInteractable = spawnHolder.AddComponent<BuildingInteractable> ();
+				break;
+			case BuildingType.Tower:
+				buildingInteractable = spawnHolder.AddComponent<BuildingInteractable> ();
+				break;
+			case BuildingType.SupplyChain:
+				buildingInteractable = spawnHolder.AddComponent<SupplyChainInteractable> ();
+				break;
+		}
+		if (navMeshObstacleSize.x > navMeshObstacleSize.z)
+			buildingInteractable.influenceRadius = navMeshObstacleSize.x + 1;
 		else
-			constructionInteractable.influenceRadius = rubbleSize.z + 1;
-		constructionInteractable.playerObject = PO;
-		//Instantiating the rubble
-		rubble = Instantiate (rubble, position, rotation);
+			buildingInteractable.influenceRadius = navMeshObstacleSize.z + 1;
+		//end of assignments
 
-		NetworkIdentity ni = rubble.GetComponent<NetworkIdentity> ();
-		Debug.Log ("Player Object :: --Spawning Unit");
-		NetworkServer.Spawn (rubble);
-		bool ToF = rubble.GetComponent<NetworkIdentity> ().AssignClientAuthority (GetComponent<NetworkIdentity> ().connectionToClient);
-
-		Debug.Log ("Player Object :: --Unit Spawned : " + ToF);
-		RpcSpawnRubble (ni, t);
 	}
-
-	[ClientRpc]
-	void RpcSpawnRubble (NetworkIdentity ni, int t) {
-		ConstructionInteractable constructionInteractable = ni.gameObject.GetComponent<ConstructionInteractable> ();
-		constructionInteractable.playerObject = PO;
-		constructionInteractable.team = t;
-	}
-	#endregion
 
 }

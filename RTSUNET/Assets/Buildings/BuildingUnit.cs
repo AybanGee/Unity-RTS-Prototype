@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class BuildingUnit : MonoBehaviour {
-	public Renderer[] teamColoredGfx;
 	public int team;
 
 	public int buildingPrice;
@@ -17,7 +16,7 @@ public class BuildingUnit : MonoBehaviour {
 	private float startTime;
     private float journeyLength;
 
-	public bool AscendOnStart = false;
+	public bool AscendOnStart = true;
 	void Start(){
 		if(AscendOnStart){
 		startingPos = originalPos = this.transform.position;

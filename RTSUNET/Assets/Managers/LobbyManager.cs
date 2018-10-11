@@ -12,6 +12,8 @@ public class LobbyManager : NetworkLobbyManager {
 
 	public GameObject playerCanvas;
 
+	public GameColorsScriptable gameColors;
+
 	#region "Host & Client Controls"
 	public void CtrStartHost () {
 		StartHost ();
@@ -56,7 +58,8 @@ public class LobbyManager : NetworkLobbyManager {
 		PlayerObject po = gamePlayer.GetComponent<PlayerObject> ();
 		po.playerName = lb.P_name;
 		po.team = lb.team;
-		po.faction = lb.faction;
+		po.factionIndex = lb.faction;
+		po.colorIndex = lb.colorIndex;
 		po.playerId = (int) lobbyPlayer.GetComponent<NetworkIdentity> ().netId.Value;
 		Debug.Log ("Transition method of team" + lb.team);
 		bool value = base.OnLobbyServerSceneLoadedForPlayer (lobbyPlayer, gamePlayer);

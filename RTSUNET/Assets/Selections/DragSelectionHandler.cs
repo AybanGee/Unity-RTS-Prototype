@@ -36,7 +36,7 @@ public class DragSelectionHandler : NetworkBehaviour, IBeginDragHandler, IDragHa
 	public void AssignPlayerObject(PlayerObject po){
 		playerObject = po;
 
-		Color boxColor = playerObject.selectedColor[playerObject.team - 1];
+		Color boxColor = LobbyManager.singleton.GetComponent<LobbyManager>().gameColors.gameColorList()[playerObject.colorIndex];
 		boxColor.a = 1f;
 		selectionBoxImage.color = boxColor;
 	}
