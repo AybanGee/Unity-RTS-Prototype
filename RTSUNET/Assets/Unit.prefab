@@ -90,15 +90,15 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4776868487123672}
-  - component: {fileID: 114141500828083248}
-  - component: {fileID: 195191349451015882}
   - component: {fileID: 114421189507106826}
   - component: {fileID: 114327582611424052}
-  - component: {fileID: 114075745521299872}
   - component: {fileID: 114969662613111720}
   - component: {fileID: 114871956189181334}
-  - component: {fileID: 136838372543091072}
   - component: {fileID: 114454430395350744}
+  - component: {fileID: 114141500828083248}
+  - component: {fileID: 195191349451015882}
+  - component: {fileID: 114075745521299872}
+  - component: {fileID: 136838372543091072}
   m_Layer: 0
   m_Name: Unit
   m_TagString: Untagged
@@ -449,12 +449,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f14c184263b0564ba71889987d5458d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 2
+  rangeRadius: 5
+  influenceRadius: 5
   isFocus: 0
   interactionTransform: {fileID: 0}
-  unit: {fileID: 0}
+  interactors: []
   hasInteracted: 0
   isInteracting: 0
+  myStats: {fileID: 0}
+  interactorCombat: {fileID: 0}
+  isAttacking: 0
 --- !u!114 &114871956189181334
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -473,6 +477,7 @@ MonoBehaviour:
   armor:
     baseValue: 0
   netPlayer: {fileID: 0}
+  unitInteractable: {fileID: 0}
 --- !u!114 &114969662613111720
 MonoBehaviour:
   m_ObjectHideFlags: 1

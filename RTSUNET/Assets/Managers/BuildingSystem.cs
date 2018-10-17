@@ -19,7 +19,7 @@ public class BuildingSystem : NetworkBehaviour {
 	bool isValidLocation = true;
 	[HideInInspector]
 	public PlayerObject PO;
-	[SerializeField]
+	
 	Vector3 buildingOffset = new Vector3 (0, 0, 0);
 	[SerializeField]
 	int obstacleSizeCut = 2;

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-[RequireComponent (typeof (CharStats))]
 public class UnitInteractable : Interactable {
 	public CharStats myStats;
 	public UnitCombat interactorCombat;

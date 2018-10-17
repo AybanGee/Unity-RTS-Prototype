@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbb0aad43ed5bb140a4e58d2cedeb1d0, type: 3}
+  m_Name: Manananggal
+  m_EditorClassIdentifier: 
+  name: Manananggal
+  faction: 1
+  tier: 0
+  battleType: 0
+  description: This is a vicious character that is halfbodied
+  artwork: {fileID: 0}
+  manaCost: 50
+  creationTime: 20
+  graphics: {fileID: 1960991594554096, guid: 7078fe9a23cbcd64598694a0f054b961, type: 2}
+  abilities:
+  - {fileID: 11400000, guid: 992646d67c704e44a858599fd545c4a7, type: 2}
+  - {fileID: 11400000, guid: d734c046ee68e3249b9958d072f84f36, type: 2}

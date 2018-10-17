@@ -89,6 +89,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   obstacleSizeCut: 2
   obstacleHeightAdd: 2
+  rubbleIndex: 2
 --- !u!114 &114605971129237458
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -124,6 +125,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1705c2bbe6de8ed46b447f278499dd38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UnitSpawnIndex: 4
+  unitGroup: {fileID: 0}
 --- !u!114 &114949821193209664
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -143,6 +146,7 @@ MonoBehaviour:
   cam: {fileID: 0}
   buildingFactionGroups: {fileID: 11400000, guid: 44b765f7598b035428e1710b856a3e9c,
     type: 2}
+  unitFactionGroup: {fileID: 11400000, guid: 8fd697b59d47db64aadb40e11c6c7aa9, type: 2}
   movementMask:
     serializedVersion: 2
     m_Bits: 512

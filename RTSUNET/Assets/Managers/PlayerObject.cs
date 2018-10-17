@@ -17,6 +17,8 @@ public class PlayerObject : NetworkBehaviour {
 	public Camera cam;
 	[SerializeField]
 	BuildingFactionGroups buildingFactionGroups;
+	[SerializeField]
+	UnitFactionGroup unitFactionGroup;
 	float ang;
 	public LayerMask movementMask;
 	//passed variables
@@ -34,13 +36,18 @@ public class PlayerObject : NetworkBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
-		BuildSys = GetComponent<BuildingSystem>();
-		if(BuildSys == null){Debug.LogError("Building System not found on player object"); }
-		else{
-			BuildSys.buildingGroups = buildingFactionGroups.buildingFactionDictionary[(Factions)factionIndex];
-		
-		}		
+
+		BuildSys = GetComponent<BuildingSystem> ();
+		if (BuildSys == null) { Debug.LogError ("Building System not found on player object"); } else {
+			BuildSys.buildingGroups = buildingFactionGroups.buildingFactionDictionary[(Factions) factionIndex];
+
+		}
+
+		UnitSys = GetComponent<UnitSystem> ();
+		if (UnitSys == null) { Debug.LogError ("Unit System not found on player object"); } else {
+			UnitSys.unitGroup = unitFactionGroup.factionUnitDictionary[(Factions) factionIndex];
+
+		}
 
 		if (isLocalPlayer == false) {
 			//This object belongs to another player.
@@ -51,15 +58,7 @@ public class PlayerObject : NetworkBehaviour {
 		}
 		//Setup Systems
 
-		
-		UnitSys = GetComponent<UnitSystem>();
-		if(BuildSys == null){Debug.LogError("Unit System not found on player object"); }
-		else{
-			BuildSys.buildingGroups = buildingFactionGroups.buildingFactionDictionary[(Factions)factionIndex];
-		
-		}		
-		
-		
+
 
 		gameObject.name = gameObject.name + "NID" + GetComponent<NetworkIdentity> ().netId;
 
@@ -69,7 +68,7 @@ public class PlayerObject : NetworkBehaviour {
 
 	}
 	//builder vars
-	
+
 	void Update () {
 		//Remember: Update runs on EVERYONE's computer, wether or not they own this
 		//particular player object.
@@ -79,17 +78,17 @@ public class PlayerObject : NetworkBehaviour {
 
 		//Spawns Unit DEBUG ONLY
 		if (Input.GetKeyDown (KeyCode.Space)) {
-			UnitSys.spawnUnit (0,new Vector3(17f,-1f,25f),Quaternion.identity);
-	
+			UnitSys.spawnUnit (0, new Vector3 (17f, -1f, 25f), Quaternion.identity);
+
 		}
 		if (Input.GetKeyDown (KeyCode.M)) {
-			UnitSys.spawnUnit (3,new Vector3(17f,-1f,25f),Quaternion.identity);
+			UnitSys.spawnUnit (1, new Vector3 (17f, -1f, 25f), Quaternion.identity);
 		}
 		if (Input.GetKeyDown (KeyCode.B)) {
 			BuildSys.ToggleBuildMode ();
 		}
 		if (BuildSys.buildMode) {
-			BuildSys.BuildingControl();
+			BuildSys.BuildingControl ();
 		} else
 			//Move selected units to point
 			if (Input.GetMouseButtonDown (1)) {
@@ -105,32 +104,29 @@ public class PlayerObject : NetworkBehaviour {
 					Interactable interactable = hit.collider.GetComponent<Interactable> ();
 					//.Log("JORI JORI AJA AJA " + hit.collider.name);
 					if (interactable != null) {
-						
 
-							if (myUnits.Count > 0)
-								foreach (GameObject unit in selectedUnits) {
-									//TO BE REMOVED IF FOUNF SOLUTION ON NOT DELETEiNG OBJECTS
-									if (unit == null) {
-										selectedUnits.Remove (unit);
-										continue;
-									}
-									
-
-									unit.GetComponent<Unit> ().SetFocus (interactable);
+						if (myUnits.Count > 0)
+							foreach (GameObject unit in selectedUnits) {
+								//TO BE REMOVED IF FOUNF SOLUTION ON NOT DELETEiNG OBJECTS
+								if (unit == null) {
+									selectedUnits.Remove (unit);
+									continue;
 								}
-							return;
+
+								unit.GetComponent<UnitNew> ().SetFocus (interactable);
+							}
+						return;
 
 					}
 				}
 
-				
 				if (Physics.Raycast (ray, out hit, 10000, movementMask)) {
 					moveUnits (hit.point);
 				}
 
 			}
 	}
-	
+
 	#region "Unit Selection"
 	public void DeselectAll (BaseEventData eventData) { //if(!isLocalPlayer)return;
 		CleanSelection (selectedUnits);
@@ -173,14 +169,13 @@ public class PlayerObject : NetworkBehaviour {
 			if (gos[i] == null) {
 				continue;
 			}
-			gos[i].GetComponent<Unit> ().RemoveFocus ();
-			gos[i].GetComponent<Unit> ().MoveToPoint (hit + offset);
+			gos[i].GetComponent<UnitNew> ().RemoveFocus ();
+			gos[i].GetComponent<UnitNew> ().MoveToPoint (hit + offset);
 
 			rowCount++;
 		}
 		yield return null;
 	}
 	#endregion
-
 
 }

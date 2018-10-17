@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
-[RequireComponent (typeof (CharStats))]
+
 public class UnitCombat : NetworkBehaviour {
 	public float attackSpeed = 1f;
 	CharStats myStats;

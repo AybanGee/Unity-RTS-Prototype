@@ -8,13 +8,12 @@ public class Unit : NetworkBehaviour {
 
 	public int team;
 	
-	public Interactable focus;
-
-	public UnitMotor motor;
+[HideInInspector]	public Interactable focus;
+[HideInInspector]	public UnitMotor motor;
 
 	public UnitType unitType;
 
-	public PlayerObject playerObject;
+[HideInInspector]	public PlayerObject playerObject;
 
 	// Use this for initialization
  //public NetworkIdentity netIdNiPo;
