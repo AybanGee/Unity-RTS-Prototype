@@ -25,3 +25,4 @@ MonoBehaviour:
   abilities:
   - {fileID: 11400000, guid: d734c046ee68e3249b9958d072f84f36, type: 2}
   unitType: 4
+  speed: 20

@@ -9,6 +9,8 @@ public class PlayerObject : NetworkBehaviour {
 	#region "SYSTEMS"
 	public BuildingSystem BuildSys;
 	public UnitSystem UnitSys;
+
+	public UIGameManager uiGameManager;
 	#endregion
 
 	public List<GameObject> selectedUnits = new List<GameObject> ();
@@ -19,7 +21,6 @@ public class PlayerObject : NetworkBehaviour {
 	BuildingFactionGroups buildingFactionGroups;
 	[SerializeField]
 	UnitFactionGroup unitFactionGroup;
-	float ang;
 	public LayerMask movementMask;
 	//passed variables
 	[SyncVar]
@@ -53,12 +54,11 @@ public class PlayerObject : NetworkBehaviour {
 			//This object belongs to another player.
 			return;
 		}
-		if (DragSelectionHandler.singleton.playerObject == null) {
-			DragSelectionHandler.singleton.AssignPlayerObject (this);
+		if (UIGameManager.singleton != null) {
+			uiGameManager = UIGameManager.singleton;
+			uiGameManager.Initialize (this);
 		}
 		//Setup Systems
-
-
 
 		gameObject.name = gameObject.name + "NID" + GetComponent<NetworkIdentity> ().netId;
 
@@ -67,7 +67,27 @@ public class PlayerObject : NetworkBehaviour {
 		cam = Camera.main;
 
 	}
-	//builder vars
+	string DebugText (GameObject inspect) {
+		string s = "Debug:";
+		//running on what;
+		s += isServer? " Server": " Client";
+		//selected
+		s += "\nSelected Unit Count:" + selectedUnits.Count;
+		//one unit selected
+		if (inspect) {
+			s += "\nSelected:" + inspect.name;
+			try {
+				s += "\n • ID:" + inspect.GetComponent<NetworkBehaviour> ().netId;
+				s += "\n • Is Able:" + ((inspect.GetComponent<MonoUnitFramework> () != null) ? "Yes | Count:"+ inspect.GetComponent<MonoUnitFramework> ().abilities.Count :"No");
+				s += "\n • Is Damageable:" + ((inspect.GetComponent<Damageable> () != null) ? "Yes | Health:" + inspect.GetComponent<Damageable> ().currentHealth: "No");
+				s += "\n • Is Attacker:" + ((inspect.GetComponent<Attacker> () != null) ? "Yes | Skill(s):" + inspect.GetComponent<Attacker> ().skills.Count : "No");
+			} catch (System.Exception) {
+				s += "\nNot Unit";
+			}
+		}
+		return s;
+
+	}
 
 	void Update () {
 		//Remember: Update runs on EVERYONE's computer, wether or not they own this
@@ -75,7 +95,15 @@ public class PlayerObject : NetworkBehaviour {
 		if (isLocalPlayer == false) {
 			return;
 		}
-
+		
+		//DEBUGGING
+		Ray _ray = cam.ScreenPointToRay (Input.mousePosition);
+		RaycastHit _hit;
+		if (Physics.Raycast (_ray, out _hit, 10000)) {
+		if (UIGameManager.singleton != null)
+			if (UIGameManager.singleton.debugTxt != null)
+				UIGameManager.singleton.debugTxt.text = DebugText (_hit.collider.gameObject);
+		}
 		//Spawns Unit DEBUG ONLY
 		if (Input.GetKeyDown (KeyCode.Space)) {
 			UnitSys.spawnUnit (0, new Vector3 (17f, -1f, 25f), Quaternion.identity);
@@ -101,7 +129,7 @@ public class PlayerObject : NetworkBehaviour {
 
 				if (Physics.Raycast (ray, out hit, 10000)) {
 
-					Interactable interactable = hit.collider.GetComponent<Interactable> ();
+					MonoUnitFramework interactable = hit.collider.GetComponent<MonoUnitFramework> ();
 					//.Log("JORI JORI AJA AJA " + hit.collider.name);
 					if (interactable != null) {
 
@@ -112,8 +140,11 @@ public class PlayerObject : NetworkBehaviour {
 									selectedUnits.Remove (unit);
 									continue;
 								}
-
-								unit.GetComponent<UnitNew> ().SetFocus (interactable);
+								MonoUnit monoUnit = unit.GetComponent<MonoUnit> ();
+								MonoSkill skill = defaultSkill (monoUnit);
+								Debug.Log ("Applying default skill " + skill);
+								if (skill == null) continue;
+								monoUnit.SetFocus (interactable, skill);
 							}
 						return;
 
@@ -125,10 +156,30 @@ public class PlayerObject : NetworkBehaviour {
 				}
 
 			}
-	}
 
+		//DEBUGGGG
+		if (selectedUnits.Count == 1 && debugToggleForGameCommands) {
+			uiGameManager.commandsHandler.ShowAbilities (selectedUnits[0].GetComponent<MonoUnit> ().abilities);
+			debugToggleForGameCommands = false;
+		}
+	}
+	bool debugToggleForGameCommands = true;
+
+	MonoSkill defaultSkill (MonoUnitFramework monoUnit) {
+		List<MonoAbility> abilities = monoUnit.abilities;
+		foreach (MonoAbility ability in abilities) {
+			List<MonoSkill> skills = ability.skills;
+			if (skills.Count <= 0) continue;
+			else return skills[0]; //returns first skill on list
+
+		}
+		return null;
+	}
 	#region "Unit Selection"
 	public void DeselectAll (BaseEventData eventData) { //if(!isLocalPlayer)return;
+		//DEBUGGGG
+		//uiGameManager.commandsHandler.ClearAbilities ();
+		debugToggleForGameCommands = true;
 		CleanSelection (selectedUnits);
 		foreach (GameObject unit in selectedUnits) {
 
@@ -145,6 +196,7 @@ public class PlayerObject : NetworkBehaviour {
 		selectedUnits = sUnits;
 	}
 	#endregion
+
 	#region "movement"
 	float offsetSize = 2;
 	int perRow = 6;
@@ -169,8 +221,8 @@ public class PlayerObject : NetworkBehaviour {
 			if (gos[i] == null) {
 				continue;
 			}
-			gos[i].GetComponent<UnitNew> ().RemoveFocus ();
-			gos[i].GetComponent<UnitNew> ().MoveToPoint (hit + offset);
+			gos[i].GetComponent<MonoUnit> ().RemoveFocus ();
+			gos[i].GetComponent<MonoUnit> ().MoveToPoint (hit + offset);
 
 			rowCount++;
 		}

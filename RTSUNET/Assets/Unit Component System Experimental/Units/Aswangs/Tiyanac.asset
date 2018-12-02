@@ -24,3 +24,5 @@ MonoBehaviour:
   graphics: {fileID: 1156041450987396, guid: f1e11a9fd519ac74b822878d3406ece2, type: 2}
   abilities:
   - {fileID: 11400000, guid: d734c046ee68e3249b9958d072f84f36, type: 2}
+  unitType: 0
+  speed: 20

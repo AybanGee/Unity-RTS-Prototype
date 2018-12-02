@@ -16,7 +16,10 @@ public class TargetedAttackSkill : AttackSkill {
 	ta.coolDownTime = this.AttackCooldown;
 	ta.IsAttackOnce = this.isAttackOnce;
 
-	attacker.attackTypes.Add(ta);
+	attacker.skills.Add(ta);
+	
+		base.Initialize(obj);
+
     }
 
 }

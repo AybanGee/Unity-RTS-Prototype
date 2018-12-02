@@ -5,21 +5,18 @@ using UnityEngine.Networking;
 
 public class Damageable : MonoAbility {
 	public int maxHealth = 100;
-	[SyncVar (hook = "OnChangeHealth")] public int currentHealth;
+	[SyncVar(hook="OnChangeHealth")] public int currentHealth;
 	[SyncVar] public int armour = 0;
 	public void Awake () {
 		currentHealth = maxHealth;
 	}
+
 	public void TakeDamage (int damage) {
 		if (!isServer) return;
 		damage -= armour;
 		damage = Mathf.Clamp (damage, 0, int.MaxValue);
 		currentHealth -= damage;
 		Debug.Log (transform.name + " takes " + damage + " damage.");
-
-		if (currentHealth <= 0)
-			Die ();
-
 	}
 
 	public void TakeHealing (int healValue) {
@@ -28,9 +25,7 @@ public class Damageable : MonoAbility {
 		currentHealth += healValue;
 		Debug.Log (transform.name + " takes " + healValue + " healing.");
 
-		if (currentHealth <= 0)
-			Die ();
-
+	
 	}
 	public virtual void TakeArmour (int value) {
 		if (!isServer) return;
@@ -51,6 +46,12 @@ public class Damageable : MonoAbility {
 
 	public virtual void Die () {
 		Debug.Log (transform.name + " died.");
+		CmdDeath();
+	}
+
+	[Command]
+	void CmdDeath(){
+		Destroy(this.gameObject);
 	}
 
 }

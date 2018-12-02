@@ -11,28 +11,8 @@ public class DragSelectionHandler : NetworkBehaviour, IBeginDragHandler, IDragHa
 	Image selectionBoxImage;
 	Vector2 startPosition;
 	Rect selectionRect;
-	public static DragSelectionHandler singleton;
 	public PlayerObject playerObject;
-	void Awake () {
-		singleton = this;
-	}
-	private void Start () {
-		
-		
-		// GameObject po = LobbyManager.singleton.client.connection.playerControllers[0].gameObject;
-	
-		// playerObject = po.GetComponent<PlayerObject> ();
-		// if (playerObject == null) {
-		// 	playerObject = PlayerObject.singleton;
-		// }
-		// if (playerObject == null) {
-		// 	//if player object still still null
-		// 	Debug.LogError ("Player Object not found in DragSelectionHandler!");
-		// 	return;
-		// }
-	
 
-	}
 	public void AssignPlayerObject(PlayerObject po){
 		playerObject = po;
 
@@ -40,30 +20,6 @@ public class DragSelectionHandler : NetworkBehaviour, IBeginDragHandler, IDragHa
 		boxColor.a = 1f;
 		selectionBoxImage.color = boxColor;
 	}
-	// public void LateStart () {
-	// 	if (playerObject != null) return;
-
-	// 	PlayerObject[] pos = FindObjectsOfType<PlayerObject> ();
-	// 	if (pos.Length <= 0) {
-	// 		Debug.LogError ("Cannot find on client");
-	// 		return;
-	// 	}
-	// 	for (int i = 0; i < pos.Length; i++) {
-	// 		if (pos[i].singleton != null) {
-	// 			playerObject = pos[i].singleton;
-	// 			break;
-	// 		}
-	// 	}
-
-	// 	if (playerObject == null) {
-	// 		//if player object still still null
-	// 		Debug.LogError ("Player Object not found in CLIENT DragSelectionHandler!");
-	// 		return;
-	// 	}
-	// 	Color boxColor = playerObject.selectedColor[playerObject.team - 1];
-	// 	boxColor.a = 1f;
-	// 	selectionBoxImage.color = boxColor;
-	// }
 	public void OnBeginDrag (PointerEventData eventData) {
 		if(!Input.GetMouseButton(0))return;
 		if (!Input.GetKey (KeyCode.LeftControl) && !Input.GetKey (KeyCode.RightControl))

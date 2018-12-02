@@ -21,7 +21,9 @@ public Vector3 offset;
 	ba.count = this.count;
 	
 
-	attacker.attackTypes.Add(ba);
+	attacker.skills.Add(ba);
+	
+		base.Initialize(obj);
     }
 
 }

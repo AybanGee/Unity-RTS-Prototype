@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public abstract class Attack : MonoSkill{
+public abstract class Attack : MonoSkill {
 	public int damage = 5;
-	public float range = 3;
 	public float coolDownTime = 1;
 	private float currentTime = 0;
 	public bool IsAttackOnce = false;
@@ -13,10 +12,15 @@ public abstract class Attack : MonoSkill{
 	bool hasAttacked = false;
 	Coroutine attackCoroutine;
 
-	void Update () {
+	new void Update () {
+		base.Update();
 		if (hasAttacked && currentTime > 0) {
 			currentTime -= Time.deltaTime;
 		}
+	}
+
+	public override void Stop () {
+		StopAttack ();
 	}
 
 	#region General Attack Types
@@ -31,14 +35,14 @@ public abstract class Attack : MonoSkill{
 			attackCoroutine = StartCoroutine (AttackContinuous (targetDamageable));
 	}
 	//Attack with known target intervaled
-	public virtual void DoAttack (Damageable[] targetDamageable,float interval, int count) {
+	public virtual void DoAttack (Damageable[] targetDamageable, float interval, int count) {
 		Debug.Log ("gonna ATTACKING");
 		if (targetDamageable == null) return;
 
 		isAttacking = true;
 		if (IsAttackOnce) AttackOnce (targetDamageable);
 		else
-			attackCoroutine = StartCoroutine (AttackIntervaled (targetDamageable,interval,count));
+			attackCoroutine = StartCoroutine (AttackIntervaled (targetDamageable, interval, count));
 	}
 	#endregion
 
@@ -86,13 +90,13 @@ public abstract class Attack : MonoSkill{
 
 	//Intervaled Attack
 	IEnumerator AttackIntervaled (Damageable[] targetDamageable, float interval, int count) {
-		if(count <=0){Debug.LogError("Cannot have a intervaled attack with a count less than one"); yield return null;}
-		if(interval <=0){Debug.LogError("Cannot have a intervaled attack with an interval less than one"); yield return null;}
+		if (count <= 0) { Debug.LogError ("Cannot have a intervaled attack with a count less than one"); yield return null; }
+		if (interval <= 0) { Debug.LogError ("Cannot have a intervaled attack with an interval less than one"); yield return null; }
 		if (targetDamageable == null) yield return null;
 		if (currentTime > 0) yield return null;
 
 		currentTime = coolDownTime;
-			for(int i = 0; i<= count; i++) {
+		for (int i = 0; i <= count; i++) {
 
 			if (targetDamageable.Length <= 0) StopAttack ();
 
@@ -118,13 +122,15 @@ public abstract class Attack : MonoSkill{
 	#endregion
 
 	[Command] void CmdDoDamage (NetworkIdentity targerStatsID, int damage) {
-		targerStatsID.gameObject.GetComponent<UnitStats> ().TakeDamage (damage);
+		Debug.Log ("Do Damage");
+		targerStatsID.gameObject.GetComponent<Damageable> ().TakeDamage (damage);
 	}
 
 	public void StopAttack () {
 		Debug.Log ("Stopped Attacking");
 		isAttacking = false;
-		StopCoroutine (attackCoroutine);
+		if (attackCoroutine != null)
+			StopCoroutine (attackCoroutine);
 	}
 
 }

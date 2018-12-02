@@ -5,7 +5,9 @@ public abstract class AttackSkill : Skill
 {
     public float AttackCooldown = 1f;
     public int damage = 3;
-    public float attackRange = 3;
 	public bool isAttackOnce = false;
+
+    
+    
 
 }

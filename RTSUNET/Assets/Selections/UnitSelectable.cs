@@ -7,7 +7,7 @@ public class UnitSelectable : MonoBehaviour, ISelectHandler, IPointerClickHandle
 	public bool isSelected;
 	public PlayerObject playerObject;
 
-	public Unit unit;
+	public MonoUnit unit;
 
 	Renderer myRenderer;
 
@@ -18,7 +18,8 @@ public class UnitSelectable : MonoBehaviour, ISelectHandler, IPointerClickHandle
 	void Start(){
 		//if(!isLocalPlayer)return;
 		myRenderer = GetComponentInChildren<Renderer>();
-		unit = GetComponent<Unit>();
+		unit = GetComponent<MonoUnit>();
+
 		if(myRenderer == null)return;
 		unselectedMat = myRenderer.material;
 		Color color = unselectedMat.color;

@@ -23,16 +23,19 @@ public class UnitSystem : NetworkBehaviour {
 		GameObject go = NetworkManager.singleton.spawnPrefabs[UnitSpawnIndex];
 		PlayerUnit playerUnit =  unitGroup.units[spawnableObjectIndex];
 		playerUnit.Initialize(go);
+		ClientScene.RegisterPrefab(go);		
 		go = Instantiate (go, position, rotation);
+		//playerUnit.Initialize(go);
+		//initialize abilities
 
 		NetworkIdentity ni = go.GetComponent<NetworkIdentity> ();
 		NetworkServer.SpawnWithClientAuthority (go, connectionToClient);
 
-		//UnitNew unit = go.GetComponent<UnitNew> ();
+		RpcAssignObject (ni, spawnableObjectIndex);
+		//MonoUnit unit = go.GetComponent<MonoUnit> ();
 		// go.GetComponent<Unit> ().graphics.GetComponent<Renderer> ().material.color = LobbyManager.singleton.GetComponent<LobbyManager>().gameColors.gameColorList()[PO.colorIndex];
 		// unit.team = PO.team;
 		// unit.playerObject =  PO;
-		RpcAssignObject (ni, spawnableObjectIndex);
 	}
 
 	[ClientRpc]
@@ -44,9 +47,8 @@ public class UnitSystem : NetworkBehaviour {
 		graphics = Instantiate (graphics, go.transform.position + offset, go.transform.rotation, go.transform);
 		graphics.GetComponent<GraphicsHolder> ().colorize (LobbyManager.singleton.GetComponent<LobbyManager> ().gameColors.gameColorList () [PO.colorIndex]);
 		//Assigning data
-		UnitNew unit = go.GetComponent<UnitNew> ();
+		MonoUnit unit = go.GetComponent<MonoUnit> ();
 		unit.team = PO.team;
-		unit.playerObject = PO;
 		//Assign data here
 	
 		go.name = PO.team + " - unit" + go.GetComponent<NetworkIdentity> ().netId;

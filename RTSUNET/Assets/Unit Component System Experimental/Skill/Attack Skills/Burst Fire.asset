@@ -11,9 +11,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fd0c7037883f2e44b788dfa7afffc25, type: 3}
   m_Name: Burst Fire
   m_EditorClassIdentifier: 
-  aName: Burst Firing
-  aSprite: {fileID: 0}
-  aSound: {fileID: 0}
+  sName: New Skill
+  sSprite: {fileID: 0}
+  sSound: {fileID: 0}
   AttackCooldown: 30
   damage: 3
   attackRange: 10

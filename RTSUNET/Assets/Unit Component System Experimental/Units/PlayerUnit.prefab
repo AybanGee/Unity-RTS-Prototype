@@ -25,6 +25,8 @@ GameObject:
   - component: {fileID: 195688819804844460}
   - component: {fileID: 114519723946226952}
   - component: {fileID: 136864921874342710}
+  - component: {fileID: 114539521005072296}
+  - component: {fileID: 114721480408503974}
   m_Layer: 0
   m_Name: PlayerUnit
   m_TagString: Untagged
@@ -56,11 +58,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d87b040a2c2713a4897c858199f9b3c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  name: Magtanggol
+  faction: 0
   team: 0
+  tier: 0
+  battleType: 0
+  description: Victor Magtanggol is a bootleg version of MCU's Thor from the non-creative
+    directors and writers of GMA. The show is one of the worst appliction of CGI in
+    Philippine national television.
+  artwork: {fileID: 0}
+  manaCost: 50
+  creationTime: 20
+  abilities:
+  - {fileID: 114539521005072296}
+  - {fileID: 114721480408503974}
+  primitiveAbilities:
+  - {fileID: 11400000, guid: 992646d67c704e44a858599fd545c4a7, type: 2}
+  - {fileID: 11400000, guid: d734c046ee68e3249b9958d072f84f36, type: 2}
   focus: {fileID: 0}
   motor: {fileID: 0}
   unitType: 0
-  playerObject: {fileID: 0}
 --- !u!114 &114519723946226952
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -82,6 +99,47 @@ MonoBehaviour:
   m_SnapThreshold: 5
   m_InterpolateRotation: 1
   m_InterpolateMovement: 1
+--- !u!114 &114539521005072296
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1046538601913074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d1ff53c4e5953f43b35b2db9ee1a70f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isTeamDependent: 1
+  isInteractable: 0
+  skills: []
+  abilityType: {fileID: 11400000, guid: 899c39ae2c81a174a8eeb1cd44d643ba, type: 2}
+  interactorAbilities: []
+  parentUnit: {fileID: 114385842693825636}
+  attackAbilities:
+  - {fileID: 11400000, guid: ec7c30140445b944da4b92adfebf19af, type: 2}
+  - {fileID: 11400000, guid: 1f6fd82afcf9c4e48b8ff3a5b11aa8c2, type: 2}
+--- !u!114 &114721480408503974
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1046538601913074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0c9899a686f04f4987fdca481215c1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isTeamDependent: 1
+  isInteractable: 1
+  skills: []
+  abilityType: {fileID: 11400000, guid: a2de5f8f8849e9945ad89cfa046f8f0e, type: 2}
+  interactorAbilities:
+  - {fileID: 11400000, guid: 899c39ae2c81a174a8eeb1cd44d643ba, type: 2}
+  parentUnit: {fileID: 114385842693825636}
+  maxHealth: 100
+  currentHealth: 0
+  armour: 0
 --- !u!114 &114790400118637612
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -94,6 +152,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
+  agent: {fileID: 0}
+  speed: 20
   followDelay: 0.25
 --- !u!114 &114813905917911944
 MonoBehaviour:

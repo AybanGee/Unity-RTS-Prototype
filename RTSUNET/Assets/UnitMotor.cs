@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.Networking;
 
 [RequireComponent (typeof (UnityEngine.AI.NavMeshAgent))]
@@ -8,12 +9,15 @@ public class UnitMotor : NetworkBehaviour {
 
 	public Transform target;
 
-	UnityEngine.AI.NavMeshAgent agent;
+	public NavMeshAgent agent;
+	public float speed;
 	public float followDelay = .25f;
 
 	void Start () {
 
 		agent = GetComponent<UnityEngine.AI.NavMeshAgent> ();
+		agent.speed = speed;
+		//set speed 
 	}
 
 	IEnumerator corFollowTarget (Transform newTarget) {
@@ -23,7 +27,7 @@ public class UnitMotor : NetworkBehaviour {
 					CmdMove (newTarget.position);
 				FaceTarget ();
 			}
-			yield return new WaitForSeconds (followDelay);
+			yield return null;
 		}
 	}
 
@@ -49,24 +53,24 @@ public class UnitMotor : NetworkBehaviour {
 	}
 	#endregion
 
-	public void FollowTarget (Interactable newTarget) {
+	public void FollowTarget (MonoUnitFramework newTarget, MonoSkill skill) {
 		if (hasAuthority == false) {
 			return;
 		}
-		agent.stoppingDistance = GetComponent<Interactable>().rangeRadius * .8f;
+		agent.stoppingDistance = skill.range * .9f;
 		agent.updateRotation = false;
-		target = newTarget.interactionTransform;
-		StartCoroutine (corFollowTarget (target));
-		CmdFollowTarget (target.GetComponent<NetworkIdentity> ());
+		target = newTarget.transform;
+		//StartCoroutine (corFollowTarget (target));
+		CmdFollowTarget (target.GetComponent<NetworkIdentity> (),skill.range);
 	}
 	#region  "followServer"
 	[Command]
-	void CmdFollowTarget (NetworkIdentity targetNi) {
-		RpcFollowTarget (targetNi);
+	void CmdFollowTarget (NetworkIdentity targetNi, float range) {
+		RpcFollowTarget (targetNi,range);
 	}
 
 	[ClientRpc]
-	void RpcFollowTarget (NetworkIdentity targetNi) {
+	void RpcFollowTarget (NetworkIdentity targetNi, float range) {
 		if (targetNi == null){
 		Debug.LogWarning("Interactable has is not on network");
 			return;
@@ -77,10 +81,9 @@ public class UnitMotor : NetworkBehaviour {
 
 		if (newTarget == null) return;
 
-		Interactable interactable = newTarget.GetComponent<Interactable> ();
-		agent.stoppingDistance =  GetComponent<Interactable>().rangeRadius * .8f;
+		agent.stoppingDistance =  range * .9f;
 		agent.updateRotation = false;
-		target = interactable.interactionTransform;
+		target = newTarget;
 		StartCoroutine (corFollowTarget (target));
 	}
 	#endregion

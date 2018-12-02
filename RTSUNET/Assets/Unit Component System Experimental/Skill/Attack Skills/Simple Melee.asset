@@ -11,9 +11,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05477fafcbc62de4089e399bdb8395ff, type: 3}
   m_Name: Simple Melee
   m_EditorClassIdentifier: 
-  aName: Simple Melee
-  aSprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
-  aSound: {fileID: 0}
+  sName: New Skill
+  sSprite: {fileID: 0}
+  sSound: {fileID: 0}
   AttackCooldown: 1
   damage: 3
   attackRange: 3

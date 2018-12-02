@@ -1,25 +1,48 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-[CreateAssetMenu(fileName = "New Damageable Ability", menuName = "Ability/Damageable")]
-public class DamageableAbility : DamageableEnum {
+using UnityEngine.Networking;
+[CreateAssetMenu (fileName = "New Damageable Ability", menuName = "Ability/Damageable")]
+public class DamageableAbility : Ability {
 	public int maxHealth = 100;
 	public int armour = 0;
-	public override void Initialize(GameObject go){
-	//Gets Component Unit New
-		UnitNew unit = go.GetComponent<UnitNew>();
+	public override void Initialize (GameObject go, int abilityID) {
+		Initialize (go.GetComponent<NetworkIdentity> ());
+		base.Initialize (go, abilityID);
+	}
 
-		Damageable damageable = go.AddComponent<Damageable>();
+	 public void Initialize (NetworkIdentity ni) {
+		GameObject go = ni.gameObject;
+		//Gets Component Unit New
+		MonoUnit unit = go.GetComponent<MonoUnit> ();
+
+		Damageable damageable = go.AddComponent<Damageable> ();
 		damageable.maxHealth = maxHealth;
 		damageable.armour = armour;
 
-			//Add it to the unit
-		unit.abilities.Add(damageable);
+		//Add ability origin
+		damageable.abilityType = abilityType;
+		damageable.interactorAbilities = interactorAbilities;
+
+		//Add it to the unit
+		unit.abilities.Add (damageable);
+		RpcInitialize (ni);
 	}
-}
 
+	[ClientRpc] public void RpcInitialize (NetworkIdentity ni) {
+		GameObject go = ni.gameObject;
+		//Gets Component Unit New
+		MonoUnit unit = go.GetComponent<MonoUnit> ();
 
-[CreateAssetMenu(fileName = "New Attack Ability", menuName = "Ability/Enums/Damageable")]
-public class DamageableEnum : Ability{
+		Damageable damageable = go.GetComponent<Damageable> ();
+		damageable.maxHealth = maxHealth;
+		damageable.armour = armour;
 
+		//Add ability origin
+		damageable.abilityType = abilityType;
+		damageable.interactorAbilities = interactorAbilities;
+
+		//Add it to the unit
+		//unit.abilities.Add (damageable);
+	}
 }

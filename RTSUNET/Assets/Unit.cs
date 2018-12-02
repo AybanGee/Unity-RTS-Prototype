@@ -34,7 +34,7 @@ public class Unit : NetworkBehaviour {
 				Debug.Log("OnDefocused");
 			}
 			focus = newFocus;
-			motor.FollowTarget(newFocus);
+			//motor.FollowTarget(newFocus);
 		}
 		//Debug.Log("New Focus " + GetComponent<Interactable>());
 		newFocus.OnFocused(GetComponent<Interactable>());
