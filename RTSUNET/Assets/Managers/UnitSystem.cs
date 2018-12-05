@@ -22,9 +22,17 @@ public class UnitSystem : NetworkBehaviour {
 	public void CmdSpawnObject (int spawnableObjectIndex, Vector3 position, Quaternion rotation) {
 		GameObject go = NetworkManager.singleton.spawnPrefabs[UnitSpawnIndex];
 		PlayerUnit playerUnit =  unitGroup.units[spawnableObjectIndex];
-		playerUnit.Initialize(go);
-		ClientScene.RegisterPrefab(go);		
+
 		go = Instantiate (go, position, rotation);
+		MonoUnitFramework muf = go.GetComponent<MonoUnitFramework>();
+		muf.playerUnit = playerUnit;
+		muf.PO = PO;
+		
+
+		playerUnit.Initialize(go);	
+		//ClientScene.RegisterPrefab(go);	
+			
+		
 		//playerUnit.Initialize(go);
 		//initialize abilities
 
@@ -37,6 +45,8 @@ public class UnitSystem : NetworkBehaviour {
 		// unit.team = PO.team;
 		// unit.playerObject =  PO;
 	}
+
+	
 
 	[ClientRpc]
 	public void RpcAssignObject (NetworkIdentity id, int spawnableObjectIndex) {

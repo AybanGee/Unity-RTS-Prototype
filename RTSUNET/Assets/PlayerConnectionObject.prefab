@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 114799433701067554}
   - component: {fileID: 114349574003385586}
   m_Layer: 0
-  m_Name: PlayerConnectionObject 1
+  m_Name: PlayerConnectionObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -111,7 +111,6 @@ MonoBehaviour:
   invalidPlaceholderMat: {fileID: 2100000, guid: 1cbb0278905ea504c98ae4b6e20e2ae0,
     type: 2}
   PO: {fileID: 0}
-  buildingOffset: {x: 0, y: 0, z: 0}
   obstacleSizeCut: 2
   obstacleHeightAdd: 2
 --- !u!114 &114799433701067554
@@ -140,6 +139,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BuildSys: {fileID: 0}
   UnitSys: {fileID: 0}
+  uiGameManager: {fileID: 0}
   selectedUnits: []
   myUnits: []
   myBuildings: []

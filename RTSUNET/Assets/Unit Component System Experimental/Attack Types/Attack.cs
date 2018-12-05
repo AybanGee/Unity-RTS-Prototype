@@ -11,6 +11,10 @@ public abstract class Attack : MonoSkill {
 	bool isAttacking = false;
 	bool hasAttacked = false;
 	Coroutine attackCoroutine;
+	MonoUnitFramework attacker;
+	new void Start(){
+		attacker = GetComponent<MonoUnitFramework>();
+	}
 
 	new void Update () {
 		base.Update();
@@ -58,7 +62,7 @@ public abstract class Attack : MonoSkill {
 		hasAttacked = true;
 
 		for (int i = 0; i < targetDamageable.Length; i++) {
-			CmdDoDamage (targetDamageable[i].GetComponent<NetworkIdentity> (), damage);
+			attacker.CmdDoDamage (targetDamageable[i].GetComponent<NetworkIdentity> (), damage);
 		}
 
 	}
@@ -78,7 +82,7 @@ public abstract class Attack : MonoSkill {
 				} else {
 					Debug.Log ("GOINH to take damage");
 
-					CmdDoDamage (targetDamageable[i].GetComponent<NetworkIdentity> (), damage);
+					attacker.CmdDoDamage (targetDamageable[i].GetComponent<NetworkIdentity> (), damage);
 				}
 
 			}
@@ -109,7 +113,7 @@ public abstract class Attack : MonoSkill {
 				} else {
 					Debug.Log ("GOINH to take damage");
 
-					CmdDoDamage (targetDamageable[j].GetComponent<NetworkIdentity> (), damage);
+					attacker.CmdDoDamage (targetDamageable[j].GetComponent<NetworkIdentity> (), damage);
 				}
 
 			}
@@ -121,10 +125,7 @@ public abstract class Attack : MonoSkill {
 	}
 	#endregion
 
-	[Command] void CmdDoDamage (NetworkIdentity targerStatsID, int damage) {
-		Debug.Log ("Do Damage");
-		targerStatsID.gameObject.GetComponent<Damageable> ().TakeDamage (damage);
-	}
+
 
 	public void StopAttack () {
 		Debug.Log ("Stopped Attacking");

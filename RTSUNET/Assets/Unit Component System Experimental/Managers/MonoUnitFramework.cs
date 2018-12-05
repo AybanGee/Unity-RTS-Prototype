@@ -3,18 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 public abstract class MonoUnitFramework : NetworkBehaviour {
-	[HideInInspector] public new string name;
+	 public new string name;
 	[HideInInspector] public Factions faction;
-	[HideInInspector][SyncVar] public int team;
+	[SyncVar] public int team;
 	[HideInInspector] public int tier;
 	[HideInInspector] public BattleType battleType;
 	[HideInInspector] public string description;
 	[HideInInspector] public Sprite artwork;
 	[HideInInspector] public int manaCost = 50;
 	[HideInInspector] public int creationTime = 50;
+	[HideInInspector] public PlayerObject PO;
+
 
 	public List<MonoAbility> abilities = new List<MonoAbility> ();
 	public List<Ability> primitiveAbilities = new List<Ability> ();
+
+	[HideInInspector] public PlayerUnit playerUnit;
+
 	
 	public void InitAbilities () {
 		if (primitiveAbilities.Count <= 0) { Debug.LogWarning ("This object does not have any ability!"); return; }
@@ -35,5 +40,23 @@ public abstract class MonoUnitFramework : NetworkBehaviour {
 			abilities[i].StopSkills ();
 		}
 	}
+
+	public void OnStartClientAuthority(){
+		if(isServer) return;
+		playerUnit.Initialize(this.gameObject);
+	}
+
+	void Awake () {
+		InitAbilities ();
+	}
+
+	//Unit Actions
+	//Damage
+	[Command] public void CmdDoDamage (NetworkIdentity targerStatsID, int damage) {
+		Debug.Log ("Do Damage");
+		targerStatsID.gameObject.GetComponent<Damageable> ().TakeDamage (damage);
+	}
+
+	
 
 }
