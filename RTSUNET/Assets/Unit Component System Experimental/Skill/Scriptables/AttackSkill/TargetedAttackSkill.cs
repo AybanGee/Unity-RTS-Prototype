@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Target Attack Skill", menuName = "Skill/Attacking/Target Attack")]
 public class TargetedAttackSkill : AttackSkill {
 
-	public override void Initialize(GameObject obj)
+	public override void Initialize(GameObject obj, MonoAbility ma)
 	{	
 		//Gets component attacker
 	Attacker attacker = obj.GetComponent<Attacker>();
@@ -18,7 +18,9 @@ public class TargetedAttackSkill : AttackSkill {
 
 	attacker.skills.Add(ta);
 	
-		base.Initialize(obj);
+
+	Debug.Log("Init"+this.name);
+	base.Initialize(obj,ma);
 
     }
 

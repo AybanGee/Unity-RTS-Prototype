@@ -13,6 +13,8 @@ public class LobbyManager : NetworkLobbyManager {
 	public GameObject playerCanvas;
 
 	public GameColorsScriptable gameColors;
+	public string mapName;
+
 
 	#region "Host & Client Controls"
 	public void CtrStartHost () {

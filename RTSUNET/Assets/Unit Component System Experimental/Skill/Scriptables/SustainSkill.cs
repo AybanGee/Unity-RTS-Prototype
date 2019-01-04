@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class SustainAbility : Skill
 {
-    public override void Initialize(GameObject obj)
+    public override void Initialize(GameObject obj, MonoAbility ma)
     {
         throw new System.NotImplementedException();
     }

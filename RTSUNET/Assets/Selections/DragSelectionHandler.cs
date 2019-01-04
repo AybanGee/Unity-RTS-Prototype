@@ -56,6 +56,9 @@ public class DragSelectionHandler : NetworkBehaviour, IBeginDragHandler, IDragHa
 		selectionBoxImage.gameObject.SetActive (false);
 		List<GameObject> units = playerObject.myUnits;
 		foreach (GameObject unit in units) {
+			//HACK!
+			if(unit == null)
+			continue;
 			if (selectionRect.Contains (Camera.main.WorldToScreenPoint (unit.transform.position))) {
 				unit.GetComponent<UnitSelectable> ().OnSelect (eventData);
 			}

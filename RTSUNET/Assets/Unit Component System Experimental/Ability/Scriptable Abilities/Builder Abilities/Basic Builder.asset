@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d33f2eb0d17bfa9498b7fcb44fa2cf6d, type: 3}
+  m_Name: Basic Builder
+  m_EditorClassIdentifier: 
+  abilityType: {fileID: 11400000, guid: f4815c854bf023b45a2cbe3fe2a0793f, type: 2}
+  interactorAbilities: []
+  isTeamDependent: 1
+  isInteractable: 0
+  builderAbilities:
+  - {fileID: 11400000, guid: 8b757f239c701d04cb0b305e929983d3, type: 2}

@@ -134,7 +134,7 @@ public class BuildingSystem : NetworkBehaviour {
 	public void CmdSpawnObject (int spawnableIndex, Vector3 position, Quaternion rotation) {
 
 		GameObject go = NetworkManager.singleton.spawnPrefabs[prefabBuildingIndex];
-
+		
 		//if (graphics == null) { Debug.LogError ("No graphics"); }
 		go = Instantiate (go, position, rotation);
 

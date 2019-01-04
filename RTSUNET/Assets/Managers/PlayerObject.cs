@@ -106,11 +106,11 @@ public class PlayerObject : NetworkBehaviour {
 		}
 		//Spawns Unit DEBUG ONLY
 		if (Input.GetKeyDown (KeyCode.Space)) {
-			UnitSys.spawnUnit (0, new Vector3 (17f, -1f, 25f), Quaternion.identity);
+			UnitSys.spawnUnit (0, new Vector3 (17f, -0.5f, 25f), Quaternion.identity);
 
 		}
 		if (Input.GetKeyDown (KeyCode.M)) {
-			UnitSys.spawnUnit (1, new Vector3 (17f, -1f, 25f), Quaternion.identity);
+			UnitSys.spawnUnit (1, new Vector3 (17f, -0.5f, 25f), Quaternion.identity);
 		}
 		if (Input.GetKeyDown (KeyCode.B)) {
 			BuildSys.ToggleBuildMode ();
@@ -194,6 +194,19 @@ public class PlayerObject : NetworkBehaviour {
 			}
 		}
 		selectedUnits = sUnits;
+	}
+
+	public void RemoveUnit(GameObject go){
+		if(selectedUnits.Contains(go))
+		selectedUnits.Remove(go);
+		if(myUnits.Contains(go))
+		myUnits.Remove(go);
+
+		if(myUnits.Contains(null))
+		Debug.Log("There is null");
+
+		CleanSelection(selectedUnits);
+
 	}
 	#endregion
 

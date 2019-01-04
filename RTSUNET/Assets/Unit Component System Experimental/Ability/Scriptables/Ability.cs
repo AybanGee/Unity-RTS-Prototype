@@ -8,6 +8,7 @@ public abstract class Ability : ScriptableObject {
     public AbilityEnum abilityType;
     public List<AbilityEnum> interactorAbilities;
     public bool isTeamDependent = true;
+    public bool isOnlyFriendly = false;
     public bool isInteractable = false;
 
     public virtual void Initialize (GameObject go,int abilityID) {
@@ -20,6 +21,7 @@ public abstract class Ability : ScriptableObject {
         MonoUnitFramework muf = go.GetComponent<MonoUnitFramework> ();
         MonoAbility ma = muf.abilities[abilityID];
         ma.isTeamDependent = isTeamDependent;
+        ma.isOnlyFriendly = isOnlyFriendly;
         ma.parentUnit = muf;
         ma.isInteractable = isInteractable;
     }
@@ -31,6 +33,6 @@ public abstract class Ability : ScriptableObject {
 
     [ClientRpc] public void RpcInitialize (NetworkIdentity ni,int abilityID) { 
         NetworkInit (ni.gameObject,abilityID); 
-        }
+    }
 
 }

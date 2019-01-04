@@ -1,6 +1,6 @@
 ﻿
 [System.Serializable]
 public class InteractionRule {
-	public Ability effector;
-	public Ability receptor;
+	public AbilityEnum effector;
+	public AbilityEnum receptor;
 }

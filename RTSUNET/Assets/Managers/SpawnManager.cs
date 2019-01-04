@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
-
+//WARN:THIS SCRIPT IS NOT USED!!!
 public abstract class SpawnManager : NetworkBehaviour {
 
 	#region Spawn Methods

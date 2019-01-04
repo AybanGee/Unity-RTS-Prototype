@@ -7,12 +7,24 @@ public abstract class MonoSkill : NetworkBehaviour {
 	public Sprite sSprite;
 	public AudioClip sSound;
     public float range = 3;
+	 	public List<string> animationTriggers;
+
 	public MonoAbility parentAbility;
 	private bool isActive = false;
 	private bool isActing = false;
 	private GameObject skillTarget;
-	public virtual void ActOn (GameObject go) { isActing = true;}
-	public virtual void Act () {  isActing = true;}
+
+
+	public virtual void ActOn (GameObject go) { 
+
+			isActing = true;
+		}
+
+	public virtual void Act () {  
+		Debug.Log("ACT!");
+			isActing = true;
+		
+		}
 	public virtual void Stop(){ isActing = false;}
 	public bool isTargetInRange(Transform target){
 		if(Vector3.Distance(this.transform.position,target.position) <= range) return true;
@@ -51,6 +63,12 @@ public abstract class MonoSkill : NetworkBehaviour {
 	private void Deactivate(){
 		skillTarget = null;
 		isActive = false;
+	}
+
+	public string pickAnimation(){
+		int randomAnimation = Random.Range(0,animationTriggers.Count);
+		Debug.Log("randomAnimation:" + randomAnimation);
+		return animationTriggers[randomAnimation];
 	}
 	#endregion
 }

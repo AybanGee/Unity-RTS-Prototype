@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbb0aad43ed5bb140a4e58d2cedeb1d0, type: 3}
+  m_Name: Mangangaso
+  m_EditorClassIdentifier: 
+  name: 
+  faction: 0
+  tier: 0
+  battleType: 0
+  description: 
+  artwork: {fileID: 0}
+  manaCost: 50
+  creationTime: 50
+  graphics: {fileID: 1960991594554096, guid: c9d4cb9549f05bd4d80a8a8cf0bd5ed8, type: 2}
+  abilities:
+  - {fileID: 11400000, guid: 992646d67c704e44a858599fd545c4a7, type: 2}
+  - {fileID: 11400000, guid: bb3d5fe2e5910464795c7c306e83a685, type: 2}
+  unitType: 0
+  speed: 15

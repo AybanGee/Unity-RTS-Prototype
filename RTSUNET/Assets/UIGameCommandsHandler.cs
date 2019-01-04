@@ -20,6 +20,7 @@ public class UIGameCommandsHandler : MonoBehaviour {
 				GameObject _skillUI = Instantiate (skillUI, Vector3.zero, Quaternion.identity, abilityTransform);
 				Image img = _skillUI.GetComponent<Image>();
 				if(img == null){Debug.LogError("NO IMAGE!");continue;}
+				if(skill.sSprite == null) Debug.LogWarning("NO SPRITE");
 				img.sprite = skill.sSprite;		
 				}
 			}

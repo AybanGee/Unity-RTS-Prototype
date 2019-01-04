@@ -7,6 +7,7 @@ public class AttackAbility : Ability {
 	public List<AttackSkill> attackAbilities = new List<AttackSkill> ();
 	public override void Initialize (GameObject go, int abilityID) {
 		Initialize(go.GetComponent<NetworkIdentity>());
+		
 		base.Initialize (go,abilityID);
 
 	}

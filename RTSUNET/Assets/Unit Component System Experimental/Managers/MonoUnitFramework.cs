@@ -24,10 +24,9 @@ public abstract class MonoUnitFramework : NetworkBehaviour {
 	public void InitAbilities () {
 		if (primitiveAbilities.Count <= 0) { Debug.LogWarning ("This object does not have any ability!"); return; }
 		if (abilities.Count > 0) { Debug.LogWarning ("This object already has initialized abilities!"); return; }
-
+		Debug.Log("Initializing " + primitiveAbilities.Count +	 " abilities");
 		//Initialize Abilities
 		for (int i = 0; i < primitiveAbilities.Count; i++) {
-			Debug.Log ("Initialize ability " + i);
 			primitiveAbilities[i].Initialize (this.gameObject, i);
 		}
 	}
@@ -50,12 +49,7 @@ public abstract class MonoUnitFramework : NetworkBehaviour {
 		InitAbilities ();
 	}
 
-	//Unit Actions
-	//Damage
-	[Command] public void CmdDoDamage (NetworkIdentity targerStatsID, int damage) {
-		Debug.Log ("Do Damage");
-		targerStatsID.gameObject.GetComponent<Damageable> ().TakeDamage (damage);
-	}
+	
 
 	
 

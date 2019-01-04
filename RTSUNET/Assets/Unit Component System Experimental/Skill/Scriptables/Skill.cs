@@ -8,16 +8,21 @@ public abstract class Skill : ScriptableObject {
     public Sprite sSprite;
     public AudioClip sSound;
     public float range = 3;
+    public List<string> animationTriggers;
 
-
-    public virtual void Initialize(GameObject obj){
-        Debug.Log("Initializing skill");
-        MonoSkill ms = obj.GetComponent<MonoSkill>();
+    public virtual void Initialize(GameObject obj, MonoAbility ma){
+        Debug.Log("Initializing skill:" + sName);
+        //TODO ensure that you are getting the apprpriate ability
+        MonoSkill ms = ma.skills[ma.skills.Count - 1];
         ms.sName = sName;
         ms.sSprite = sSprite;
         ms.sSound = sSound;
-        MonoAbility ma = obj.GetComponent<MonoAbility>();
+        ms.animationTriggers = animationTriggers;
         ms.parentAbility = ma;
+
+        Debug.Log("Animaion Triggers:" + ms.animationTriggers.Count);
 
     }
 }
+
+

@@ -12,5 +12,7 @@ MonoBehaviour:
   m_Name: AbilityRules
   m_EditorClassIdentifier: 
   Rules:
-  - effector: {fileID: 11400000, guid: 992646d67c704e44a858599fd545c4a7, type: 2}
-    receptor: {fileID: 11400000, guid: d734c046ee68e3249b9958d072f84f36, type: 2}
+  - effector: {fileID: 11400000, guid: 899c39ae2c81a174a8eeb1cd44d643ba, type: 2}
+    receptor: {fileID: 11400000, guid: a2de5f8f8849e9945ad89cfa046f8f0e, type: 2}
+  - effector: {fileID: 11400000, guid: f4815c854bf023b45a2cbe3fe2a0793f, type: 2}
+    receptor: {fileID: 11400000, guid: 38d72e6c7ce44104cb5e59d09dd2946a, type: 2}

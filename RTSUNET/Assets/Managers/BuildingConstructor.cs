@@ -5,7 +5,7 @@ using UnityEngine.AI;
 using UnityEngine.Networking;
 
 [RequireComponent(typeof(BuildingSystem))]
-public class BuildingConstructor : NetworkBehaviour, ISpawnHandler {
+public class BuildingConstructor : NetworkBehaviour {
 	int team;
 	BuildingSystem buildingSystem;
 	[SerializeField]
@@ -27,8 +27,15 @@ public class BuildingConstructor : NetworkBehaviour, ISpawnHandler {
 		Debug.Log("Spawning rubble");
 		//Copying the components of the building to the rubble
 		GameObject rubble = NetworkManager.singleton.spawnPrefabs[rubbleIndex];
+		Building bldg = buildingSystem.buildingGroups.buildings[buildingSystem.selectedBuildingIndex];
+		GameObject buildingGraphics = bldg.graphics;
+
+		//initialize mono constructable unit
+		MonoConstructableUnit mcu = rubble.GetComponent<MonoConstructableUnit>();
+		mcu.InitializeConstructable(bldg,buildingSpawnIndex,team,buildingSystem.PO);
+
+		//TODO: Find out for what this section is?
 		GameObject building = NetworkManager.singleton.spawnPrefabs[buildingSpawnIndex];
-		GameObject buildingGraphics = buildingSystem.buildingGroups.buildings[buildingSystem.selectedBuildingIndex].graphics;
 		BoxCollider buildingCollider = building.GetComponent<BoxCollider> ();
 		buildingCollider.size = buildingGraphics.transform.localScale; // + buildingGroups.buildings[selectedBuildingIndex].addedColliderScale;
 		Vector3 rubbleSize = rubble.transform.localScale;
@@ -43,9 +50,11 @@ public class BuildingConstructor : NetworkBehaviour, ISpawnHandler {
 		obstacleSize.z -= Mathf.Clamp (obstacleSizeCut, 1, int.MaxValue) / 10f;
 		navMeshObstacle.size = obstacleSize;
 
+		
+/*
 		//Assign data for the rubble
 		ConstructionInteractable constructionInteractable = rubble.GetComponent<ConstructionInteractable> ();
-		constructionInteractable.constructionTime = buildingSystem.buildingGroups.buildings[buildingSystem.selectedBuildingIndex].constructionTime;
+		constructionInteractable.constructionTime = buildingSystem.buildingGroups.buildings[buildingSystem.selectedBuildingIndex].creationTime;
 		constructionInteractable.buildingIndex = buildingSystem.selectedBuildingIndex;
 		constructionInteractable.team = team;
 		if (rubbleSize.x > rubbleSize.z)
@@ -53,6 +62,7 @@ public class BuildingConstructor : NetworkBehaviour, ISpawnHandler {
 		else
 			constructionInteractable.influenceRadius = rubbleSize.z + 1;
 		constructionInteractable.playerObject = buildingSystem.PO;
+ */
 		//Instantiating the rubble
 		rubble = Instantiate (rubble, position, rotation);
 
@@ -61,15 +71,7 @@ public class BuildingConstructor : NetworkBehaviour, ISpawnHandler {
 		NetworkServer.Spawn (rubble);
 		bool ToF = rubble.GetComponent<NetworkIdentity> ().AssignClientAuthority (GetComponent<NetworkIdentity> ().connectionToClient);
 
-		Debug.Log ("Player Object :: --Unit Spawned : " + ToF);
-		RpcAssignObject (ni);
 	}
 
-	[ClientRpc]
-	public void RpcAssignObject (NetworkIdentity id) {
-		ConstructionInteractable constructionInteractable = id.gameObject.GetComponent<ConstructionInteractable> ();
-		constructionInteractable.playerObject = buildingSystem.PO;
-		constructionInteractable.team = team;
-	}
 
 }

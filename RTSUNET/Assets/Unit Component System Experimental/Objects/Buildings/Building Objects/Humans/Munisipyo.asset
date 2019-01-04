@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a982860f5b0e764f8215f21e8a72539, type: 3}
+  m_Name: Munisipyo
+  m_EditorClassIdentifier: 
+  name: Munisipyo
+  faction: 0
+  tier: 0
+  battleType: 2
+  description: This building is the most important structure for the humans. It holds
+    the power to create worlds and fill them with life.
+  artwork: {fileID: 0}
+  manaCost: 10000
+  creationTime: 1000
+  graphics: {fileID: 1943037947715906, guid: bd3f34f180b8b1e40a367be36cc6f9ef, type: 2}
+  abilities: []
+  type: 0
+  sellPrice: 50
+  addedColliderScale: {x: 1, y: 0, z: 1}
