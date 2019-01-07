@@ -5,6 +5,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 
 public class RTSNetworkDiscovery : NetworkDiscovery {
 	public static string gameName = "local";
@@ -27,7 +28,7 @@ public class RTSNetworkDiscovery : NetworkDiscovery {
 		}
 		if (!running) {
 			Debug.Log ("gameName : " + gameName);
-			RTSNetworkDiscovery.singleton.broadcastData += ":" + gameName;
+			RTSNetworkDiscovery.singleton.broadcastData = gameName;
 			Initialize ();
 			StartAsServer ();
 		}
@@ -143,9 +144,13 @@ public class RTSNetworkDiscovery : NetworkDiscovery {
 		foreach (LanConnectionInfo l in lanAddresses) {
 			GameObject Room = LM.roomUIPrefab;
 			Room.GetComponent<RoomUI> ().ipAddress = l.ipAddress;
-//			Room.GetComponent<RoomUI> ().gameName = l.rawData[3];
+			Room.GetComponent<RoomUI> ().gameName = l.rawData[0];
 
-			Instantiate (Room, RoomPanel, false);
+			Room = Instantiate (Room, RoomPanel, false);
+			Room.GetComponent<Button>().onClick.AddListener(delegate {
+				LM.CtrStartClient();
+				//LM.toggleMenu();
+				});
 			//Debug.Log(lanAddresses.Key.rawData[2]);
 			//Debug.Log(lanAddresses.Key.ipAddress);
 		}

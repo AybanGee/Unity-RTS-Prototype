@@ -5730,7 +5730,7 @@ MonoBehaviour:
   m_BroadcastVersion: 1
   m_BroadcastSubVersion: 1
   m_BroadcastInterval: 1000
-  m_UseNetworkManager: 1
+  m_UseNetworkManager: 0
   m_BroadcastData: HELLO
   m_ShowGUI: 0
   m_OffsetX: 0
@@ -5839,6 +5839,8 @@ MonoBehaviour:
   roomUIPrefab: {fileID: 1006623889203190, guid: 273920b7d8a8ead46a91de31d5732b68,
     type: 2}
   playerCanvas: {fileID: 1485033897}
+  LobbyScreen: {fileID: 663303542}
+  RoomScreen: {fileID: 892161945}
   gameColors: {fileID: 11400000, guid: a3f1b23a64d05c942951b148676dd825, type: 2}
   mapName: 
   gameName: 

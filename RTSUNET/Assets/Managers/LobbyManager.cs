@@ -14,6 +14,10 @@ public class LobbyManager : NetworkLobbyManager {
 	public GameObject roomUIPanel;
 	public GameObject roomUIPrefab;
 	public GameObject playerCanvas;
+	public GameObject LobbyScreen;
+	public GameObject RoomScreen;
+
+
 
 	public GameColorsScriptable gameColors;
 	public string mapName;
@@ -26,6 +30,7 @@ public class LobbyManager : NetworkLobbyManager {
 	}
 	public void CtrStartClient () {
 		StartClient ();
+		toggleMenu();
 	}
 
 	#endregion
@@ -115,6 +120,22 @@ public class LobbyManager : NetworkLobbyManager {
 #endregion
 	public void SetAddress( TextMeshProUGUI TextPro){
 		networkAddress = TextPro.text;
+	}
+
+	public void toggleMenu(){
+		if(RoomScreen.activeSelf){
+			RoomScreen.SetActive(false);
+			LobbyScreen.SetActive(true);
+		}
+		else{
+			RoomScreen.SetActive(true);
+			LobbyScreen.SetActive(false);
+		}
+		
+/* 			RoomScreen.SetActive(!RoomScreen.activeSelf);
+			LobbyScreen.SetActive(!LobbyScreen.activeSelf);
+
+ */
 	}
 	
 }
