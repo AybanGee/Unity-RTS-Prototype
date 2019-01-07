@@ -589,6 +589,48 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 829681158}
   m_CullTransparentMesh: 0
+--- !u!1001 &873956252
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4686120985452376, guid: 3e8deb1a87a8d5e46a95e7e55d227fb8, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4686120985452376, guid: 3e8deb1a87a8d5e46a95e7e55d227fb8, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4686120985452376, guid: 3e8deb1a87a8d5e46a95e7e55d227fb8, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4686120985452376, guid: 3e8deb1a87a8d5e46a95e7e55d227fb8, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4686120985452376, guid: 3e8deb1a87a8d5e46a95e7e55d227fb8, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4686120985452376, guid: 3e8deb1a87a8d5e46a95e7e55d227fb8, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4686120985452376, guid: 3e8deb1a87a8d5e46a95e7e55d227fb8, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4686120985452376, guid: 3e8deb1a87a8d5e46a95e7e55d227fb8, type: 2}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 3e8deb1a87a8d5e46a95e7e55d227fb8, type: 2}
+  m_IsPrefabAsset: 0
 --- !u!1 &1037332822
 GameObject:
   m_ObjectHideFlags: 0
@@ -1812,6 +1854,10 @@ Prefab:
     - target: {fileID: 11455738, guid: 407bd5cbe8c43334bb1b25c0f3826974, type: 2}
       propertyPath: minHeight
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 120296, guid: 407bd5cbe8c43334bb1b25c0f3826974, type: 2}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 407bd5cbe8c43334bb1b25c0f3826974, type: 2}

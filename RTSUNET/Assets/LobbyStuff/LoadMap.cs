@@ -9,7 +9,7 @@ public class LoadMap : MonoBehaviour {
 
 	void Awake () {
 		Instance = this;
-		Load("Map_03");
+		Load("Map_02");
 
 	}
 	

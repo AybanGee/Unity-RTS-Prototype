@@ -10,18 +10,15 @@ EditorBuildSettings:
     guid: 1984cffe701584a4c96a84da923b078b
   - enabled: 1
     path: Assets/Scenes/Lobby.unity
-    guid: 07a789d1569fefa42a132c11557bcead
+    guid: cdef7f4b04922624db4c4a469c30fa29
   - enabled: 1
     path: Assets/Scenes/BridgeScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 0
     path: Assets/Scenes/Map_01.unity
     guid: 9d65c32d52e24774c91a008481476088
-  - enabled: 0
-    path: Assets/Scenes/Map_02.unity
-    guid: b1ff9c8c86ad4fe4ab394093ad9f403e
   - enabled: 1
-    path: Assets/Scenes/Map_03.unity
+    path: Assets/Scenes/Map_02.unity
     guid: 8ca7e15cdb8494a4dab52dd559af1d5c
   - enabled: 0
     path: Assets/Scenes/SampleScene.unity

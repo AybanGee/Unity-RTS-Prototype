@@ -12,10 +12,10 @@ public class CameraZoom : MonoBehaviour {
 
 	private Vector3 velocity = Vector3.zero;
 	void Start(){
-		targetPosition = transform.parent;
+		targetPosition = transform.parent.GetChild(1);
 		startPosition = transform.parent.GetChild(0);
 		}
-		void Update () {
+		void LateUpdate () {
 		float scroll = Input.GetAxis("Mouse ScrollWheel");
 		if(Input.GetAxis("Mouse ScrollWheel") > 0f){
 			transform.position = Vector3.MoveTowards(transform.position,targetPosition.position,speed);
@@ -25,6 +25,7 @@ public class CameraZoom : MonoBehaviour {
 			transform.position = Vector3.MoveTowards(transform.position,startPosition.position,speed);
 			//transform.position = Vector3.SmoothDamp(transform.position,startPosition.position,ref velocity,smoothness,speed);
 		}
+		transform.LookAt(transform.parent);
 	
 
 		

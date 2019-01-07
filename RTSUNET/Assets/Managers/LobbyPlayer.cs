@@ -23,7 +23,7 @@ void Start()
 
 CH = GetComponent<ComponentHandler>();
     
-     this.transform.SetParent(LobbyManager.singleton.GetComponent<LobbyManager>().playerUIiPanel.transform);
+     this.transform.SetParent(LobbyManager.singleton.GetComponent<LobbyManager>().playerUIiPanel.transform,false);
      
     
     	if( isLocalPlayer == false){
