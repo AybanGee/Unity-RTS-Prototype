@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 114394737575711312}
   - component: {fileID: 114617208492379576}
   - component: {fileID: 114965278303539266}
+  - component: {fileID: 114492574379432768}
   m_Layer: 5
   m_Name: Room
   m_TagString: RoomUI
@@ -204,6 +205,25 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114492574379432768
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1006623889203190}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1679637790, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 0
+  m_MinWidth: -1
+  m_MinHeight: 32
+  m_PreferredWidth: -1
+  m_PreferredHeight: -1
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &114617208492379576
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -413,8 +433,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8149e702fcb31341bda52f0a98ecac9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ipAddress: 192.168.15.17
-  gameName: 
+  ipAddress: 192.168.15.31
+  gameName: cttobadang
   numOfPlayers: 0
   gameNameUI: {fileID: 114803196711586926}
   ipAddressUI: {fileID: 114383311248850000}
@@ -493,6 +513,6 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 315.05, y: -16.3}
-  m_SizeDelta: {x: 630.09, y: 32.8}
+  m_AnchoredPosition: {x: 315.0475, y: -16.4}
+  m_SizeDelta: {x: 630.095, y: 32.8}
   m_Pivot: {x: 0.5, y: 0.5}

@@ -4,13 +4,16 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class LoadMap : MonoBehaviour {
+	public string mapSceneName;
 	
 	public static LoadMap Instance{set;get;}
 
 	void Awake () {
 		Instance = this;
-		Load("Map_02");
-
+		
+	LobbyManager LM = LobbyManager.singleton.GetComponent<LobbyManager>();
+		mapSceneName = LM.mapName;
+		Load(mapSceneName);
 	}
 	
 	void Load (string sceneName) 

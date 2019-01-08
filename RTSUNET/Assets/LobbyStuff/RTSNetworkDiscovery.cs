@@ -107,31 +107,31 @@ public class RTSNetworkDiscovery : NetworkDiscovery {
 	}
 
 	#region fix1	
-	void Awake () {
-		if (singleton != null && singleton != this)
-			this.enabled = false;
-		else
-			singleton = this;
-	}
-
-	public new void StopBroadcast () {
-		if (running)
-			base.StopBroadcast ();
-		ConfirmStopped ();
-	}
-
-	void LateUpdate () {
-		if (!running && !stopConfirmed)
-			ConfirmStopped ();
-	}
-
-	void ConfirmStopped () {
-		try {
-			stopConfirmed = !NetworkTransport.IsBroadcastDiscoveryRunning ();
-		} catch (Exception) {
-			stopConfirmed = true;
+		void Awake () {
+			if (singleton != null && singleton != this)
+				this.enabled = false;
+			else
+				singleton = this;
 		}
-	}
+
+		public new void StopBroadcast () {
+			if (running)
+				base.StopBroadcast ();
+			ConfirmStopped ();
+		}
+
+		void LateUpdate () {
+			if (!running && !stopConfirmed)
+				ConfirmStopped ();
+		}
+
+		void ConfirmStopped () {
+			try {
+				stopConfirmed = !NetworkTransport.IsBroadcastDiscoveryRunning ();
+			} catch (Exception) {
+				stopConfirmed = true;
+			}
+		}
 	#endregion
 
 	void UpdateUI () {
@@ -145,12 +145,13 @@ public class RTSNetworkDiscovery : NetworkDiscovery {
 			GameObject Room = LM.roomUIPrefab;
 			Room.GetComponent<RoomUI> ().ipAddress = l.ipAddress;
 			Room.GetComponent<RoomUI> ().gameName = l.rawData[0];
-
 			Room = Instantiate (Room, RoomPanel, false);
 			Room.GetComponent<Button>().onClick.AddListener(delegate {
-				LM.CtrStartClient();
-				//LM.toggleMenu();
+				LM.CtrStartClient(l.ipAddress);
+				LM.gameName = l.rawData[0];
+				LM.toggleMenu();
 				});
+
 			//Debug.Log(lanAddresses.Key.rawData[2]);
 			//Debug.Log(lanAddresses.Key.ipAddress);
 		}
@@ -176,6 +177,9 @@ public class RTSNetworkDiscovery : NetworkDiscovery {
 		} else {
 			gameName = "local";
 		}
+		
+		LobbyManager LM = GetComponent<LobbyManager> ();
+		LM.gameName = gameName;
 	}
 
 }

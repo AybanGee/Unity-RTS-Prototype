@@ -19,5 +19,20 @@ public class LanConnectionInfo {
 		//rawInfo = fromAddress;
 		//rawData = data;
 	}
+
+	public string ArrToData(string[] arrStr){
+		string data = "";
+		if(arrStr.Length == 0) return data;
+		if(arrStr.Length == 1) return arrStr[0];
+		//adds first data in arr
+		data = arrStr[0];
+		//adds proceeding data with colons
+		for (int i = 1; i < arrStr.Length; i++)
+		{	
+			data = data + ":" + arrStr[i];
+		}
+		return data;
+	}
+	
 }
 	

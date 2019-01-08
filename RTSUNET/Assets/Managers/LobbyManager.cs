@@ -1,12 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
-using System;
- 
- [RequireComponent(typeof(RTSNetworkDiscovery))]
+
+[RequireComponent (typeof (RTSNetworkDiscovery))]
 public class LobbyManager : NetworkLobbyManager {
 
 	public GameObject playerUiPrefab;
@@ -16,23 +16,34 @@ public class LobbyManager : NetworkLobbyManager {
 	public GameObject playerCanvas;
 	public GameObject LobbyScreen;
 	public GameObject RoomScreen;
-
-
+	public MapSelection mapDropdown;
 
 	public GameColorsScriptable gameColors;
-	public string mapName;
-	public string gameName;
-
+[HideInInspector()]
+	public string mapName,gameName;
+	public TextMeshProUGUI roomInfo;
 
 	#region "Host & Client Controls"
 	public void CtrStartHost () {
 		StartHost ();
+		InitializeRoom("host");
+		mapDropdown.ToggleMapSelect(true);
 	}
-	public void CtrStartClient () {
+	public void CtrStartClient (string ipAddress) {
+		Debug.Log ("ipAddress " + ipAddress);
+		networkAddress = ipAddress;
+		Debug.Log ("networkAddress " + networkAddress);
 		StartClient ();
-		toggleMenu();
+		InitializeRoom("client");
+		mapDropdown.ToggleMapSelect(false);
+	
 	}
 
+	public void InitializeRoom(string playerAuth){
+	
+		roomInfo.text = "Room:'"+gameName+"' ("+playerAuth+")";
+
+	}
 	#endregion
 	public override void OnStartHost () {
 		print ("Host started");
@@ -82,60 +93,55 @@ public class LobbyManager : NetworkLobbyManager {
 		Debug.Log ("Disconected client");
 	}
 
-#region netDiscoveryfix1
+	#region netDiscoveryfix1
 
-		 public static void StopClientAndBroadcast()
-        {
-            RTSNetworkDiscovery.singleton.StopBroadcast();
-            onBroadcastStopped += singleton.StopClient;
-        }
- 
-        public static void StopServerAndBroadcast()
-        {
-            RTSNetworkDiscovery.singleton.StopBroadcast();
-            onBroadcastStopped += singleton.StopServer;
-        }
- 
-        public static void StopHostAndBroadcast()
-        {
-            RTSNetworkDiscovery.singleton.StopBroadcast();
-            onBroadcastStopped += singleton.StopHost;
-        }
- 
-        private static event Action onBroadcastStopped;
- 
-        void Update()
-        {
-            if (onBroadcastStopped != null) {
-                if (!RTSNetworkDiscovery.singleton.running && RTSNetworkDiscovery.stopConfirmed) {
-                    onBroadcastStopped.Invoke();
-                    onBroadcastStopped = null;
-                } else {
-                    if (LogFilter.logDebug)
-                        Debug.Log("Waiting for broadcasting to stop completely", gameObject);
-                    RTSNetworkDiscovery.singleton.StopBroadcast();
-                }
-            }
-        }
-#endregion
-	public void SetAddress( TextMeshProUGUI TextPro){
+	public static void StopClientAndBroadcast () {
+		RTSNetworkDiscovery.singleton.StopBroadcast ();
+		onBroadcastStopped += singleton.StopClient;
+	}
+
+	public static void StopServerAndBroadcast () {
+		RTSNetworkDiscovery.singleton.StopBroadcast ();
+		onBroadcastStopped += singleton.StopServer;
+	}
+
+	public static void StopHostAndBroadcast () {
+		RTSNetworkDiscovery.singleton.StopBroadcast ();
+		onBroadcastStopped += singleton.StopHost;
+	}
+
+	private static event Action onBroadcastStopped;
+
+	void Update () {
+		if (onBroadcastStopped != null) {
+			if (!RTSNetworkDiscovery.singleton.running && RTSNetworkDiscovery.stopConfirmed) {
+				onBroadcastStopped.Invoke ();
+				onBroadcastStopped = null;
+			} else {
+				if (LogFilter.logDebug)
+					Debug.Log ("Waiting for broadcasting to stop completely", gameObject);
+				RTSNetworkDiscovery.singleton.StopBroadcast ();
+			}
+		}
+	}
+	#endregion
+	public void SetAddress (TextMeshProUGUI TextPro) {
 		networkAddress = TextPro.text;
 	}
 
-	public void toggleMenu(){
-		if(RoomScreen.activeSelf){
-			RoomScreen.SetActive(false);
-			LobbyScreen.SetActive(true);
+	public void toggleMenu () {
+		if (RoomScreen.activeSelf) {
+			RoomScreen.SetActive (false);
+			LobbyScreen.SetActive (true);
+		} else {
+			RoomScreen.SetActive (true);
+			LobbyScreen.SetActive (false);
 		}
-		else{
-			RoomScreen.SetActive(true);
-			LobbyScreen.SetActive(false);
-		}
-		
-/* 			RoomScreen.SetActive(!RoomScreen.activeSelf);
-			LobbyScreen.SetActive(!LobbyScreen.activeSelf);
 
- */
+		/* 			RoomScreen.SetActive(!RoomScreen.activeSelf);
+					LobbyScreen.SetActive(!LobbyScreen.activeSelf);
+
+		 */
 	}
-	
+
 }
