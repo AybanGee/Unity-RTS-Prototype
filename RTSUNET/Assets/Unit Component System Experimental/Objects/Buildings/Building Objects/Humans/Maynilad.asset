@@ -13,18 +13,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Maynilad
   faction: 0
+  tier: 0
   battleType: 2
-  type: 1
   description: This structure receives mana forever
-  health: 500
   artwork: {fileID: 0}
   manaCost: 100
-  sellPrice: 50
-  constructionTime: 50
-  coloredGraphics:
-  - {fileID: 23712092044681486, guid: bc488dc749ca40e429f2b4dcad71ed1a, type: 2}
-  - {fileID: 23921400168604294, guid: bc488dc749ca40e429f2b4dcad71ed1a, type: 2}
-  - {fileID: 23093735664301620, guid: bc488dc749ca40e429f2b4dcad71ed1a, type: 2}
-  - {fileID: 23841599865003652, guid: bc488dc749ca40e429f2b4dcad71ed1a, type: 2}
+  creationTime: 50
   graphics: {fileID: 1518684437163082, guid: bc488dc749ca40e429f2b4dcad71ed1a, type: 2}
+  abilities: []
+  type: 1
+  sellPrice: 50
   addedColliderScale: {x: 1, y: 0, z: 1}

@@ -14,7 +14,7 @@ public class AttackAbility : Ability {
 	public void Initialize(NetworkIdentity ni){
 		//Gets Component Unit New
 		GameObject go = ni.gameObject;
-		MonoUnit unit = go.GetComponent<MonoUnit> ();
+		MonoUnitFramework unit = go.GetComponent<MonoUnitFramework> ();
 
 		Attacker attacker = go.AddComponent<Attacker> ();
 		attacker.attackAbilities = attackAbilities;
@@ -31,7 +31,7 @@ public class AttackAbility : Ability {
 	[ClientRpc] public void RpcInitialize(NetworkIdentity ni){
 			//Gets Component Unit New
 		GameObject go = ni.gameObject;
-		MonoUnit unit = go.GetComponent<MonoUnit> ();
+		MonoUnitFramework unit = go.GetComponent<MonoUnitFramework> ();
 
 		Attacker attacker = go.GetComponent<Attacker> ();
 		attacker.attackAbilities = attackAbilities;

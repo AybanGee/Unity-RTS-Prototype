@@ -14,7 +14,7 @@ public Building building;
 	 public void Initialize (NetworkIdentity ni) {
 		GameObject go = ni.gameObject;
 		//Gets Component Unit New
-		MonoUnit unit = go.GetComponent<MonoUnit> ();
+		MonoUnitFramework unit = go.GetComponent<MonoUnitFramework> ();
 
 		Constructable constructable = go.AddComponent<Constructable> ();
 		constructable.constructionTime = constructionTime;
@@ -31,7 +31,7 @@ public Building building;
 	[ClientRpc] public void RpcInitialize (NetworkIdentity ni) {
 		GameObject go = ni.gameObject;
 		//Gets Component Unit New
-		MonoUnit unit = go.GetComponent<MonoUnit> ();
+		MonoUnitFramework unit = go.GetComponent<MonoUnitFramework> ();
 
 			Constructable constructable = go.AddComponent<Constructable> ();
 		constructable.constructionTime = constructionTime;

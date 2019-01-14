@@ -25,7 +25,7 @@ public class UnitSystem : NetworkBehaviour {
 		GameObject go = NetworkManager.singleton.spawnPrefabs[UnitSpawnIndex];
 		PlayerUnit playerUnit =  unitGroup.units[spawnableObjectIndex];
 
-		go = Instantiate (go, position, rotation);
+		go = Instantiate (go, position, rotation,this.transform);
 		MonoUnitFramework muf = go.GetComponent<MonoUnitFramework>();
 		muf.playerUnit = playerUnit;
 		muf.PO = PO;

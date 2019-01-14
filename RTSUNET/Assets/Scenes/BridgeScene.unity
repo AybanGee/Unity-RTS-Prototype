@@ -113,7 +113,7 @@ NavMeshSettings:
     accuratePlacement: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 23800000, guid: 246756ef8000ef84099e56c6f2d3414c, type: 2}
+  m_NavMeshData: {fileID: 0}
 --- !u!1 &90390798
 GameObject:
   m_ObjectHideFlags: 0
@@ -628,6 +628,30 @@ Prefab:
       propertyPath: m_RootOrder
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 114185273990370914, guid: 3e8deb1a87a8d5e46a95e7e55d227fb8,
+        type: 2}
+      propertyPath: lastTab
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114185273990370914, guid: 3e8deb1a87a8d5e46a95e7e55d227fb8,
+        type: 2}
+      propertyPath: limitX
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 114185273990370914, guid: 3e8deb1a87a8d5e46a95e7e55d227fb8,
+        type: 2}
+      propertyPath: limitY
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 114185273990370914, guid: 3e8deb1a87a8d5e46a95e7e55d227fb8,
+        type: 2}
+      propertyPath: panningSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4568462994685606, guid: 3e8deb1a87a8d5e46a95e7e55d227fb8, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3e8deb1a87a8d5e46a95e7e55d227fb8, type: 2}
   m_IsPrefabAsset: 0
@@ -706,6 +730,22 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1037332822}
   m_CullTransparentMesh: 0
+--- !u!1 &1055219811 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1230157915450732, guid: 3e8deb1a87a8d5e46a95e7e55d227fb8,
+    type: 2}
+  m_PrefabInternal: {fileID: 873956252}
+--- !u!114 &1055219812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1055219811}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd3fb4922e484234fa2a58a8175bc504, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1124786300
 GameObject:
   m_ObjectHideFlags: 0
@@ -1137,6 +1177,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f28f3260530d864290fc4a1121a1e8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mapSceneName: Map_02
+  baseNum: 2
+  camGroup: {fileID: 1055219811}
 --- !u!1 &1630739948
 GameObject:
   m_ObjectHideFlags: 0
@@ -1289,6 +1332,34 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1634048799}
   m_CullTransparentMesh: 0
+--- !u!1 &1690885505
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1690885506}
+  m_Layer: 0
+  m_Name: PlayerObjects
+  m_TagString: Players
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1690885506
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1690885505}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1807546715
 GameObject:
   m_ObjectHideFlags: 0

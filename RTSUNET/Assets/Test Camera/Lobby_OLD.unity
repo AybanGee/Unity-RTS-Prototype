@@ -2202,9 +2202,16 @@ MonoBehaviour:
   playerUiPrefab: {fileID: 1442537685899962, guid: 58b1f481d98efa74089d33c3e2a2bd4e,
     type: 2}
   playerUIiPanel: {fileID: 898915529}
+  roomUIPanel: {fileID: 0}
+  roomUIPrefab: {fileID: 0}
   playerCanvas: {fileID: 1485033897}
+  LobbyScreen: {fileID: 0}
+  RoomScreen: {fileID: 0}
+  mapDropdown: {fileID: 0}
   gameColors: {fileID: 11400000, guid: a3f1b23a64d05c942951b148676dd825, type: 2}
   mapName: 
+  gameName: 
+  roomInfo: {fileID: 0}
 --- !u!1 &2113563213
 GameObject:
   m_ObjectHideFlags: 0

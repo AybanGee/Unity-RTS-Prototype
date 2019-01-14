@@ -33,10 +33,31 @@ public class PlayerObject : NetworkBehaviour {
 	public string playerName;
 	[SyncVar]
 	public int colorIndex;
+	[SyncVar]
+	public int baseNo;
 	public int manna;
 
+	public static PlayerObject singleton;
 	// Use this for initialization
+	void Awake()
+	{
+		Debug.Log("PlayerObject awake");
+
+
+	}
+
 	void Start () {
+
+	if(isLocalPlayer){
+		Debug.Log("Assigning Player singleton");
+			singleton = this;
+	}
+
+		GameObject parentObject = GameObject.FindWithTag("Players");	
+		this.transform.SetParent(parentObject.transform);
+
+
+	//Awake^
 
 		BuildSys = GetComponent<BuildingSystem> ();
 		if (BuildSys == null) { Debug.LogError ("Building System not found on player object"); } else {
@@ -54,6 +75,8 @@ public class PlayerObject : NetworkBehaviour {
 			//This object belongs to another player.
 			return;
 		}
+
+
 		if (UIGameManager.singleton != null) {
 			uiGameManager = UIGameManager.singleton;
 			uiGameManager.Initialize (this);
@@ -65,6 +88,7 @@ public class PlayerObject : NetworkBehaviour {
 		Debug.Log ("PlayerObject::Start -- Spawning my own personal Unit");
 
 		cam = Camera.main;
+
 
 	}
 	string DebugText (GameObject inspect) {
@@ -99,7 +123,7 @@ public class PlayerObject : NetworkBehaviour {
 		//DEBUGGING
 		Ray _ray = cam.ScreenPointToRay (Input.mousePosition);
 		RaycastHit _hit;
-		if (Physics.Raycast (_ray, out _hit, 10000)) {
+		if (Physics.Raycast (_ray, out _hit, 100000)) {
 		if (UIGameManager.singleton != null)
 			if (UIGameManager.singleton.debugTxt != null)
 				UIGameManager.singleton.debugTxt.text = DebugText (_hit.collider.gameObject);
@@ -159,7 +183,7 @@ public class PlayerObject : NetworkBehaviour {
 
 		//DEBUGGGG
 		if (selectedUnits.Count == 1 && debugToggleForGameCommands) {
-			uiGameManager.commandsHandler.ShowAbilities (selectedUnits[0].GetComponent<MonoUnit> ().abilities);
+			uiGameManager.commandsHandler.ShowAbilities (selectedUnits[0].GetComponent<MonoUnitFramework> ().abilities);
 			debugToggleForGameCommands = false;
 		}
 	}
@@ -242,5 +266,6 @@ public class PlayerObject : NetworkBehaviour {
 		yield return null;
 	}
 	#endregion
+	
 
 }

@@ -22,12 +22,13 @@ public class BuildingSystem : NetworkBehaviour {
 	
 	Vector3 buildingOffset = new Vector3 (0, 0, 0);
 	[SerializeField]
-	int obstacleSizeCut = 2;
+	int obstacleSizeCut = 0;
 	[SerializeField]
 	int obstacleHeightAdd = 2;
 	void Awake () {
 		//Move to spawn manager
 		PO = GetComponent<PlayerObject> ();
+		Debug.Log(PO);
 	}
 	void Start () {
 		constructor = GetComponent<BuildingConstructor> ();
@@ -135,12 +136,18 @@ public class BuildingSystem : NetworkBehaviour {
 
 		GameObject go = NetworkManager.singleton.spawnPrefabs[prefabBuildingIndex];
 		
-		//if (graphics == null) { Debug.LogError ("No graphics"); }
-		go = Instantiate (go, position, rotation);
-
-		BuildingUnit buildingUnit = go.GetComponent<BuildingUnit> ();
+		MonoBuilding  buildingUnit = go.GetComponent<MonoBuilding> ();
 		Vector3 navMeshObstacleSize = go.GetComponent<BoxCollider> ().size;
 
+		//AssignData (go, spawnableIndex, buildingUnit, navMeshObstacleSize);
+		
+		//if (graphics == null) { Debug.LogError ("No graphics"); }
+		go = Instantiate (go, position, rotation, this.transform);
+
+/* 		MonoBuilding  buildingUnit = go.GetComponent<MonoBuilding> ();
+		//BuildingUnit buildingUnit = go.GetComponent<BuildingUnit> ();
+		Vector3 navMeshObstacleSize = go.GetComponent<BoxCollider> ().size;
+ */
 		AssignData (go, spawnableIndex, buildingUnit, navMeshObstacleSize);
 
 		//DESTROY COMPONENTS NOT NEEDED
@@ -167,24 +174,32 @@ public class BuildingSystem : NetworkBehaviour {
 		Vector3 grapihicsOffset = new Vector3 (0, graphics.transform.localScale.y / 2, 0);
 		graphics = Instantiate (graphics, spawnHolder.transform.position + grapihicsOffset, spawnHolder.transform.rotation, spawnHolder.transform);
 		graphics.GetComponent<GraphicsHolder> ().colorize (LobbyManager.singleton.GetComponent<LobbyManager> ().gameColors.gameColorList () [PO.colorIndex]);
-		BuildingUnit buildingUnit = spawnHolder.GetComponent<BuildingUnit> ();
-		Vector3 navMeshObstacleSize = spawnHolder.GetComponent<BoxCollider> ().size;
+		MonoBuilding  buildingUnit = spawnHolder.GetComponent<MonoBuilding> ();
+	//	BuildingUnit buildingUnit = spawnHolder.GetComponent<BuildingUnit> ();
+	
+		//Vector3 navMeshObstacleSize = spawnHolder.GetComponent<BoxCollider> ().size;
+		Vector3 navMeshObstacleSize = buildingGroups.buildings[spawnableIndex].addedColliderScale;
 
 		AssignData (spawnHolder, spawnableIndex, buildingUnit, navMeshObstacleSize);
 
 		if (spawnHolder.transform.childCount <= 0) { Debug.LogError ("No graphics"); }
 		NavMeshObstacle navMeshObstacle = spawnHolder.AddComponent (typeof (NavMeshObstacle)) as NavMeshObstacle;
-		navMeshObstacleSize.x -= obstacleSizeCut;
-		navMeshObstacleSize.y -= obstacleSizeCut;
-		navMeshObstacleSize.z += obstacleHeightAdd;
+		//navMeshObstacleSize.x -= obstacleSizeCut;
+		//navMeshObstacleSize.z += obstacleSizeCut;
+		navMeshObstacleSize.y =  obstacleHeightAdd; 
+
 		navMeshObstacle.size = navMeshObstacleSize;
 		navMeshObstacle.carving = true;
 		spawnHolder.name = PO.team + " - bldg - " + id.netId;
 
-		spawnHolder.GetComponent<BuildingStats> ().netPlayer = PO;
+//		spawnHolder.GetComponent<BuildingStats> ().netPlayer = PO;
 		GraphicsHolder graphicsHolder = spawnHolder.GetComponentInChildren<GraphicsHolder> ();
 
 		buildingUnit.team = PO.team;
+		//Unit seelctable for bldgs
+		UnitSelectable unitSelectable = spawnHolder.AddComponent<UnitSelectable> ();
+		unitSelectable.playerObject = PO;
+		unitSelectable.isOneSelection = true;
 		if (graphicsHolder != null)
 			graphicsHolder.colorize (LobbyManager.singleton.GetComponent<LobbyManager> ().gameColors.gameColorList () [PO.colorIndex]);
 		PO.myBuildings.Add (spawnHolder);
@@ -192,13 +207,20 @@ public class BuildingSystem : NetworkBehaviour {
 	}
 	#endregion
 
-	public void AssignData (GameObject spawnHolder, int spawnableIndex, BuildingUnit buildingUnit, Vector3 navMeshObstacleSize) {
+	public void AssignData (GameObject spawnHolder, int spawnableIndex, MonoBuilding buildingUnit, Vector3 navMeshObstacleSize) {
 		//Assign data
 
+		//nauunang subukun lagyan ng abilities bago ma assign
+		Debug.Log("Assigning Data");
 		buildingUnit.team = PO.team;
-		buildingUnit.buildingType = buildingGroups.buildings[spawnableIndex].type;
+		buildingUnit.buildingType = buildingGroups.buildings[spawnableIndex].type;	
+		buildingUnit.primitiveAbilities = buildingGroups.buildings[spawnableIndex].abilities;
+		Debug.Log("abilities Count" + buildingGroups.buildings[spawnableIndex].abilities.Count);
+		Debug.Log("prime abilities Count" +buildingUnit.primitiveAbilities.Count);
+		//Dito may abilities na
 
-		BuildingInteractable buildingInteractable = null;
+	//Assigning of special scripts for building
+/* 		BuildingInteractable buildingInteractable = null;
 		switch (buildingGroups.buildings[spawnableIndex].type) {
 			case BuildingType.Barracks:
 				buildingInteractable = spawnHolder.AddComponent<BuildingInteractable> ();
@@ -212,11 +234,13 @@ public class BuildingSystem : NetworkBehaviour {
 			case BuildingType.SupplyChain:
 				buildingInteractable = spawnHolder.AddComponent<SupplyChainInteractable> ();
 				break;
-		}
+		} 
 		if (navMeshObstacleSize.x > navMeshObstacleSize.z)
 			buildingInteractable.influenceRadius = navMeshObstacleSize.x + 1;
 		else
 			buildingInteractable.influenceRadius = navMeshObstacleSize.z + 1;
+
+	*/
 		//end of assignments
 
 	}

@@ -15,7 +15,8 @@ public class MapSelection : NetworkBehaviour {
 	private bool useAble = true;
 
 
-	void Start(){
+	void Awake(){
+		m_Dropdown = GetComponent<Dropdown>();
 		LoadMaps();
 		ChangeDisplay();
 	}
@@ -28,11 +29,11 @@ public class MapSelection : NetworkBehaviour {
 	}
 
 	void LoadMaps(){
+		m_Dropdown.ClearOptions();
 		List<string> mapNames = new List<string>();
 		foreach(Map map in mapsList.Maps){
 			mapNames.Add(map.mapName);
 		}
-		m_Dropdown = GetComponent<Dropdown>();
 		//Clear the old options of the Dropdown menu
 		m_Dropdown.ClearOptions();
 		//Add the options created in the List above
@@ -40,21 +41,24 @@ public class MapSelection : NetworkBehaviour {
 	}
 
 	public void ChangeDisplay(){
-		m_Dropdown = GetComponent<Dropdown>();
 		Map m =  mapsList.Maps[m_Dropdown.value];
 
 		mapDisplay.GetComponent<Image>().sprite = m.displayImage;
 		description.GetComponent<TextMeshProUGUI>().text = m.description;
+		//Debug.Log("isServer "+ isServer);
+
 	}
 
 	public void SetMapToLoad(){
-		Map m =  mapsList.Maps[m_Dropdown.value];
+		int dpval = m_Dropdown.value;
+		Map m =  mapsList.Maps[dpval];
 		NetworkLobbyManager.singleton.GetComponent<LobbyManager>().mapName = m.sceneName;
 	}
 
 	[Command]
     public void CmdSelectMap(int mapIndex){
         // Set team of player on the server.
+		//Debug.Log("isServer "+ isServer);
         RpcSelectMap(mapIndex);
     }
 

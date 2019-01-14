@@ -22,6 +22,9 @@ public abstract class MonoUnitFramework : NetworkBehaviour {
 
 	
 	public void InitAbilities () {
+		//nauuna to kesa assign ng value sa primitiveAbilities
+		//wait for assign dapat dito
+		
 		if (primitiveAbilities.Count <= 0) { Debug.LogWarning ("This object does not have any ability!"); return; }
 		if (abilities.Count > 0) { Debug.LogWarning ("This object already has initialized abilities!"); return; }
 		Debug.Log("Initializing " + primitiveAbilities.Count +	 " abilities");

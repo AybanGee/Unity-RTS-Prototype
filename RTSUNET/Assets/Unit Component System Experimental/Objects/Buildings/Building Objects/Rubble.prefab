@@ -72,7 +72,7 @@ Transform:
   m_GameObject: {fileID: 1473980715398178}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 12, y: 1, z: 12}
+  m_LocalScale: {x: 3, y: 1, z: 3}
   m_Children:
   - {fileID: 4263406273765664}
   m_Father: {fileID: 0}
@@ -170,7 +170,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33a004a30fae4964f9a62858c9b1b6b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: Munisipyo construction
+  name: Maynilad construction
   faction: 0
   team: 1
   tier: 0
@@ -203,7 +203,7 @@ MonoBehaviour:
   interactorAbilities:
   - {fileID: 11400000, guid: f4815c854bf023b45a2cbe3fe2a0793f, type: 2}
   parentUnit: {fileID: 114044517204806298}
-  constructionTime: 1000
+  constructionTime: 50
   constructionTimeLeft: 0
 --- !u!114 &114136157027453940
 MonoBehaviour:

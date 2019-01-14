@@ -14,7 +14,7 @@ public class BuilderAbility : Ability {
 	public void Initialize (NetworkIdentity ni) {
 		//Gets Component Unit New
 		GameObject go = ni.gameObject;
-		MonoUnit unit = go.GetComponent<MonoUnit> ();
+		MonoUnitFramework unit = go.GetComponent<MonoUnitFramework> ();
 
 		Builder builder = go.AddComponent<Builder> ();
 		builder.builderAbilities = builderAbilities;
@@ -33,7 +33,7 @@ public class BuilderAbility : Ability {
 		//Gets Component Unit New
 		//Gets Component Unit New
 		GameObject go = ni.gameObject;
-		MonoUnit unit = go.GetComponent<MonoUnit> ();
+		MonoUnitFramework unit = go.GetComponent<MonoUnitFramework> ();
 
 		Builder builder = go.AddComponent<Builder> ();
 		builder.builderAbilities = builderAbilities;

@@ -60,7 +60,9 @@ public class DragSelectionHandler : NetworkBehaviour, IBeginDragHandler, IDragHa
 			if(unit == null)
 			continue;
 			if (selectionRect.Contains (Camera.main.WorldToScreenPoint (unit.transform.position))) {
-				unit.GetComponent<UnitSelectable> ().OnSelect (eventData);
+				UnitSelectable us = unit.GetComponent<UnitSelectable> ();
+				if(us.isOneSelection) continue;
+				us.OnSelect (eventData);
 			}
 		}
 	}

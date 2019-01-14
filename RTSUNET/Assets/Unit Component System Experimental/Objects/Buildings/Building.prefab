@@ -21,11 +21,10 @@ GameObject:
   - component: {fileID: 4758799212705420}
   - component: {fileID: 33842594751707008}
   - component: {fileID: 65659630893022988}
-  - component: {fileID: 114582907771894974}
   - component: {fileID: 114622807580260428}
   - component: {fileID: 114699346435953640}
   - component: {fileID: 54967986424715766}
-  - component: {fileID: 114606411612308572}
+  - component: {fileID: 114941636318712342}
   m_Layer: 0
   m_Name: Building
   m_TagString: Untagged
@@ -78,44 +77,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 12, y: 7, z: 12}
+  m_Size: {x: 3, y: 5, z: 3}
   m_Center: {x: 0, y: 4.5, z: 0}
---- !u!114 &114582907771894974
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1680590169875568}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f121a550d4a529f4bb8d12ef4c6064cf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  team: 1
-  buildingPrice: 0
-  sellingPrice: 0
-  constructionTime: 0
-  buildingType: 1
-  AscendOnStart: 1
-  ascendSpeed: 1
---- !u!114 &114606411612308572
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1680590169875568}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9fa8f059711c08a44801244893f8684d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 100
-  currentHealth: 0
-  damage:
-    baseValue: 0
-  armor:
-    baseValue: 0
-  netPlayer: {fileID: 0}
 --- !u!114 &114622807580260428
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -160,3 +123,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   colliderCount: 0
+--- !u!114 &114941636318712342
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1680590169875568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e52d33ed8949ee4982e91049048fc0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: 
+  faction: 0
+  team: 1
+  tier: 0
+  battleType: 0
+  description: 
+  artwork: {fileID: 0}
+  manaCost: 50
+  creationTime: 50
+  PO: {fileID: 0}
+  abilities: []
+  primitiveAbilities:
+  - {fileID: 11400000, guid: d734c046ee68e3249b9958d072f84f36, type: 2}
+  - {fileID: 11400000, guid: 992646d67c704e44a858599fd545c4a7, type: 2}
+  playerUnit: {fileID: 0}
+  buildingPrice: 0
+  sellingPrice: 0
+  constructionTime: 0
+  buildingType: 0
+  AscendOnStart: 1

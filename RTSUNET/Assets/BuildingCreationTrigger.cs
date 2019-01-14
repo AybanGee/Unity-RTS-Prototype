@@ -7,12 +7,12 @@ public int colliderCount;
 
     void OnTriggerEnter(Collider other)
 	{
-		if(other.gameObject.GetComponent<BuildingUnit>() != null || other.gameObject.GetComponent<ConstructionInteractable>()  != null ){
+		if(other.gameObject.GetComponent<MonoBuilding>() != null || other.gameObject.GetComponent<ConstructionInteractable>()  != null ){
 			colliderCount++;
 		}
 	}
 private void OnTriggerExit(Collider other) {
-	if(other.gameObject.GetComponent<BuildingUnit>() != null || other.gameObject.GetComponent<ConstructionInteractable>()  != null){
+	if(other.gameObject.GetComponent<MonoBuilding>() != null || other.gameObject.GetComponent<ConstructionInteractable>()  != null){
 			colliderCount--;
 		}
 }

@@ -7,18 +7,21 @@ public class UnitSelectable : MonoBehaviour, ISelectHandler, IPointerClickHandle
 	public bool isSelected;
 	public PlayerObject playerObject;
 
-	public MonoUnit unit;
+	public MonoUnitFramework unit;
 
+public bool isOneSelection = false;
 	Renderer myRenderer;
 
 	[SerializeField]
 	Material unselectedMat;
 	[SerializeField]
 	Material selectedMat;
+
+	
 	void Start(){
 		//if(!isLocalPlayer)return;
 		myRenderer = GetComponentInChildren<Renderer>();
-		unit = GetComponent<MonoUnit>();
+		unit = GetComponent<MonoUnitFramework>();
 
 		if(myRenderer == null)return;
 		unselectedMat = myRenderer.material;
@@ -62,7 +65,7 @@ public class UnitSelectable : MonoBehaviour, ISelectHandler, IPointerClickHandle
 	//	if(!IsOnTeam())return;
 
 	   Debug.Log("SELECT");
-	          if (isSelected && Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl))
+	          if (!isOneSelection && (isSelected && Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl)))
         {
 			isSelected = false;
             playerObject.selectedUnits.Remove(gameObject);
@@ -81,6 +84,9 @@ public class UnitSelectable : MonoBehaviour, ISelectHandler, IPointerClickHandle
     }
 
 	public bool IsOnTeam(){
+		if(playerObject == null){
+			Debug.Log("YaAaAaAaA it's rewind time!");
+		}
 		if(playerObject.team == unit.team)
 		return true;
 		else

@@ -14,7 +14,7 @@ public class DamageableAbility : Ability {
 	 public void Initialize (NetworkIdentity ni) {
 		GameObject go = ni.gameObject;
 		//Gets Component Unit New
-		MonoUnit unit = go.GetComponent<MonoUnit> ();
+		MonoUnitFramework unit = go.GetComponent<MonoUnitFramework> ();
 
 		Damageable damageable = go.AddComponent<Damageable> ();
 		damageable.maxHealth = maxHealth;
@@ -25,6 +25,12 @@ public class DamageableAbility : Ability {
 		damageable.interactorAbilities = interactorAbilities;
 
 		//Add it to the unit
+	Debug.Log("Network ID : "+ni);
+	Debug.Log("damageable.abilityType : "+damageable.abilityType);
+	Debug.Log("damageable.interactorAbilities : "+damageable.interactorAbilities);
+	Debug.Log("unit : "+unit);
+	Debug.Log("unit abilities: "+unit.abilities);
+
 		unit.abilities.Add (damageable);
 		RpcInitialize (ni);
 	}
@@ -32,7 +38,7 @@ public class DamageableAbility : Ability {
 	[ClientRpc] public void RpcInitialize (NetworkIdentity ni) {
 		GameObject go = ni.gameObject;
 		//Gets Component Unit New
-		MonoUnit unit = go.GetComponent<MonoUnit> ();
+		MonoUnitFramework unit = go.GetComponent<MonoUnitFramework> ();
 
 		Damageable damageable = go.GetComponent<Damageable> ();
 		damageable.maxHealth = maxHealth;

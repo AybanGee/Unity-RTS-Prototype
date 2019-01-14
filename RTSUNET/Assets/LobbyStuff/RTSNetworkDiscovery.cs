@@ -18,37 +18,53 @@ public class RTSNetworkDiscovery : NetworkDiscovery {
 	private void Start () {
 		StartListen ();
 		StartCoroutine (CleanupExpiredEntries ());
+
+		Debug.Log("Start");
+
 	}
 
 	public void StartBroadcast () {
-		while (running) {
+		base.StopBroadcast ();
+		StopBroadcast ();
+		Initialize ();
+		StartAsServer ();		
+/* 		while (running) {
 			base.StopBroadcast ();
 			StopBroadcast ();
 			Debug.Log ("Its already running(B)");
 		}
-		if (!running) {
+		if (!NetworkTransport.IsBroadcastDiscoveryRunning()) {
 			Debug.Log ("gameName : " + gameName);
 			RTSNetworkDiscovery.singleton.broadcastData = gameName;
 			Initialize ();
 			StartAsServer ();
-		}
+		} */
 	}
 
 	public void StartListen () {
-		if (isServer) {
-			while (running) {
-				base.StopBroadcast ();
-				StopBroadcast ();
-				Debug.Log ("Its already running(L)");
+		base.StopBroadcast ();
+		StopBroadcast ();
+		Initialize ();
+		StartAsClient ();
+		Debug.Log("Listening");
+
+/* 		if (isServer) {
+				while (NetworkTransport.IsBroadcastDiscoveryRunning()) {
+					base.StopBroadcast ();
+					StopBroadcast ();
+					Debug.Log ("Its already running(L)");
+				}
+				if (!NetworkTransport.IsBroadcastDiscoveryRunning()) {
+					Initialize ();
+					StartAsClient ();
+				}
 			}
-			if (!running) {
-				Initialize ();
-				StartAsClient ();
-			}
-		} else {
-			Initialize ();
-			StartAsClient ();
-		}
+			else{
+				if (!NetworkTransport.IsBroadcastDiscoveryRunning()) {
+					Initialize ();
+					StartAsClient ();
+				}
+			} */
 	}
 	private IEnumerator CleanupExpiredEntries () {
 		while (true) {
@@ -107,31 +123,32 @@ public class RTSNetworkDiscovery : NetworkDiscovery {
 	}
 
 	#region fix1	
-		void Awake () {
-			if (singleton != null && singleton != this)
-				this.enabled = false;
-			else
-				singleton = this;
-		}
-
-		public new void StopBroadcast () {
-			if (running)
-				base.StopBroadcast ();
-			ConfirmStopped ();
-		}
-
-		void LateUpdate () {
-			if (!running && !stopConfirmed)
-				ConfirmStopped ();
-		}
-
-		void ConfirmStopped () {
-			try {
-				stopConfirmed = !NetworkTransport.IsBroadcastDiscoveryRunning ();
-			} catch (Exception) {
-				stopConfirmed = true;
-			}
-		}
+		void Awake()
+        {
+            if (singleton != null && singleton != this)
+                this.enabled = false;
+            else
+                singleton = this;
+        }
+        public new void StopBroadcast()
+        {
+            if (running)
+                base.StopBroadcast();
+            ConfirmStopped();
+        }
+         void LateUpdate()
+        {
+            if (!running && !stopConfirmed)
+                ConfirmStopped();
+        }
+         void ConfirmStopped()
+        {
+            try {
+                stopConfirmed = !NetworkTransport.IsBroadcastDiscoveryRunning();
+            } catch (Exception) {
+                stopConfirmed = true;
+            }
+        }
 	#endregion
 
 	void UpdateUI () {
