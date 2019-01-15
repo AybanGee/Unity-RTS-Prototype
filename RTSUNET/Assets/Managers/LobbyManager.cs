@@ -30,6 +30,12 @@ public class LobbyManager : NetworkLobbyManager {
 	public TextMeshProUGUI roomInfo;
 	public TextMeshProUGUI statusTxt;
 
+	//check if all players are ready
+	//[SyncVar]
+	public int readyCount;
+	public int numOfPlayers;
+	public bool allIsReady = false;
+
 	#region "Host & Client Controls"
 	public void CtrStartHost () {
 		StartHost ();
@@ -220,6 +226,8 @@ public class LobbyManager : NetworkLobbyManager {
 	}
 
 	void AssignPlayerBases (List<LobbyPlayer> lp) {
+		//readyCount = 0;
+		numOfPlayers = lp.Count;
 		List<LobbyPlayer> newLp = lp.OrderBy (o => o.team).ToList ();
 		if (newLp.Count > 2) {
 			for (int i = 0; i < newLp.Count; i++) {
@@ -256,5 +264,7 @@ public class LobbyManager : NetworkLobbyManager {
 		yield return null;
 	}
 	#endregion
+
+	
 
 }

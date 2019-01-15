@@ -8,6 +8,9 @@ public class MonoUnit : MonoUnitFramework {
 	[HideInInspector] public UnitMotor motor;
 	[HideInInspector] public UnitType unitType;
 
+	public GameObject selectionCircle;
+	public GameObject healthBar;
+
 	//[SerializeField] public List<Ability> primitiveAbilities = new List<Ability> ();
 
 	// Use this for initialization

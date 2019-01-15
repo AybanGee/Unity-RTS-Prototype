@@ -218,7 +218,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 317.80005, y: -9.399841}
+  m_AnchoredPosition: {x: 317.80005, y: -9.399857}
   m_SizeDelta: {x: -635.6, y: -131}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &34876567
@@ -310,7 +310,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -79.40015, y: -9.399841}
+  m_AnchoredPosition: {x: -79.40015, y: -9.399857}
   m_SizeDelta: {x: -169.9, y: -131}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &54813143
@@ -4168,7 +4168,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -79.40015, y: -14.100037}
+  m_AnchoredPosition: {x: -79.40015, y: -14.100052}
   m_SizeDelta: {x: -169.9, y: -140.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1006359971
@@ -7339,7 +7339,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2048763794}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4ef2edd1fb560fc47abf1d80f08efcbd, type: 3}
   m_Name: 
@@ -7384,7 +7384,7 @@ MonoBehaviour:
   - {fileID: 1680590169875568, guid: ca0c376331ae75d4e8993c258f5149d5, type: 2}
   - {fileID: 1473980715398178, guid: e5c220c5bd404bc4f9d39e1db61ac22c, type: 2}
   - {fileID: 1730401945541026, guid: a89aa74603ddd57429c1f77692b59cb7, type: 2}
-  - {fileID: 1046538601913074, guid: 9d534b900bfb059438783d0d6f517d02, type: 2}
+  - {fileID: 1046538601913074, guid: 1e456ae3fbbad784e9de824d7b440f2c, type: 2}
   m_CustomConfig: 0
   m_MaxConnections: 4
   m_ConnectionConfig:
@@ -7466,6 +7466,9 @@ MonoBehaviour:
   gameName: 
   roomInfo: {fileID: 1262923324}
   statusTxt: {fileID: 2073073759}
+  readyCount: 0
+  numOfPlayers: 0
+  allIsReady: 0
 --- !u!114 &2048763798
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -13,14 +13,22 @@ public class LoadMap : MonoBehaviour {
 	public GameObject camGroup;
 
 	BaseHolder baseholder;
+	LobbyManager LM;
+
+	public static LoadMap singleton;
+	public bool isFinishedLoading = false;
 
 
 
 	void Awake () {
-		Instance = this;
+		if (singleton != null && singleton != this)
+			this.enabled = false;
+		else
+			singleton = this;
+		//Instance  = this;
 
 		//commented for testing
-		//LobbyManager LM = LobbyManager.singleton.GetComponent<LobbyManager>();
+		LM = LobbyManager.singleton.GetComponent<LobbyManager>();
 		//mapSceneName = LM.mapName;
 
 		Load (mapSceneName);
@@ -43,46 +51,45 @@ public class LoadMap : MonoBehaviour {
 	void OnMapFinishedLoading (Scene scene, LoadSceneMode mode) {
 		Debug.Log ("Level loaded : " + scene.name + " Mode: " + mode);
 		SceneManager.sceneLoaded -= OnMapFinishedLoading;
-
+		//check if naka load na lahat
 		StartCoroutine(FindingBaseLocation());
 	}
 	IEnumerator FindingBaseLocation () {
-
-
-		if (BaseHolder.singleton != null) {
-			Debug.Log ("baseholder exists");
-		} else
-			Debug.Log ("baseholder does not exists");
-
-//		SceneManager.SetActiveScene(SceneManager.GetSceneByName(mapSceneName));
-		
 		while (baseholder == null) {
 			if(BaseHolder.singleton != null)
 			baseholder = BaseHolder.singleton;
 			Debug.Log ("while is running");
-
 			yield return null;
 		}
 
 		if (baseholder != null) {
 			Debug.Log ("base found");
-			//move Camera to location
-			//LateStart(1);
-			moveCamToBase();
-
+			isFinishedLoading = true;
+			//moveCamToBase();
 		} else
 			Debug.Log ("base is not found");
-		//Invoke spawning here
+		//Invoke spawning here	
 		
 		yield return null;
 	}
 
-	void moveCamToBase(){
+	IEnumerator WaitForOtherPlayers(){
+		yield return null;
+	}
+
+	public void moveCamToBase(){
 		//di ko alam kung pano ipapasa yung base number
-		PlayerObject PO = PlayerObject.singleton;
+		//PlayerObject PO = PlayerObject.singleton;
 		//error dito
 		//Vector3 baseLoc = baseholder.baseLocations[PO.baseNo].transform.position;
+		Debug.Log("Move cam to base");
+		PlayerObject PO = PlayerObject.singleton;
+		Debug.Log("PO : "+ PO);
+
 		GameObject baseLoc = baseholder.baseLocations[PO.baseNo];
+
+		Debug.Log("baseLocation : "+ baseLoc);
+
 		camGroup.transform.position =  new Vector3(baseLoc.transform.position.x, 0 , baseLoc.transform.position.x);
 
 		//maybe spawn Town Center here?

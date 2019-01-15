@@ -8,8 +8,8 @@ public class UnitSelectable : MonoBehaviour, ISelectHandler, IPointerClickHandle
 	public PlayerObject playerObject;
 
 	public MonoUnitFramework unit;
-
-public bool isOneSelection = false;
+	public GameObject selectUI;
+	public bool isOneSelection = false;
 	Renderer myRenderer;
 
 	[SerializeField]
@@ -33,7 +33,8 @@ public bool isOneSelection = false;
 		g=Mathf.Clamp(color.g + add,0f,1f);
 		selectedMat= new Material(unselectedMat);
 		selectedMat.color = new Color(r,g,b);
-
+		
+		selectUI = unit.GetComponent<MonoUnit>().selectionCircle;
 	
 		
 	}
@@ -47,6 +48,7 @@ public bool isOneSelection = false;
     }
  public void OnDeselect(BaseEventData eventData)
     {//if(!isLocalPlayer)return;
+		selectUI.SetActive(false);
 		myRenderer.material = unselectedMat;
         isSelected = false;
     }
@@ -76,6 +78,8 @@ public bool isOneSelection = false;
 		myRenderer.material = selectedMat;
 		isSelected = true;
         playerObject.selectedUnits.Add(this.gameObject);
+		selectUI.SetActive(true);
+
     }
 
     private void DeselectAll(BaseEventData eventData)

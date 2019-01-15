@@ -24,11 +24,11 @@ public class RTSNetworkDiscovery : NetworkDiscovery {
 	}
 
 	public void StartBroadcast () {
-		base.StopBroadcast ();
+/* 		base.StopBroadcast ();
 		StopBroadcast ();
 		Initialize ();
-		StartAsServer ();		
-/* 		while (running) {
+		StartAsServer (); */		
+		while (running) {
 			base.StopBroadcast ();
 			StopBroadcast ();
 			Debug.Log ("Its already running(B)");
@@ -38,17 +38,17 @@ public class RTSNetworkDiscovery : NetworkDiscovery {
 			RTSNetworkDiscovery.singleton.broadcastData = gameName;
 			Initialize ();
 			StartAsServer ();
-		} */
+		}
 	}
 
 	public void StartListen () {
-		base.StopBroadcast ();
+/* 		base.StopBroadcast ();
 		StopBroadcast ();
 		Initialize ();
 		StartAsClient ();
-		Debug.Log("Listening");
+		Debug.Log("Listening"); */
 
-/* 		if (isServer) {
+		if (isServer) {
 				while (NetworkTransport.IsBroadcastDiscoveryRunning()) {
 					base.StopBroadcast ();
 					StopBroadcast ();
@@ -64,7 +64,7 @@ public class RTSNetworkDiscovery : NetworkDiscovery {
 					Initialize ();
 					StartAsClient ();
 				}
-			} */
+			}
 	}
 	private IEnumerator CleanupExpiredEntries () {
 		while (true) {

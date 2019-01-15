@@ -36,6 +36,15 @@ public class PlayerObject : NetworkBehaviour {
 	[SyncVar]
 	public int baseNo;
 	public int manna;
+	[SyncVar]
+	public bool mapIsLoaded = false;
+	[SyncVar]
+	public bool startNow = false;
+	LoadMap mapLoader;
+	public List<PlayerObject> players = new List<PlayerObject>();
+	public GameObject camGroup;
+	BaseHolder baseholder;
+
 
 	public static PlayerObject singleton;
 	// Use this for initialization
@@ -89,6 +98,11 @@ public class PlayerObject : NetworkBehaviour {
 
 		cam = Camera.main;
 
+		mapLoader = LoadMap.singleton;
+
+		StartCoroutine(WaitForMap());
+		if(isServer)
+		StartCoroutine(GetAllPlayerObjects());
 
 	}
 	string DebugText (GameObject inspect) {
@@ -266,6 +280,152 @@ public class PlayerObject : NetworkBehaviour {
 		yield return null;
 	}
 	#endregion
-	
 
+	#region MapIsLoaded
+	//For Server
+	//Get all player objects
+	public IEnumerator GetAllPlayerObjects(){
+		LobbyManager LM = LobbyManager.singleton.GetComponent<LobbyManager>();
+		Transform playerTr = transform.parent;
+
+		//Debug.Log("Get all players start");
+		while(players.Count != LM.numOfPlayers){
+		//Debug.Log("Get all players loop");
+
+			players = new List<PlayerObject>();
+			foreach (Transform p in playerTr)
+			{
+		//Debug.Log("Get all players for each loop");
+
+				PlayerObject po = p.GetComponent<PlayerObject>();
+				if(po != null)
+				players.Add(po);
+			}
+
+			yield return null;
+		}
+		//All players have been found
+		//Debug.Log("all have been found");
+
+		StartCoroutine(CheckAllPlayersAreLoaded());
+		yield return null;
+	}
+
+
+	IEnumerator CheckAllPlayersAreLoaded(){
+		bool allReady = false;
+
+		while(!allReady){
+			allReady = true;
+			foreach(PlayerObject p in players){
+				if(p.mapIsLoaded != true){
+					allReady = false;
+				}
+			}
+			yield return null;
+		}
+		foreach(PlayerObject p in players){
+			p.CmdIAmReady(p.GetComponent<NetworkIdentity>());
+			//p.CmdMoveCamToBase();
+		}
+	}
+
+	[Command]
+	void CmdIAmReady(NetworkIdentity id){
+		id.gameObject.GetComponent<PlayerObject>().startNow = true;
+		RpcIAmReady(id);
+	}
+	[ClientRpc]
+	void RpcIAmReady(NetworkIdentity id){
+		id.gameObject.GetComponent<PlayerObject>().startNow = true;
+	}
+	//For Client
+	IEnumerator WaitForMap(){
+		Debug.Log("Waiting for map start");
+		
+		while(mapLoader.isFinishedLoading != true){
+			Debug.Log("Waiting for map loop");
+			
+			yield return null;
+		}
+		if(mapLoader.isFinishedLoading == true){
+			Debug.Log("map is Loaded : "+ mapLoader.isFinishedLoading);
+
+			SetLoadStatus(true);
+		}
+		StartCoroutine(WaitForStart());
+		yield return null;
+		
+	}
+
+	IEnumerator WaitForStart(){
+		Debug.Log("Waiting for start");
+
+		while(startNow != true){
+		Debug.Log("Waiting for start loop");
+
+			yield return null;
+		}
+
+		if(startNow == true){
+			//move cam to base
+			Debug.Log("Is Local Player : " + isLocalPlayer);
+			if(isLocalPlayer){
+				mapLoader = LoadMap.singleton;
+				Debug.Log("mapLoader : "+ mapLoader);
+				mapLoader.moveCamToBase();
+			}
+			Debug.Log("start Now");
+
+		}
+		yield return null;
+	}
+
+
+		public void SetLoadStatus(bool isReady){
+			CmdSetLoaded(isReady);
+			//lM = LoadMap.singleton;	
+		}
+
+		[Command]
+		void CmdSetLoaded(bool isReady){
+			mapIsLoaded = isReady;
+			RpcSetLoaded(mapIsLoaded);
+		}	
+
+		[ClientRpc]
+		void RpcSetLoaded(bool isReady){
+			mapIsLoaded = isReady;
+		}	
+		//=====
+		public void SetStartStatus(bool isReady){
+			CmdSetStartStatus(isReady);
+		}
+		[Command]
+		void CmdSetStartStatus(bool isReady){
+			startNow = isReady;
+			RpcSetStartStatus(startNow);
+		}	
+		[ClientRpc]
+		void RpcSetStartStatus(bool isReady){
+			startNow = isReady;
+		}
+		//=====
+
+
+
+/* 		[Command]
+		public void CmdMoveCamToBase(){
+			Debug.Log("CMD move cam ");
+			LoadMap lM = LoadMap.singleton;	
+			lM.moveCamToBase();
+			RpcMoveCamToBase();
+		}
+		[ClientRpc]
+		public void RpcMoveCamToBase(){
+			LoadMap lM = LoadMap.singleton;	
+			lM.moveCamToBase();
+		} */
+	#endregion
+	
 }
