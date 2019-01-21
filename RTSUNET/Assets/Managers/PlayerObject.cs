@@ -195,11 +195,9 @@ public class PlayerObject : NetworkBehaviour {
 
 			}
 
-		//DEBUGGGG
-		if (selectedUnits.Count == 1 && debugToggleForGameCommands) {
-			uiGameManager.commandsHandler.ShowAbilities (selectedUnits[0].GetComponent<MonoUnitFramework> ().abilities);
-			debugToggleForGameCommands = false;
-		}
+		uiGameManager.manaHolder.text = manna.ToString();
+
+
 	}
 	bool debugToggleForGameCommands = true;
 
@@ -214,6 +212,37 @@ public class PlayerObject : NetworkBehaviour {
 		return null;
 	}
 	#region "Unit Selection"
+
+	public void UpdateUI(){
+		//For Single Selection
+		if (selectedUnits.Count == 1 && debugToggleForGameCommands) {
+			debugToggleForGameCommands = false;
+			//Check if selected Unit is a Building
+			if(selectedUnits[0].GetComponent<MonoBuilding> () != null){
+				Debug.Log("MonoBuilding Exists");
+				//Check if Building can spawn Units
+				if(selectedUnits[0].GetComponent<QueueingSystem>() != null){				
+					Debug.Log("Q system : " +selectedUnits[0].GetComponent<QueueingSystem>());
+					uiGameManager.commandsHandler.ShowAbilities(selectedUnits[0].GetComponent<QueueingSystem>().spawnableUnits,selectedUnits[0].GetComponent<QueueingSystem>());
+				}
+				else
+				{
+					//Display Building Abilities Here
+				}
+			}
+
+			//Check if selected Unit is an actual Unit
+			if(selectedUnits[0].GetComponent<MonoUnit> () != null){
+				uiGameManager.commandsHandler.ShowAbilities (selectedUnits[0].GetComponent<MonoUnitFramework> ().abilities);
+			}
+		}
+
+		
+		//Check if multiple Units are Selected
+		if(selectedUnits.Count >= 2){
+			uiGameManager.commandsHandler.ShowMultiUnit(selectedUnits);
+		}	
+	}
 	public void DeselectAll (BaseEventData eventData) { //if(!isLocalPlayer)return;
 		//DEBUGGGG
 		//uiGameManager.commandsHandler.ClearAbilities ();
@@ -246,6 +275,7 @@ public class PlayerObject : NetworkBehaviour {
 		CleanSelection(selectedUnits);
 
 	}
+
 	#endregion
 
 	#region "movement"

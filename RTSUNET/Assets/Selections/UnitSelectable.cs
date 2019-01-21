@@ -34,7 +34,7 @@ public class UnitSelectable : MonoBehaviour, ISelectHandler, IPointerClickHandle
 		selectedMat= new Material(unselectedMat);
 		selectedMat.color = new Color(r,g,b);
 		
-		selectUI = unit.GetComponent<MonoUnit>().selectionCircle;
+		selectUI = unit.GetComponent<MonoUnitFramework>().selectionCircle;
 	
 		
 	}
@@ -65,7 +65,7 @@ public class UnitSelectable : MonoBehaviour, ISelectHandler, IPointerClickHandle
     {//if(!isLocalPlayer)return;
        // selectedUnits.Add(this);
 	//	if(!IsOnTeam())return;
-
+		if(!IsOnTeam())return;
 	   Debug.Log("SELECT");
 	          if (!isOneSelection && (isSelected && Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl)))
         {

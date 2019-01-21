@@ -11,8 +11,10 @@ public abstract class MonoUnitFramework : NetworkBehaviour {
 	[HideInInspector] public string description;
 	[HideInInspector] public Sprite artwork;
 	[HideInInspector] public int manaCost = 50;
-	[HideInInspector] public int creationTime = 50;
+	[HideInInspector] public float creationTime = 50;
 	[HideInInspector] public PlayerObject PO;
+	/* [HideInInspector] */ public float rangeInfluence = 0;
+	public GameObject selectionCircle;
 
 
 	public List<MonoAbility> abilities = new List<MonoAbility> ();

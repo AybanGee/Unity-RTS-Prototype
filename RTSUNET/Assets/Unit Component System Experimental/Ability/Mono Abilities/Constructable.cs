@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Constructable : MonoAbility {
-	public int constructionTime;
-	public int constructionTimeLeft;
+	public float constructionTime;
+	public float constructionTimeLeft;
 	public  void Start()
 	{
 		constructionTimeLeft = constructionTime;

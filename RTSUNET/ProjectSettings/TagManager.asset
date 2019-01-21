@@ -43,3 +43,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: BG
+    uniqueID: 1249993733
+    locked: 0
+  - name: MID
+    uniqueID: 2892323757
+    locked: 0
+  - name: FG
+    uniqueID: 3331038823
+    locked: 0

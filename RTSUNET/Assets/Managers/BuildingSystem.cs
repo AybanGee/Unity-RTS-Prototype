@@ -137,7 +137,7 @@ public class BuildingSystem : NetworkBehaviour {
 		GameObject go = NetworkManager.singleton.spawnPrefabs[prefabBuildingIndex];
 		
 		MonoBuilding  buildingUnit = go.GetComponent<MonoBuilding> ();
-		Vector3 navMeshObstacleSize = go.GetComponent<BoxCollider> ().size;
+		Vector3 navMeshObstacleSize = go.GetComponent<BoxCollider> ().size - new Vector3(1,0,1);
 
 		//AssignData (go, spawnableIndex, buildingUnit, navMeshObstacleSize);
 		
@@ -148,6 +148,12 @@ public class BuildingSystem : NetworkBehaviour {
 		//BuildingUnit buildingUnit = go.GetComponent<BuildingUnit> ();
 		Vector3 navMeshObstacleSize = go.GetComponent<BoxCollider> ().size;
  */
+		MonoUnitFramework muf = go.GetComponent<MonoUnitFramework>();
+		Building building = buildingGroups.buildings[spawnableIndex];
+		//muf.playerUnit = buildingUnit;
+		muf.PO = PO;
+		building.Initialize(go);	
+
 		AssignData (go, spawnableIndex, buildingUnit, navMeshObstacleSize);
 
 		//DESTROY COMPONENTS NOT NEEDED
@@ -212,12 +218,14 @@ public class BuildingSystem : NetworkBehaviour {
 
 		//nauunang subukun lagyan ng abilities bago ma assign
 		Debug.Log("Assigning Data");
+
+	/* 	
 		buildingUnit.team = PO.team;
 		buildingUnit.buildingType = buildingGroups.buildings[spawnableIndex].type;	
 		buildingUnit.primitiveAbilities = buildingGroups.buildings[spawnableIndex].abilities;
 		Debug.Log("abilities Count" + buildingGroups.buildings[spawnableIndex].abilities.Count);
 		Debug.Log("prime abilities Count" +buildingUnit.primitiveAbilities.Count);
-		//Dito may abilities na
+	 */	//Dito may abilities na
 
 	//Assigning of special scripts for building
 /* 		BuildingInteractable buildingInteractable = null;
@@ -241,6 +249,22 @@ public class BuildingSystem : NetworkBehaviour {
 			buildingInteractable.influenceRadius = navMeshObstacleSize.z + 1;
 
 	*/
+
+	switch (buildingGroups.buildings[spawnableIndex].type) {
+			case BuildingType.Barracks:
+				//buildingInteractable = spawnHolder.AddComponent<BuildingInteractable> ();
+				break;
+			case BuildingType.TownCenter:
+				QueueingSystem qs =	spawnHolder.AddComponent<QueueingSystem>();
+				qs.PO = PO;
+				break;
+			case BuildingType.Tower:
+				//buildingInteractable = spawnHolder.AddComponent<BuildingInteractable> ();
+				break;
+			case BuildingType.SupplyChain:
+				//buildingInteractable = spawnHolder.AddComponent<SupplyChainInteractable> ();
+				break;
+		} 
 		//end of assignments
 
 	}

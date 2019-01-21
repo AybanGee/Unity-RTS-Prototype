@@ -12,13 +12,17 @@ public class DragSelectionHandler : NetworkBehaviour, IBeginDragHandler, IDragHa
 	Vector2 startPosition;
 	Rect selectionRect;
 	public PlayerObject playerObject;
+	
 
+	
 	public void AssignPlayerObject(PlayerObject po){
 		playerObject = po;
 
 		Color boxColor = LobbyManager.singleton.GetComponent<LobbyManager>().gameColors.gameColorList()[playerObject.colorIndex];
 		boxColor.a = 1f;
 		selectionBoxImage.color = boxColor;
+
+
 	}
 	public void OnBeginDrag (PointerEventData eventData) {
 		if(!Input.GetMouseButton(0))return;
@@ -65,6 +69,8 @@ public class DragSelectionHandler : NetworkBehaviour, IBeginDragHandler, IDragHa
 				us.OnSelect (eventData);
 			}
 		}
+		UpdateUI();
+		
 	}
 
 	public void OnPointerClick (PointerEventData eventData) {
@@ -95,5 +101,9 @@ public class DragSelectionHandler : NetworkBehaviour, IBeginDragHandler, IDragHa
 		if (nextObject) {
 			ExecuteEvents.Execute<IPointerClickHandler> (nextObject, eventData, (x, y) => { x.OnPointerClick ((PointerEventData) y); });
 		}
+		UpdateUI();
+	}
+	public void UpdateUI(){
+		playerObject.UpdateUI();
 	}
 }

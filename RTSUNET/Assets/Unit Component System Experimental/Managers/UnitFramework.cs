@@ -10,7 +10,8 @@ public abstract class UnitFramework : ScriptableObject {
 	public string description;
 	public Sprite artwork;
 	public int manaCost = 50;
-	public int creationTime = 50;
+	public float creationTime = 50;
+	public float rangeInfluence = 0;
 	public GameObject graphics;
 
 	public List<Ability> abilities = new List<Ability> ();
@@ -26,6 +27,8 @@ public abstract class UnitFramework : ScriptableObject {
 		monoUnit.manaCost = manaCost;
 		monoUnit.creationTime = creationTime;
 		monoUnit.primitiveAbilities = abilities;
+		Debug.Log("SPAWNED INFLU"); 
+		monoUnit.rangeInfluence = rangeInfluence; 	
 		monoUnit.InitAbilities ();
 	}
 

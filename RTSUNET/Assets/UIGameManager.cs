@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class UIGameManager : MonoBehaviour {
 	public DragSelectionHandler dragSelectionHandler;
 	public UIGameCommandsHandler commandsHandler;
+	public TextMeshProUGUI manaHolder;
 
 	public Text debugTxt;
 
@@ -13,6 +15,8 @@ public class UIGameManager : MonoBehaviour {
 	void Awake () {
 		if (singleton == null)
 			singleton = this;
+
+		//commandsHandler.commandsPanel =
 	}
 
 	public void Initialize(PlayerObject po){

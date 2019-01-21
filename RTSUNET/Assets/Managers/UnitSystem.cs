@@ -71,5 +71,10 @@ public class UnitSystem : NetworkBehaviour {
 		PO.myUnits.Add (go);
 	}
 
-	
+	//for Spawning
+	public int GetUnitIndex(PlayerUnit unit){
+		int unitIndex = 0;
+			unitIndex = unitGroup.units.IndexOf(unit);
+		return unitIndex;
+	}
 }

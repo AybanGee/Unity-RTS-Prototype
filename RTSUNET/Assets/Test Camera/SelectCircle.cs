@@ -1,15 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class SelectCircle : MonoBehaviour {
-
+		float size ;
 	// Use this for initialization
 	void Start () {
-	gameObject.transform.localPosition = new Vector3(0,0,0);
-		//float size = gameObject.GetComponentInParent<CapsuleCollider>().radius;
-		//Debug.Log(gameObject.GetComponentInParent<CapsuleCollider>().radius);
-	transform.localScale = new Vector3(.5f,.5f,0);
+	gameObject.transform.localPosition = new Vector3(0,.1f,0);
+
+	if(gameObject.GetComponentInParent<CapsuleCollider>() != null)
+		size = gameObject.GetComponentInParent<CapsuleCollider>().radius;
+	if(gameObject.GetComponentInParent<NavMeshObstacle>() != null){
+		size = gameObject.GetComponentInParent<NavMeshObstacle>().size.x / 2;
+		Debug.Log("size x: " + gameObject.GetComponentInParent<NavMeshObstacle>().size.x);
+	}
+
+	transform.localScale = new Vector3(size,size,0);
 
 	gameObject.SetActive(false);
 	}
