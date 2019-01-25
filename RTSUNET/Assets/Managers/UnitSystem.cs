@@ -7,7 +7,7 @@ public class UnitSystem : NetworkBehaviour {
 	public int UnitSpawnIndex = 4;
 	public Vector3 spawnPoint;
 	[HideInInspector]
-	public UnitGroup unitGroup;
+	public UnitGroup unitGroup,thGroup,bGroup;
 	PlayerObject PO;
 	
 

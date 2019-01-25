@@ -20,7 +20,7 @@ public class PlayerObject : NetworkBehaviour {
 	[SerializeField]
 	BuildingFactionGroups buildingFactionGroups;
 	[SerializeField]
-	UnitFactionGroup unitFactionGroup;
+	UnitFactionGroup unitFactionGroup,townhallUnitGroup,barracksUnitGroup;
 	public LayerMask movementMask;
 	//passed variables
 	[SyncVar]
@@ -77,6 +77,8 @@ public class PlayerObject : NetworkBehaviour {
 		UnitSys = GetComponent<UnitSystem> ();
 		if (UnitSys == null) { Debug.LogError ("Unit System not found on player object"); } else {
 			UnitSys.unitGroup = unitFactionGroup.factionUnitDictionary[(Factions) factionIndex];
+			UnitSys.thGroup = townhallUnitGroup.factionUnitDictionary[(Factions) factionIndex];
+			UnitSys.bGroup = barracksUnitGroup.factionUnitDictionary[(Factions) factionIndex];
 
 		}
 
@@ -214,6 +216,7 @@ public class PlayerObject : NetworkBehaviour {
 	#region "Unit Selection"
 
 	public void UpdateUI(){
+
 		//For Single Selection
 		if (selectedUnits.Count == 1 && debugToggleForGameCommands) {
 			debugToggleForGameCommands = false;
@@ -224,10 +227,12 @@ public class PlayerObject : NetworkBehaviour {
 				if(selectedUnits[0].GetComponent<QueueingSystem>() != null){				
 					Debug.Log("Q system : " +selectedUnits[0].GetComponent<QueueingSystem>());
 					uiGameManager.commandsHandler.ShowAbilities(selectedUnits[0].GetComponent<QueueingSystem>().spawnableUnits,selectedUnits[0].GetComponent<QueueingSystem>());
+					uiGameManager.commandsHandler.ShowProcessQueue(selectedUnits[0].GetComponent<QueueingSystem>().spawnQueue,selectedUnits[0].GetComponent<QueueingSystem>());
+
 				}
 				else
 				{
-					//Display Building Abilities Here
+					//Display Other Building Abilities Here
 				}
 			}
 
@@ -246,6 +251,9 @@ public class PlayerObject : NetworkBehaviour {
 	public void DeselectAll (BaseEventData eventData) { //if(!isLocalPlayer)return;
 		//DEBUGGGG
 		//uiGameManager.commandsHandler.ClearAbilities ();
+		uiGameManager.commandsHandler.ClearAbilities();
+		uiGameManager.commandsHandler.ResetQueueDisplay();
+
 		debugToggleForGameCommands = true;
 		CleanSelection (selectedUnits);
 		foreach (GameObject unit in selectedUnits) {

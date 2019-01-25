@@ -79,7 +79,8 @@ public class UnitSelectable : MonoBehaviour, ISelectHandler, IPointerClickHandle
 		isSelected = true;
         playerObject.selectedUnits.Add(this.gameObject);
 		selectUI.SetActive(true);
-
+		
+		playerObject.UpdateUI();
     }
 
     private void DeselectAll(BaseEventData eventData)

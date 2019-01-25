@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 821928f104620d9498c657768589ae9c, type: 3}
+  m_Name: BarracksGroup
+  m_EditorClassIdentifier: 
+  factionUnitDictionary:
+    m_keys: 0000000001000000
+    m_values:
+    - {fileID: 11400000, guid: 73e2426d203d82745b050521bd62347a, type: 2}
+    - {fileID: 11400000, guid: fcc0fd7aa1b9e7146b97b3df875a914f, type: 2}

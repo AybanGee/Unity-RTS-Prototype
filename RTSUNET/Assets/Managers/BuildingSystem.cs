@@ -249,20 +249,33 @@ public class BuildingSystem : NetworkBehaviour {
 			buildingInteractable.influenceRadius = navMeshObstacleSize.z + 1;
 
 	*/
+	
+	if(!isLocalPlayer) return;
+	if(spawnHolder.GetComponent<QueueingSystem>() != null) return;
+	
+	QueueingSystem qs;
 
 	switch (buildingGroups.buildings[spawnableIndex].type) {
 			case BuildingType.Barracks:
-				//buildingInteractable = spawnHolder.AddComponent<BuildingInteractable> ();
+			Debug.Log("Barracks Time");
+				qs =	spawnHolder.AddComponent<QueueingSystem>();
+				qs.PO = PO;
+				qs.spawnableUnits = PO.UnitSys.bGroup.units;
 				break;
 			case BuildingType.TownCenter:
-				QueueingSystem qs =	spawnHolder.AddComponent<QueueingSystem>();
+			Debug.Log("TownHall Time");
+				qs =	spawnHolder.AddComponent<QueueingSystem>();
 				qs.PO = PO;
+				qs.spawnableUnits = PO.UnitSys.thGroup.units;
 				break;
 			case BuildingType.Tower:
 				//buildingInteractable = spawnHolder.AddComponent<BuildingInteractable> ();
 				break;
 			case BuildingType.SupplyChain:
-				//buildingInteractable = spawnHolder.AddComponent<SupplyChainInteractable> ();
+			Debug.Log("Supply Time");
+				qs =	spawnHolder.AddComponent<QueueingSystem>();
+				qs.PO = PO;
+				qs.spawnableUnits = PO.UnitSys.thGroup.units;
 				break;
 		} 
 		//end of assignments

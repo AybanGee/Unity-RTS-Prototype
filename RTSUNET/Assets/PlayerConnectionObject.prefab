@@ -125,7 +125,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UnitSpawnIndex: 4
+  spawnPoint: {x: 0, y: 0, z: 0}
   unitGroup: {fileID: 0}
+  thGroup: {fileID: 0}
+  bGroup: {fileID: 0}
 --- !u!114 &114949821193209664
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -147,6 +150,8 @@ MonoBehaviour:
   buildingFactionGroups: {fileID: 11400000, guid: 44b765f7598b035428e1710b856a3e9c,
     type: 2}
   unitFactionGroup: {fileID: 11400000, guid: 8fd697b59d47db64aadb40e11c6c7aa9, type: 2}
+  townhallUnitGroup: {fileID: 11400000, guid: aa8ba28ae9b7b39428141af7c817eff3, type: 2}
+  barracksUnitGroup: {fileID: 11400000, guid: 61a63d9140d96dd4f8a32030121d6902, type: 2}
   movementMask:
     serializedVersion: 2
     m_Bits: 512
@@ -155,4 +160,9 @@ MonoBehaviour:
   factionIndex: 0
   playerName: 
   colorIndex: 0
+  baseNo: 0
   manna: 500000
+  mapIsLoaded: 0
+  startNow: 0
+  players: []
+  camGroup: {fileID: 0}

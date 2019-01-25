@@ -8,6 +8,9 @@ using TMPro;
 public class UIGameCommandsHandler : MonoBehaviour {
 
 	public GameObject abilityPanel, skillUI,queueDisplay;
+	public Image queueTimer;
+	public Sprite baseImage;
+	QueueingSystem QS;
 
 	PlayerObject PO;
 	public void Initialize(PlayerObject playerObject){
@@ -58,15 +61,16 @@ public class UIGameCommandsHandler : MonoBehaviour {
 		}
 	}
 	public void ClearAbilities () {
+		QS = null;
 		foreach (Transform t in transform) {
 			Destroy (t.gameObject);
 		}
 	}
 
-	#region SpawningQueue
+	#region Spawnable Units List
 	public void ShowQueue (List<PlayerUnit> units,QueueingSystem queue) {
 		//ClearQueue ();
-		
+
 		ClearAbilities ();
 
 		//Loop through all Selected Units
@@ -93,14 +97,18 @@ public class UIGameCommandsHandler : MonoBehaviour {
 		foreach (Transform t in transform) {
 			Destroy(t.gameObject);
 		}
+		queueTimer.fillAmount = 0f;
+
 	}
 	#endregion
+
+	//Show Multiple Units
 	public void ShowMultiUnit (List<GameObject> units) {
 		ClearQueue ();
 		int displayCount = 0;
-		Debug.Log(units.Count);
+		//Debug.Log("Unit Count:" + units.Count);
 		foreach (GameObject unit in units) {
-			Debug.Log("disp Count : " + displayCount);
+			//Debug.Log("disp Count : " + displayCount);
 			if(displayCount <= 31){
 				Debug.Log("in IF");
 				//Instantiate ButtonPrefab and Assign Sprites
@@ -133,6 +141,68 @@ public class UIGameCommandsHandler : MonoBehaviour {
 		}
 	}
 
+	public void ShowProcessQueue (List<PlayerUnit> units,QueueingSystem queue) {
+		QS = queue;
+		int unitIndex =  -1;
+		ResetQueueDisplay();
+		//Debug.Log("Show Process Queue list count : "+units.Count);
+		//Loop through all Selected Unit
+		foreach (PlayerUnit unit in units) {
+			
+		unitIndex++;
+		//Instantiate ButtonPrefab and Assign Sprites
+			GameObject _skillUI = queueDisplay.transform.GetChild(unitIndex).gameObject;
+			if(_skillUI == null){
+				Debug.Log("Skill UI is null on " +  unitIndex);
+			}
+			Image img = _skillUI.GetComponent<Image>();
+
+			//check if there are sprites
+			if(img == null){Debug.LogError("NO IMAGE!");continue;}
+			if(unit.artwork == null) Debug.LogWarning("NO SPRITE");
+				img.sprite = unit.artwork;
+				img.color = new Color(1f,1f,1f,1f);
+
+			//Functions Delegates for buttons
+			Button _btn = _skillUI.GetComponent<Button>();	
+			//_btn.onClick.RemoveAllListeners();
+		/* 	Debug.Log("Setting button to index "+ unitIndex);
+			_btn.onClick.AddListener(delegate {
+					//unitIndex = units.IndexOf(unit);
+				Debug.LogWarning("removing "+ unitIndex);
+				queue.RemoveFromQueue(unitIndex);
+			}); */
+		//if(unitIndex <= 8)
+		}
+	}
+
+	public void ResetQueueDisplay(){
+		foreach (Transform t in queueDisplay.transform) {
+			//Destroy(t.gameObject);
+			Image img = t.GetComponent<Image>();
+			img.sprite = baseImage;
+			img.color = new Color(0f,0f,0f,.5f);
+
+			Button _btn = t.GetComponent<Button>();	
+
+			queueTimer.fillAmount = 0f;
+		//	_btn.onClick.RemoveAllListeners();	
+		}
+	}
+
+	public void RemoveFromQueue(int btnIndex){
+		if(QS == null)return;
+		QS.RemoveFromQueue(btnIndex);
+	//
+	}	
+
+	void Update(){
+		if(QS!=null && QS.spawnQueue.Count > 0){
+			queueTimer.fillAmount = QS.creationTimeHolder / QS.spawnQueue[0].creationTime;
+		}else{
+			Debug.Log("Queueing System is Empty");
+		}
+	}
 
 
 }

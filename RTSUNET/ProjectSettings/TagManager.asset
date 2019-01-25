@@ -49,6 +49,9 @@ TagManager:
   - name: MID
     uniqueID: 2892323757
     locked: 0
+  - name: SUBJ
+    uniqueID: 3063818087
+    locked: 0
   - name: FG
     uniqueID: 3331038823
     locked: 0

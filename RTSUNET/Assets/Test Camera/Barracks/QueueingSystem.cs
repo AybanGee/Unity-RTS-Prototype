@@ -15,102 +15,115 @@ public class QueueingSystem : MonoBehaviour {
 	public PlayerObject PO;
 	public float creationTimeHolder;
 	bool queueIsRunning;
+	Coroutine processQueue;
 
 	void Start () {
-		//Set Spawn Point and Rally Point
-		gameObject.transform.GetChild(1);
-		//SetSpawnPoint(spawnPointHolder.transform.position);
-		SetSpawnPoint(transform.position);
 		queueIsRunning = false;
 
 	}
 
-	 IEnumerator ProcessQueue () {
+	IEnumerator ProcessQueue () {
 		bool isDone = false;
-	 	while (spawnQueue.Count > 0) {
+		while (spawnQueue.Count > 0) {
+
 			queueIsRunning = true;
 			PlayerUnit u = spawnQueue[0];
 			//if(isDone)			
 			creationTimeHolder = u.creationTime;
 
-			Debug.Log("CreationHolder : " + creationTimeHolder);
-	 		while (creationTimeHolder > 0) {  
+			//Debug.Log("CreationHolder : " + creationTimeHolder);
+			while (creationTimeHolder > 0) {
 				//Debug.Log("Processing Unit : " + creationTimeHolder);
+				if (spawnQueue.Count == 0) {
+					queueIsRunning = false;
+					StopCoroutine (processQueue);
+				}
+
 				creationTimeHolder -= Time.deltaTime;
-	 			yield return null;
-	 		}
+				yield return null;
+			}
 
-				Debug.Log("Finished Unit");
-			 	//UpdateUI
-				 //Di ko pa rin alam kung pano yung sa UI
-				UpdateUIList();
-				//Get Index of Unit
+			//Debug.Log("Finished Unit");
+			//UpdateUI
+			//Di ko pa rin alam kung pano yung sa UI
+			Debug.Log ("is Selected : " + GetComponent<UnitSelectable> ().isSelected);
+			if (GetComponent<UnitSelectable> ().isSelected)
+				UpdateUIList ();
+			//Get Index of Unit
 
-				Debug.Log("Player Object : " + PO);
-				Debug.Log("Unit System : " + PO.UnitSys);
-				int unitIndex = PO.UnitSys.GetUnitIndex(u);
+			//Debug.Log("Player Object : " + PO);
+			//Debug.Log("Unit System : " + PO.UnitSys);
+			int unitIndex = PO.UnitSys.GetUnitIndex (u);
 
+			//Spawn MonoUnitFramework
+			PO.UnitSys.spawnUnit (unitIndex, spawnPoint, Quaternion.identity);
+			//Move MonoUnitFramework to Rallypoint
+			isDone = true;
 
-	 			//Spawn MonoUnitFramework
-				PO.UnitSys.spawnUnit (unitIndex, spawnPoint, Quaternion.identity);
-	 			//Move MonoUnitFramework to Rallypoint
-				isDone = true;
+			//Remove Unit
+			RemoveFromQueue (0);
 
-				//Remove Unit
-				RemoveFromQueue(0);
-	 		
 		}
 		queueIsRunning = false;
 		yield return null;
 	}
 	//Location Setting
-	public void SetSpawnPoint(Vector3 newSpawnPoint){
+	public void SetSpawnPoint (Vector3 newSpawnPoint) {
 		spawnPoint = newSpawnPoint;
 	}
-	public void SetRallyPoint(Vector3 newRallyPoint){
+	public void SetRallyPoint (Vector3 newRallyPoint) {
 		rallyPoint = newRallyPoint;
 	}
 
-
 	//Queue Manipulation
-	public void AddToQueue(int unitIndex){
+	public void AddToQueue (int unitIndex) {
 		//check if Player has enough mana
-		if(PO.manna < spawnableUnits[unitIndex].manaCost){
+		if (PO.manna < spawnableUnits[unitIndex].manaCost) {
 			//Tell the player that he doesn't have enough Mana
-			Debug.Log("Not Enough Mana");
+			Debug.Log ("Not Enough Mana");
 			return;
 		}
 		//check if the queue is full
-		if(spawnQueue.Count <= 8){
-			spawnQueue.Add(spawnableUnits[unitIndex]);
-			UpdateUIList();
+		if (spawnQueue.Count <= 8) {
+			spawnQueue.Add (spawnableUnits[unitIndex]);
+			UpdateUIList ();
 			//deduct mana from player
 			PO.manna -= spawnableUnits[unitIndex].manaCost;
-		}
-		else{
+		} else {
 			//the queue is Full
-			Debug.Log("The Queue is full");
+			Debug.Log ("The Queue is full");
 		}
 		//check the queue is already being processed
-		if(!queueIsRunning){
-			StartCoroutine(ProcessQueue());
+		if (!queueIsRunning) {
+			processQueue = StartCoroutine (ProcessQueue ());
 		}
 	}
 
-	public void RemoveFromQueue(int unitIndex){
+	public void RemoveFromQueue (int unitIndex) {
+		//Debug.Log ("unit Index : " + unitIndex);
+
+		if (unitIndex > spawnQueue.Count - 1) { Debug.LogError ("Index " + unitIndex + " was out of range FUUUU-"); return; }
 		//refund mana
 		PO.manna += spawnQueue[unitIndex].manaCost;
 		//remove from queue
-		spawnQueue.RemoveAt(unitIndex);
+		//Debug.Log ("Removing Unit at : " + unitIndex);
+		spawnQueue.RemoveAt (unitIndex);
+
+		//reset Timer if first unit
+		if (unitIndex == 0 && spawnQueue.Count > 0) {
+			PlayerUnit u = spawnQueue[0];
+			creationTimeHolder = u.creationTime;
+		}
+
 		//updateDisplay
-		UpdateUIList();
+		if (GetComponent<UnitSelectable> ().isSelected)
+			UpdateUIList ();
 	}
 
 	//Display
-	public void UpdateUIList(){
+	public void UpdateUIList () {
 		//Clear Buttons
-		//PO.uiGameManager.commandsHandler;
+		PO.uiGameManager.commandsHandler.ShowProcessQueue (spawnQueue, this);
 	}
-
 
 }
