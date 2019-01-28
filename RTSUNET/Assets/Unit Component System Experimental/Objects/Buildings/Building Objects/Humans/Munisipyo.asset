@@ -17,7 +17,7 @@ MonoBehaviour:
   battleType: 2
   description: This building is the most important structure for the humans. It holds
     the power to create worlds and fill them with life.
-  artwork: {fileID: 0}
+  artwork: {fileID: 21300000, guid: 1a557eb9c6212a34fb1869586c6af8c5, type: 3}
   manaCost: 10000
   creationTime: 1000
   rangeInfluence: 12
@@ -27,4 +27,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 992646d67c704e44a858599fd545c4a7, type: 2}
   type: 0
   sellPrice: 50
-  addedColliderScale: {x: 12, y: 0, z: 12}
+  addedColliderScale: {x: 13, y: 2, z: 13}

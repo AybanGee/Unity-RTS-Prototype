@@ -19,6 +19,7 @@ public class Build : MonoSkill {
 	}
 
 	public override void Stop () {
+		base.Stop();
 		StopBuild ();
 	}
 

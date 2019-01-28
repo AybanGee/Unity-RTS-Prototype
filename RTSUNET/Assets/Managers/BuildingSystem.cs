@@ -8,7 +8,7 @@ public class BuildingSystem : NetworkBehaviour {
 	public bool buildMode = false;
 	public bool isGrid = true;
 	public int prefabBuildingIndex = 1;
-	public int selectedBuildingIndex;
+	public int selectedBuildingIndex; // AYBAN ETO YUNG BUILDING NA GUSTO MONG PALITAN
 	GameObject buildingPlaceholder;
 	BuildingCreationTrigger buildingCreationTrigger;
 	[SerializeField]
@@ -74,7 +74,7 @@ public class BuildingSystem : NetworkBehaviour {
 		}
 		if (Input.GetMouseButtonDown (0) && isValidLocation) {
 			PO.manna -= buildingGroups.buildings[selectedBuildingIndex].manaCost;
-			constructor.SpawnRubble (prefabBuildingIndex, mouseWorldPointPosition - buildingOffset, buildingPlaceholder.transform.rotation, PO.team);
+			constructor.SpawnRubble (selectedBuildingIndex, mouseWorldPointPosition - buildingOffset, buildingPlaceholder.transform.rotation, PO.team);
 			ToggleBuildMode ();
 		}
 	}
@@ -107,7 +107,7 @@ public class BuildingSystem : NetworkBehaviour {
 
 			BoxCollider buildingCollider = buildingPlaceholder.AddComponent<BoxCollider> ();
 			buildingCollider.isTrigger = true;
-			buildingCollider.size = buildingCollider.size + buildingGroups.buildings[selectedBuildingIndex].addedColliderScale;
+			//buildingCollider.size = buildingGroups.buildings[selectedBuildingIndex].addedColliderScale + new Vector3(.1f,0,.1f);
 
 			buildingCreationTrigger = buildingPlaceholder.AddComponent<BuildingCreationTrigger> ();
 			placeHolderRenderers = buildingPlaceholder.GetComponentsInChildren<Renderer> ();
@@ -157,9 +157,9 @@ public class BuildingSystem : NetworkBehaviour {
 		AssignData (go, spawnableIndex, buildingUnit, navMeshObstacleSize);
 
 		//DESTROY COMPONENTS NOT NEEDED
-		Destroy (go.GetComponent<Rigidbody> ());
+	/* 	Destroy (go.GetComponent<Rigidbody> ());
 		Destroy (go.GetComponent<BuildingCreationTrigger> ());
-
+ */
 		//SPAWNING AND AUTHORIZE BLDG
 		NetworkServer.Spawn (go);
 		bool ToF = go.GetComponent<NetworkIdentity> ().AssignClientAuthority (GetComponent<NetworkIdentity> ().connectionToClient);
@@ -196,6 +196,10 @@ public class BuildingSystem : NetworkBehaviour {
 
 		navMeshObstacle.size = navMeshObstacleSize;
 		navMeshObstacle.carving = true;
+
+		BoxCollider boxCollider = spawnHolder.GetComponent<BoxCollider>();
+		navMeshObstacleSize.y *= 4;
+		boxCollider.size = navMeshObstacleSize;
 		spawnHolder.name = PO.team + " - bldg - " + id.netId;
 
 //		spawnHolder.GetComponent<BuildingStats> ().netPlayer = PO;

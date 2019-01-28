@@ -29,6 +29,7 @@ GameObject:
   - component: {fileID: 114962008958661710}
   - component: {fileID: 95681294563118032}
   - component: {fileID: 114713345374080506}
+  - component: {fileID: 114029293853292296}
   m_Layer: 0
   m_Name: PlayerUnit
   m_TagString: Untagged
@@ -73,7 +74,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1046538601913074}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 107.142204, y: 6.556029, z: -8.078693}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4808703419654712}
@@ -98,6 +99,47 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &114029293853292296
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1046538601913074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9de747ec6d608d4b984ba2628a309b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interpolationBackTime: 0.1
+  extrapolationTimeLimit: 0.3
+  extrapolationDistanceLimit: 0.3
+  sendPositionThreshold: 0.001
+  sendRotationThreshold: 0.001
+  sendScaleThreshold: 0.001
+  sendVelocityThreshold: 0.001
+  sendAngularVelocityThreshold: 0.001
+  receivedPositionThreshold: 0
+  receivedRotationThreshold: 0
+  positionSnapThreshold: 8
+  rotationSnapThreshold: 60
+  scaleSnapThreshold: 3
+  positionLerpSpeed: 0.2
+  rotationLerpSpeed: 0.2
+  scaleLerpSpeed: 0.2
+  syncPosition: 0
+  syncRotation: 0
+  syncScale: 0
+  syncVelocity: 0
+  syncAngularVelocity: 0
+  isPositionCompressed: 1
+  isRotationCompressed: 1
+  isScaleCompressed: 1
+  isVelocityCompressed: 1
+  isAngularVelocityCompressed: 1
+  whereToUpdateTransform: 1
+  sendRate: 30
+  networkChannel: 1
+  childObjectToSync: {fileID: 0}
 --- !u!114 &114315652748502810
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -132,13 +174,14 @@ MonoBehaviour:
   manaCost: 50
   creationTime: 20
   PO: {fileID: 0}
+  rangeInfluence: 0
+  selectionCircle: {fileID: 1815081574688590}
   abilities: []
   primitiveAbilities: []
   playerUnit: {fileID: 0}
   focus: {fileID: 0}
   motor: {fileID: 0}
   unitType: 0
-  selectionCircle: {fileID: 1815081574688590}
   healthBar: {fileID: 0}
 --- !u!114 &114519723946226952
 MonoBehaviour:

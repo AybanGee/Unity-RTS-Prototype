@@ -152,9 +152,10 @@ public class PlayerObject : NetworkBehaviour {
 		if (Input.GetKeyDown (KeyCode.M)) {
 			UnitSys.spawnUnit (1, new Vector3 (17f, -0.5f, 25f), Quaternion.identity);
 		}
-		if (Input.GetKeyDown (KeyCode.B)) {
+		// AYBAN PASOK SA BUILD MODE
+/* 		if (Input.GetKeyDown (KeyCode.B)) {
 			BuildSys.ToggleBuildMode ();
-		}
+		} */
 		if (BuildSys.buildMode) {
 			BuildSys.BuildingControl ();
 		} else
@@ -246,6 +247,10 @@ public class PlayerObject : NetworkBehaviour {
 		//Check if multiple Units are Selected
 		if(selectedUnits.Count >= 2){
 			uiGameManager.commandsHandler.ShowMultiUnit(selectedUnits);
+		}
+
+		if(selectedUnits.Count == 0){
+			uiGameManager.commandsHandler.ShowBuildings(BuildSys);			
 		}	
 	}
 	public void DeselectAll (BaseEventData eventData) { //if(!isLocalPlayer)return;

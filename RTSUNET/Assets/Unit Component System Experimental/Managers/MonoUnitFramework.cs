@@ -17,6 +17,8 @@ public abstract class MonoUnitFramework : NetworkBehaviour {
 	public GameObject selectionCircle;
 
 
+
+
 	public List<MonoAbility> abilities = new List<MonoAbility> ();
 	public List<Ability> primitiveAbilities = new List<Ability> ();
 

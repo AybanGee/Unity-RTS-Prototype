@@ -3738,6 +3738,7 @@ GameObject:
   - component: {fileID: 1825014883}
   - component: {fileID: 1825014882}
   - component: {fileID: 1825014886}
+  - component: {fileID: 1825014887}
   m_Layer: 5
   m_Name: GameUI
   m_TagString: Untagged
@@ -3840,6 +3841,17 @@ MonoBehaviour:
   commandsHandler: {fileID: 1148269729}
   manaHolder: {fileID: 311367826}
   debugTxt: {fileID: 2034016768}
+--- !u!225 &1825014887
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1825014881}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1001 &1835049646
 Prefab:
   m_ObjectHideFlags: 0

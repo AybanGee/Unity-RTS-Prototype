@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEditor.Animations;
+using UnityEngine.Networking;
 
 public class CharacterAnimator : MonoBehaviour {
 
@@ -21,6 +23,11 @@ public class CharacterAnimator : MonoBehaviour {
 	protected virtual void Update () {
 		if(animator == null){
 		animator = transform.GetChild(0).GetComponentInChildren<Animator>();
+
+		Animator netAnimator = GetComponent<Animator>();
+		netAnimator.runtimeAnimatorController = animator.runtimeAnimatorController;
+        netAnimator.avatar = animator.avatar;
+
 		return;
 		}
 		float speedPercent = agent.velocity.magnitude / agent.speed;

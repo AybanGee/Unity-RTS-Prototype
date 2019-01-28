@@ -13,6 +13,8 @@ public abstract class UnitFramework : ScriptableObject {
 	public float creationTime = 50;
 	public float rangeInfluence = 0;
 	public GameObject graphics;
+	
+    
 
 	public List<Ability> abilities = new List<Ability> ();
 	public virtual void Initialize (GameObject go) {

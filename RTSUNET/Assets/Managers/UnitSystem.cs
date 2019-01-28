@@ -63,7 +63,7 @@ public class UnitSystem : NetworkBehaviour {
 		MonoUnit unit = go.GetComponent<MonoUnit> ();
 		unit.team = PO.team;
 		//Assign data here
-	
+		//unit.InitAbilities();
 		go.name = PO.team + " - unit" + go.GetComponent<NetworkIdentity> ().netId;
 	
 		UnitSelectable unitSelectable = go.AddComponent<UnitSelectable> ();

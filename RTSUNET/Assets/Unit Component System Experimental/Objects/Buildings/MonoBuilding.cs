@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class MonoBuilding : MonoUnitFramework {
 	public int buildingPrice;
@@ -18,6 +19,11 @@ public class MonoBuilding : MonoUnitFramework {
 		 journeyLength = Vector3.Distance(startingPos, originalPos);
 		StartCoroutine(Ascend());
 		}
+
+		NavMeshObstacle navmesh = GetComponent<NavMeshObstacle>();
+		BoxCollider boxCollider = GetComponent<BoxCollider>();
+
+		
 	}
 	#region Ascension
 	

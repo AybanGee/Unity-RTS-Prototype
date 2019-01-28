@@ -5,21 +5,25 @@ using UnityEngine;
 public class Constructable : MonoAbility {
 	public float constructionTime;
 	public float constructionTimeLeft;
-	public  void Start()
-	{
+	private bool isBuilt = false;
+
+	public void Start () {
 		constructionTimeLeft = constructionTime;
 	}
 	public void Construct (int amount) {
 		constructionTimeLeft -= amount;
-		if (constructionTimeLeft <= 0)
+		if (constructionTimeLeft <= 0) {
+			if (isBuilt) return;
+
+			isBuilt = true;
 			EndConstruct ();
+
+		}
 	}
 
 	public void EndConstruct () {
-		Debug.Log("Construction Done!");
-		GetComponent<MonoConstructableUnit>().SpawnBuilding ();
+		Debug.Log ("Construction Done!");
+		GetComponent<MonoConstructableUnit> ().SpawnBuilding ();
 	}
 
-	
-	
 }

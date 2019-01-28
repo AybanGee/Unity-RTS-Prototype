@@ -9,19 +9,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7a982860f5b0e764f8215f21e8a72539, type: 3}
-  m_Name: Kuwartel
+  m_Name: Tower
   m_EditorClassIdentifier: 
-  name: Kuwartel
+  name: Tore
   faction: 0
   tier: 0
-  battleType: 2
-  description: This is where units exists
-  artwork: {fileID: 21300000, guid: fd770d45ea0ddde4ca38eb8fa7b87df7, type: 3}
-  manaCost: 500
-  creationTime: 100
-  rangeInfluence: 1
-  graphics: {fileID: 1837562233060174, guid: 5f72e5f386f9c8945b5c80da74d8d07f, type: 2}
+  battleType: 0
+  description: 
+  artwork: {fileID: 0}
+  manaCost: 50
+  creationTime: 50
+  rangeInfluence: 0
+  graphics: {fileID: 0}
   abilities: []
-  type: 2
+  type: 0
   sellPrice: 50
-  addedColliderScale: {x: 1, y: 2, z: 1}
+  addedColliderScale: {x: 3, y: 2, z: 3}
