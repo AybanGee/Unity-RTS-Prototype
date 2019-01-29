@@ -32,7 +32,7 @@ public class BuildingConstructor : NetworkBehaviour {
 
 		//initialize mono constructable unit
 		MonoConstructableUnit mcu = rubble.GetComponent<MonoConstructableUnit> ();
-		mcu.InitializeConstructable (bldg, 1, team, buildingSystem.PO);
+		mcu.InitializeConstructable (bldg, buildingSystem.selectedBuildingIndex, team, buildingSystem.PO);
 
 		//TODO: Find out for what this section is?
 		GameObject building = NetworkManager.singleton.spawnPrefabs[1];	

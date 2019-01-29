@@ -178,7 +178,7 @@ public class BuildingSystem : NetworkBehaviour {
 		GameObject spawnHolder = id.gameObject;
 		GameObject graphics = buildingGroups.buildings[spawnableIndex].graphics;
 		Vector3 grapihicsOffset = new Vector3 (0, graphics.transform.localScale.y / 2, 0);
-		graphics = Instantiate (graphics, spawnHolder.transform.position + grapihicsOffset, spawnHolder.transform.rotation, spawnHolder.transform);
+		graphics = Instantiate (graphics, spawnHolder.transform.position /* + grapihicsOffset */, spawnHolder.transform.rotation, spawnHolder.transform);
 		graphics.GetComponent<GraphicsHolder> ().colorize (LobbyManager.singleton.GetComponent<LobbyManager> ().gameColors.gameColorList () [PO.colorIndex]);
 		MonoBuilding  buildingUnit = spawnHolder.GetComponent<MonoBuilding> ();
 	//	BuildingUnit buildingUnit = spawnHolder.GetComponent<BuildingUnit> ();

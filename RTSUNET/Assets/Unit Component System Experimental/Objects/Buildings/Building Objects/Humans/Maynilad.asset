@@ -16,7 +16,7 @@ MonoBehaviour:
   tier: 0
   battleType: 2
   description: This structure receives mana forever
-  artwork: {fileID: 21300000, guid: 3ce3b473ee411ea43b7f398572146eff, type: 3}
+  artwork: {fileID: 21300000, guid: 485d3ce6badccfb42aebe4cf9e308b33, type: 3}
   manaCost: 100
   creationTime: 50
   rangeInfluence: 1

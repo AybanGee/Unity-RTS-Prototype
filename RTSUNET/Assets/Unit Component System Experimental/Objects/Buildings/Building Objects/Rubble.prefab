@@ -72,7 +72,7 @@ Transform:
   m_GameObject: {fileID: 1473980715398178}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2.1, y: 2, z: 2.1}
+  m_LocalScale: {x: 4.1, y: 2, z: 4.1}
   m_Children:
   - {fileID: 4263406273765664}
   m_Father: {fileID: 0}
@@ -170,7 +170,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33a004a30fae4964f9a62858c9b1b6b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: Maynilad construction
+  name: Kuwartel construction
   faction: 0
   team: 1
   tier: 0
@@ -186,8 +186,8 @@ MonoBehaviour:
   - {fileID: 114099704405043396}
   primitiveAbilities: []
   playerUnit: {fileID: 0}
-  assignedBuilding: {fileID: 11400000, guid: 69eca79824ed665469b05dc5969f3f20, type: 2}
-  buildingIndex: 1
+  assignedBuilding: {fileID: 11400000, guid: e0593554b6bcae54d85d70e9e8960901, type: 2}
+  buildingIndex: 0
 --- !u!114 &114099704405043396
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -207,7 +207,7 @@ MonoBehaviour:
   interactorAbilities:
   - {fileID: 11400000, guid: f4815c854bf023b45a2cbe3fe2a0793f, type: 2}
   parentUnit: {fileID: 114044517204806298}
-  constructionTime: 50
+  constructionTime: 100
   constructionTimeLeft: 0
 --- !u!114 &114136157027453940
 MonoBehaviour:
