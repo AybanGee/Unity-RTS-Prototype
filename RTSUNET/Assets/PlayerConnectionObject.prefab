@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 114605971129237458}
   - component: {fileID: 114799433701067554}
   - component: {fileID: 114349574003385586}
+  - component: {fileID: 114599523113874580}
   m_Layer: 0
   m_Name: PlayerConnectionObject
   m_TagString: Untagged
@@ -90,6 +91,23 @@ MonoBehaviour:
   obstacleSizeCut: 2
   obstacleHeightAdd: 2
   rubbleIndex: 2
+--- !u!114 &114599523113874580
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1825360176485784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2420f974792446542bd1c5d7bc22acde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  supplyManna: 5
+  supplyChangeTimer: 0.05
+  supplyChange: 1
+  supplyMin: 5
+  supplyMax: 100
+  PO: {fileID: 0}
 --- !u!114 &114605971129237458
 MonoBehaviour:
   m_ObjectHideFlags: 1

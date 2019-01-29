@@ -165,6 +165,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   colliderCount: 0
+  isOre: 0
+  inRange: 0
 --- !u!114 &114941636318712342
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -189,9 +191,7 @@ MonoBehaviour:
   rangeInfluence: 0
   selectionCircle: {fileID: 1547469107877200}
   abilities: []
-  primitiveAbilities:
-  - {fileID: 11400000, guid: d734c046ee68e3249b9958d072f84f36, type: 2}
-  - {fileID: 11400000, guid: 992646d67c704e44a858599fd545c4a7, type: 2}
+  primitiveAbilities: []
   playerUnit: {fileID: 0}
   buildingPrice: 0
   sellingPrice: 0

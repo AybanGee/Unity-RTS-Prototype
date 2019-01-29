@@ -19,21 +19,24 @@ public class BuildingSystem : NetworkBehaviour {
 	bool isValidLocation = true;
 	[HideInInspector]
 	public PlayerObject PO;
-	
+
 	Vector3 buildingOffset = new Vector3 (0, 0, 0);
 	[SerializeField]
 	int obstacleSizeCut = 0;
 	[SerializeField]
 	int obstacleHeightAdd = 2;
+
 	void Awake () {
 		//Move to spawn manager
 		PO = GetComponent<PlayerObject> ();
-		Debug.Log(PO);
+		Debug.Log (PO);
 	}
+
 	void Start () {
 		constructor = GetComponent<BuildingConstructor> ();
 		if (constructor == null) { Debug.LogError ("Building Constructor Not Found"); }
 	}
+
 	public void BuildingControl () {
 		if (Input.GetKeyDown (KeyCode.Escape)) {
 			ToggleBuildMode ();
@@ -61,6 +64,7 @@ public class BuildingSystem : NetworkBehaviour {
 			buildingPlaceholder.transform.position = mouseWorldPointPosition;
 			//check validity of location
 			if (buildingCreationTrigger != null) {
+
 				if (buildingCreationTrigger.colliderCount > 0) {
 					isValidLocation = false;
 					TogglePlaceholderColor ();
@@ -69,6 +73,22 @@ public class BuildingSystem : NetworkBehaviour {
 					isValidLocation = true;
 					TogglePlaceholderColor ();
 				}
+
+				if (buildingGroups.buildings[selectedBuildingIndex].type == BuildingType.SupplyChain) {
+					if (!buildingCreationTrigger.inRange) {
+						isValidLocation = false;
+						TogglePlaceholderColor ();
+
+					} else if (buildingCreationTrigger.inRange && buildingCreationTrigger.colliderCount > 0) {
+						isValidLocation = false;
+						TogglePlaceholderColor ();
+					} else {
+						isValidLocation = true;
+						TogglePlaceholderColor ();
+
+					}
+				}
+
 			}
 
 		}
@@ -135,29 +155,29 @@ public class BuildingSystem : NetworkBehaviour {
 	public void CmdSpawnObject (int spawnableIndex, Vector3 position, Quaternion rotation) {
 
 		GameObject go = NetworkManager.singleton.spawnPrefabs[prefabBuildingIndex];
-		
-		MonoBuilding  buildingUnit = go.GetComponent<MonoBuilding> ();
-		Vector3 navMeshObstacleSize = go.GetComponent<BoxCollider> ().size - new Vector3(1,0,1);
+
+		MonoBuilding buildingUnit = go.GetComponent<MonoBuilding> ();
+		Vector3 navMeshObstacleSize = go.GetComponent<BoxCollider> ().size - new Vector3 (1, 0, 1);
 
 		//AssignData (go, spawnableIndex, buildingUnit, navMeshObstacleSize);
-		
+
 		//if (graphics == null) { Debug.LogError ("No graphics"); }
 		go = Instantiate (go, position, rotation, this.transform);
 
-/* 		MonoBuilding  buildingUnit = go.GetComponent<MonoBuilding> ();
-		//BuildingUnit buildingUnit = go.GetComponent<BuildingUnit> ();
-		Vector3 navMeshObstacleSize = go.GetComponent<BoxCollider> ().size;
- */
-		MonoUnitFramework muf = go.GetComponent<MonoUnitFramework>();
+		/* 		MonoBuilding  buildingUnit = go.GetComponent<MonoBuilding> ();
+				//BuildingUnit buildingUnit = go.GetComponent<BuildingUnit> ();
+				Vector3 navMeshObstacleSize = go.GetComponent<BoxCollider> ().size;
+		 */
+		MonoUnitFramework muf = go.GetComponent<MonoUnitFramework> ();
 		Building building = buildingGroups.buildings[spawnableIndex];
 		//muf.playerUnit = buildingUnit;
 		muf.PO = PO;
-		building.Initialize(go);	
+		building.Initialize (go);
 
 		AssignData (go, spawnableIndex, buildingUnit, navMeshObstacleSize);
 
 		//DESTROY COMPONENTS NOT NEEDED
-	/* 	Destroy (go.GetComponent<Rigidbody> ());
+		/* 	Destroy (go.GetComponent<Rigidbody> ());
 		Destroy (go.GetComponent<BuildingCreationTrigger> ());
  */
 		//SPAWNING AND AUTHORIZE BLDG
@@ -173,16 +193,16 @@ public class BuildingSystem : NetworkBehaviour {
 	[ClientRpc]
 	public void RpcAssignObject (NetworkIdentity id, int spawnableIndex) {
 		//	if(!isLocalPlayer)return;
-
+		Debug.Log ("Building RPC Assign");
 		//Debug.Log(id.netId.Value);
 		GameObject spawnHolder = id.gameObject;
 		GameObject graphics = buildingGroups.buildings[spawnableIndex].graphics;
 		Vector3 grapihicsOffset = new Vector3 (0, graphics.transform.localScale.y / 2, 0);
-		graphics = Instantiate (graphics, spawnHolder.transform.position /* + grapihicsOffset */, spawnHolder.transform.rotation, spawnHolder.transform);
+		graphics = Instantiate (graphics, spawnHolder.transform.position /* + grapihicsOffset */ , spawnHolder.transform.rotation, spawnHolder.transform);
 		graphics.GetComponent<GraphicsHolder> ().colorize (LobbyManager.singleton.GetComponent<LobbyManager> ().gameColors.gameColorList () [PO.colorIndex]);
-		MonoBuilding  buildingUnit = spawnHolder.GetComponent<MonoBuilding> ();
-	//	BuildingUnit buildingUnit = spawnHolder.GetComponent<BuildingUnit> ();
-	
+		MonoBuilding buildingUnit = spawnHolder.GetComponent<MonoBuilding> ();
+		//	BuildingUnit buildingUnit = spawnHolder.GetComponent<BuildingUnit> ();
+
 		//Vector3 navMeshObstacleSize = spawnHolder.GetComponent<BoxCollider> ().size;
 		Vector3 navMeshObstacleSize = buildingGroups.buildings[spawnableIndex].addedColliderScale;
 
@@ -192,17 +212,17 @@ public class BuildingSystem : NetworkBehaviour {
 		NavMeshObstacle navMeshObstacle = spawnHolder.AddComponent (typeof (NavMeshObstacle)) as NavMeshObstacle;
 		//navMeshObstacleSize.x -= obstacleSizeCut;
 		//navMeshObstacleSize.z += obstacleSizeCut;
-		navMeshObstacleSize.y =  obstacleHeightAdd; 
+		navMeshObstacleSize.y = obstacleHeightAdd;
 
 		navMeshObstacle.size = navMeshObstacleSize;
 		navMeshObstacle.carving = true;
 
-		BoxCollider boxCollider = spawnHolder.GetComponent<BoxCollider>();
+		BoxCollider boxCollider = spawnHolder.GetComponent<BoxCollider> ();
 		navMeshObstacleSize.y *= 4;
 		boxCollider.size = navMeshObstacleSize;
 		spawnHolder.name = PO.team + " - bldg - " + id.netId;
 
-//		spawnHolder.GetComponent<BuildingStats> ().netPlayer = PO;
+		//		spawnHolder.GetComponent<BuildingStats> ().netPlayer = PO;
 		GraphicsHolder graphicsHolder = spawnHolder.GetComponentInChildren<GraphicsHolder> ();
 
 		buildingUnit.team = PO.team;
@@ -221,54 +241,54 @@ public class BuildingSystem : NetworkBehaviour {
 		//Assign data
 
 		//nauunang subukun lagyan ng abilities bago ma assign
-		Debug.Log("Assigning Data");
+		Debug.Log ("Assigning Data");
 
-	/* 	
-		buildingUnit.team = PO.team;
-		buildingUnit.buildingType = buildingGroups.buildings[spawnableIndex].type;	
-		buildingUnit.primitiveAbilities = buildingGroups.buildings[spawnableIndex].abilities;
-		Debug.Log("abilities Count" + buildingGroups.buildings[spawnableIndex].abilities.Count);
-		Debug.Log("prime abilities Count" +buildingUnit.primitiveAbilities.Count);
-	 */	//Dito may abilities na
+		/* 	
+			buildingUnit.team = PO.team;
+			buildingUnit.buildingType = buildingGroups.buildings[spawnableIndex].type;	
+			buildingUnit.primitiveAbilities = buildingGroups.buildings[spawnableIndex].abilities;
+			Debug.Log("abilities Count" + buildingGroups.buildings[spawnableIndex].abilities.Count);
+			Debug.Log("prime abilities Count" +buildingUnit.primitiveAbilities.Count);
+		 */ //Dito may abilities na
 
-	//Assigning of special scripts for building
-/* 		BuildingInteractable buildingInteractable = null;
+		//Assigning of special scripts for building
+		/* 		BuildingInteractable buildingInteractable = null;
+				switch (buildingGroups.buildings[spawnableIndex].type) {
+					case BuildingType.Barracks:
+						buildingInteractable = spawnHolder.AddComponent<BuildingInteractable> ();
+						break;
+					case BuildingType.TownCenter:
+						buildingInteractable = spawnHolder.AddComponent<BuildingInteractable> ();
+						break;
+					case BuildingType.Tower:
+						buildingInteractable = spawnHolder.AddComponent<BuildingInteractable> ();
+						break;
+					case BuildingType.SupplyChain:
+						buildingInteractable = spawnHolder.AddComponent<SupplyChainInteractable> ();
+						break;
+				} 
+				if (navMeshObstacleSize.x > navMeshObstacleSize.z)
+					buildingInteractable.influenceRadius = navMeshObstacleSize.x + 1;
+				else
+					buildingInteractable.influenceRadius = navMeshObstacleSize.z + 1;
+
+			*/
+
+		if (!isLocalPlayer) return;
+		if (spawnHolder.GetComponent<QueueingSystem> () != null) return;
+
+		QueueingSystem qs;
+
 		switch (buildingGroups.buildings[spawnableIndex].type) {
 			case BuildingType.Barracks:
-				buildingInteractable = spawnHolder.AddComponent<BuildingInteractable> ();
-				break;
-			case BuildingType.TownCenter:
-				buildingInteractable = spawnHolder.AddComponent<BuildingInteractable> ();
-				break;
-			case BuildingType.Tower:
-				buildingInteractable = spawnHolder.AddComponent<BuildingInteractable> ();
-				break;
-			case BuildingType.SupplyChain:
-				buildingInteractable = spawnHolder.AddComponent<SupplyChainInteractable> ();
-				break;
-		} 
-		if (navMeshObstacleSize.x > navMeshObstacleSize.z)
-			buildingInteractable.influenceRadius = navMeshObstacleSize.x + 1;
-		else
-			buildingInteractable.influenceRadius = navMeshObstacleSize.z + 1;
-
-	*/
-	
-	if(!isLocalPlayer) return;
-	if(spawnHolder.GetComponent<QueueingSystem>() != null) return;
-	
-	QueueingSystem qs;
-
-	switch (buildingGroups.buildings[spawnableIndex].type) {
-			case BuildingType.Barracks:
-			Debug.Log("Barracks Time");
-				qs =	spawnHolder.AddComponent<QueueingSystem>();
+				Debug.Log ("Barracks Time");
+				qs = spawnHolder.AddComponent<QueueingSystem> ();
 				qs.PO = PO;
 				qs.spawnableUnits = PO.UnitSys.bGroup.units;
 				break;
 			case BuildingType.TownCenter:
-			Debug.Log("TownHall Time");
-				qs =	spawnHolder.AddComponent<QueueingSystem>();
+				Debug.Log ("TownHall Time");
+				qs = spawnHolder.AddComponent<QueueingSystem> ();
 				qs.PO = PO;
 				qs.spawnableUnits = PO.UnitSys.thGroup.units;
 				break;
@@ -276,12 +296,12 @@ public class BuildingSystem : NetworkBehaviour {
 				//buildingInteractable = spawnHolder.AddComponent<BuildingInteractable> ();
 				break;
 			case BuildingType.SupplyChain:
-			Debug.Log("Supply Time");
-				qs =	spawnHolder.AddComponent<QueueingSystem>();
+				Debug.Log ("Supply Time");
+				qs = spawnHolder.AddComponent<QueueingSystem> ();
 				qs.PO = PO;
 				qs.spawnableUnits = PO.UnitSys.thGroup.units;
 				break;
-		} 
+		}
 		//end of assignments
 
 	}

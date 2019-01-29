@@ -21,7 +21,8 @@ MonoBehaviour:
   creationTime: 100
   rangeInfluence: 1
   graphics: {fileID: 1837562233060174, guid: 5f72e5f386f9c8945b5c80da74d8d07f, type: 2}
-  abilities: []
+  abilities:
+  - {fileID: 11400000, guid: d734c046ee68e3249b9958d072f84f36, type: 2}
   type: 2
   sellPrice: 50
   addedColliderScale: {x: 4, y: 2, z: 4}

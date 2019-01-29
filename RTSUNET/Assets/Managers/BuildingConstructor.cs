@@ -38,7 +38,8 @@ public class BuildingConstructor : NetworkBehaviour {
 		GameObject building = NetworkManager.singleton.spawnPrefabs[1];	
 		BoxCollider buildingCollider = building.GetComponent<BoxCollider> ();
 		buildingCollider.size = new Vector3 (1.1f, 1, 1.1f); //bldg.addedColliderScale; // + buildingGroups.buildings[selectedBuildingIndex].addedColliderScale;
-		Vector3 rubbleSize = bldg.addedColliderScale + new Vector3 (.1f, 0, .1f);
+		Vector3 sizeHolder = new Vector3(bldg.addedColliderScale.x/3, bldg.addedColliderScale.y, bldg.addedColliderScale.z/3);
+		Vector3 rubbleSize = sizeHolder + new Vector3 (.1f, 0, .1f);
 		// rubbleSize.x = buildingCollider.size.x;
 		//	rubbleSize.z = buildingCollider.size.z;
 		rubble.transform.localScale = rubbleSize;
@@ -48,7 +49,7 @@ public class BuildingConstructor : NetworkBehaviour {
 		obstacleSize.x -= Mathf.Clamp (obstacleSizeCut, 1, int.MaxValue) / 10f;
 		obstacleSize.y += Mathf.Clamp (obstacleHeightAdd / 100f, 2, int.MaxValue);
 		obstacleSize.z -= Mathf.Clamp (obstacleSizeCut, 1, int.MaxValue) / 10f;
-		navMeshObstacle.size = obstacleSize;
+		navMeshObstacle.size = buildingCollider.size;
 
 		/*
 				//Assign data for the rubble

@@ -470,5 +470,6 @@ public class PlayerObject : NetworkBehaviour {
 			lM.moveCamToBase();
 		} */
 	#endregion
+
 	
 }
