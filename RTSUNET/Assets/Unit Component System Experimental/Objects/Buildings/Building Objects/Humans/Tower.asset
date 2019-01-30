@@ -16,12 +16,13 @@ MonoBehaviour:
   tier: 0
   battleType: 0
   description: 
-  artwork: {fileID: 0}
+  artwork: {fileID: 21300000, guid: 03dbad74d51635d44aae404ce2209399, type: 3}
   manaCost: 50
   creationTime: 50
   rangeInfluence: 0
-  graphics: {fileID: 0}
-  abilities: []
-  type: 0
+  graphics: {fileID: 1462126941420248, guid: fecb75ef881046c4fb2e1ca8d0d3286d, type: 2}
+  abilities:
+  - {fileID: 11400000, guid: c195ba0fef4cb2343aadc8b102d2367a, type: 2}
+  type: 3
   sellPrice: 50
   addedColliderScale: {x: 3, y: 2, z: 3}

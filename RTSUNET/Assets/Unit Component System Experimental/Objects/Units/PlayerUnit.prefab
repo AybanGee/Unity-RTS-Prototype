@@ -27,8 +27,6 @@ GameObject:
   - component: {fileID: 114519723946226952}
   - component: {fileID: 136864921874342710}
   - component: {fileID: 114962008958661710}
-  - component: {fileID: 95681294563118032}
-  - component: {fileID: 114713345374080506}
   - component: {fileID: 114029293853292296}
   m_Layer: 0
   m_Name: PlayerUnit
@@ -81,24 +79,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &95681294563118032
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1046538601913074}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 27c495754507ae44f9df441acad6c833, type: 3}
-  m_Controller: {fileID: 9100000, guid: 9dea645c9d92de840868c5573886269e, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &114029293853292296
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -189,7 +169,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1046538601913074}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
   m_Name: 
@@ -204,25 +184,6 @@ MonoBehaviour:
   m_SnapThreshold: 5
   m_InterpolateRotation: 1
   m_InterpolateMovement: 1
---- !u!114 &114713345374080506
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1046538601913074}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1590678366, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Animator: {fileID: 95681294563118032}
-  m_ParameterSendBits: 1
-  param0: 
-  param1: 
-  param2: 
-  param3: 
-  param4: 
-  param5: 
 --- !u!114 &114790400118637612
 MonoBehaviour:
   m_ObjectHideFlags: 1

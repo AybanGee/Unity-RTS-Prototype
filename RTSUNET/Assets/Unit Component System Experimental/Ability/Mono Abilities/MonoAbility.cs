@@ -18,7 +18,7 @@ public abstract class MonoAbility : NetworkBehaviour {
     public MonoUnitFramework parentUnit;
     public virtual bool isValidInteractor (MonoAbility interactor) {
         if(!isInteractable){
-            Debug.Log("target not interactable!");
+            Debug.Log("target not interactable!" + this);
             return false;
         }
         if(isTeamDependent){

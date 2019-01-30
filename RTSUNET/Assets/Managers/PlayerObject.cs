@@ -181,7 +181,7 @@ public class PlayerObject : NetworkBehaviour {
 									selectedUnits.Remove (unit);
 									continue;
 								}
-								MonoUnit monoUnit = unit.GetComponent<MonoUnit> ();
+								MonoUnitFramework monoUnit = unit.GetComponent<MonoUnitFramework> ();
 								MonoSkill skill = defaultSkill (monoUnit);
 								Debug.Log ("Applying default skill " + skill);
 								if (skill == null) continue;

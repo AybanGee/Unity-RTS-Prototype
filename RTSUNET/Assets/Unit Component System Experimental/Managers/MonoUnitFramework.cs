@@ -39,7 +39,32 @@ public abstract class MonoUnitFramework : NetworkBehaviour {
 	}
 	public void OnFocused () { }
 	public void OnDefocused () { }
+	public virtual void SetFocus (MonoUnitFramework newFocus, MonoSkill skill) {
+		//if (!newFocus.isValidInteractor (this.GetComponent<Interactable> ())) return;
+		//if no target
+		if (newFocus == null) { Debug.Log ("Focus is null"); return; }
+		if (skill == null) { Debug.Log ("Skill is null"); return; }
 
+		MonoAbility targetAbility = null;
+		foreach (MonoAbility ma in newFocus.abilities) {
+			if (ma.isValidInteractor (skill.parentAbility)) {
+				Debug.Log ("Interactor " + skill.parentAbility.abilityType + " vs Interactable " + ma.abilityType);
+				targetAbility = ma;
+				break;
+			}
+		}
+//check if target ability is found
+		if (targetAbility == null) {
+			Debug.Log ("No Applicable Ability");
+			return;
+		}
+		
+
+	}
+
+	public virtual  void RemoveFocus () {
+		StopAbilities ();
+	}
 	public void StopAbilities () {
 		if (abilities.Count <= 0) return;
 		for (int i = 0; i < abilities.Count; i++) {

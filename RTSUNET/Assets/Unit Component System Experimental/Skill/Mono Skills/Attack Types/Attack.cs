@@ -90,6 +90,7 @@ public abstract class Attack : MonoSkill {
 
 			}
 			//DO ANIMATION
+			if(GetComponent<CharacterAnimator>() != null)
 			GetComponent<CharacterAnimator>().animator.SetTrigger(pickAnimation());
 
 			yield return new WaitForSeconds (coolDownTime);

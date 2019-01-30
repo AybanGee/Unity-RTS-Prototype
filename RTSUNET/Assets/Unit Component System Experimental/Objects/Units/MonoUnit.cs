@@ -21,25 +21,8 @@ public class MonoUnit : MonoUnitFramework {
 		motor = GetComponent<UnitMotor> ();
 	}
 
-	public void SetFocus (MonoUnitFramework newFocus, MonoSkill skill) {
-		//if (!newFocus.isValidInteractor (this.GetComponent<Interactable> ())) return;
-		//if no target
-		if (newFocus == null) { Debug.Log ("Focus is null"); return; }
-		if (skill == null) { Debug.Log ("Skill is null"); return; }
-
-		MonoAbility targetAbility = null;
-		foreach (MonoAbility ma in newFocus.abilities) {
-			if (ma.isValidInteractor (skill.parentAbility)) {
-				Debug.Log ("Interactor " + skill.parentAbility.abilityType + " vs Interactable " + ma.abilityType);
-				targetAbility = ma;
-				break;
-			}
-		}
-//check if target ability is found
-		if (targetAbility == null) {
-			Debug.Log ("No Applicable Ability");
-			return;
-		}
+	public override void SetFocus (MonoUnitFramework newFocus, MonoSkill skill) {
+		base.SetFocus(newFocus,skill);
 		//VALIDATE FOCUS HERE
 		if (newFocus != focus) {
 			focus = newFocus;
@@ -49,8 +32,8 @@ public class MonoUnit : MonoUnitFramework {
 
 	}
 
-	public void RemoveFocus () {
-		StopAbilities ();
+	public override void RemoveFocus () {
+		base. RemoveFocus ();
 		focus = null;
 		motor.StopFollowingTarget ();
 	}

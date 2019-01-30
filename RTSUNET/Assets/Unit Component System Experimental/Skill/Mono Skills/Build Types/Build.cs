@@ -45,6 +45,9 @@ public class Build : MonoSkill {
 				builder.DoBuild (targetConstructable[i], buildRate);
 
 			}
+			
+			if(GetComponent<CharacterAnimator>() != null)
+			GetComponent<CharacterAnimator>().animator.SetTrigger(pickAnimation());
 
 			yield return new WaitForSeconds (buildSpeed);
 		}
