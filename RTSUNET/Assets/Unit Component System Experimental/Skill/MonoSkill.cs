@@ -6,7 +6,7 @@ public abstract class MonoSkill : NetworkBehaviour {
 	public string sName;
 	public Sprite sSprite;
 	public AudioClip sSound;
-    public float range = 3;
+    public float range;
 	 	public List<string> animationTriggers;
 
 	public MonoAbility parentAbility;

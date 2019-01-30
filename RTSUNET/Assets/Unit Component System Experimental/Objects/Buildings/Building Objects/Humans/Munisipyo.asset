@@ -27,4 +27,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 992646d67c704e44a858599fd545c4a7, type: 2}
   type: 0
   sellPrice: 50
-  addedColliderScale: {x: 13, y: 2, z: 13}
+  addedColliderScale: {x: 11, y: 2, z: 11}

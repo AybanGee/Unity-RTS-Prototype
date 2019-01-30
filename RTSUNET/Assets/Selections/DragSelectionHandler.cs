@@ -63,6 +63,10 @@ public class DragSelectionHandler : NetworkBehaviour, IBeginDragHandler, IDragHa
 			//HACK!
 			if(unit == null)
 			continue;
+
+			if(unit.GetComponent<MonoBuilding>() != null)
+			continue;
+
 			if (selectionRect.Contains (Camera.main.WorldToScreenPoint (unit.transform.position))) {
 				UnitSelectable us = unit.GetComponent<UnitSelectable> ();
 				if(us.isOneSelection) continue;
