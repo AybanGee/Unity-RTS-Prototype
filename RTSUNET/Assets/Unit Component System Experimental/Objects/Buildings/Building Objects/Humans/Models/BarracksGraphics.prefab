@@ -2922,8 +2922,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coloredGraphics:
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 23392795366699788}
+  - {fileID: 23067423718628534}
 --- !u!114 &114339528139339590
 MonoBehaviour:
   m_ObjectHideFlags: 1

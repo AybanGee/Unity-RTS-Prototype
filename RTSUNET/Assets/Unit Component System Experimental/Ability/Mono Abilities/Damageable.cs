@@ -24,20 +24,38 @@ public class Damageable : MonoAbility {
 
 	}
 
-	public void TakeDamage (int damage) {
+	public void TakeDamage (int damage,NetworkIdentity ni) {
+		
 		if (!isServer) return;
+		
+
 		damage -= armour;
 		damage = Mathf.Clamp (damage, 0, int.MaxValue);
 		currentHealth -= damage;
+		
 		RpcTakeDamage (GetComponent<NetworkIdentity> (), damage);
+		if(parentUnit.focus != null) return;
+		Attacker attack = GetComponent<Attacker>();
+		Damageable damageable = ni.gameObject.GetComponent<Damageable>();
+		if(attack != null && damageable != null){
+			MonoSkill defaultSkill = attack.skills[0];
+			if(defaultSkill == null) return;
+			if(Vector3.Distance(attack.transform.position,damageable.transform.position) <= defaultSkill.range){
+				parentUnit.RemoveFocus();
+				parentUnit.SetFocus(damageable.parentUnit,defaultSkill);
+			}
+		}
+
+
 		Debug.Log (transform.name + " takes " + damage + " damage.");
 	}
 
 	[ClientRpc] public void RpcTakeDamage (NetworkIdentity targerStatsID, int damage) {
-		if (!isServer) {
-			currentHealth -= damage;
-			healthHolder = currentHealth;
-		}
+
+			Damageable d = targerStatsID.gameObject.GetComponent<Damageable>();
+			d.currentHealth -= damage;
+			d.healthHolder = currentHealth;
+
 	}
 
 	public void TakeHealing (int healValue) {
@@ -68,13 +86,10 @@ public class Damageable : MonoAbility {
 		if (healthUI == null)
 			healthUI = gameObject.GetComponent<HealthUI> ();
 		else {
-			float fill = (float) currentHealth / (float) maxHealth;
-			//Debug.Log ("Health Percent : " + fill);
-			healthUI.healthSlider.fillAmount = fill;
+			RpcUpdateHealthUI ();
 		}
 
 		if (curHealth <= 0) {
-			Destroy (healthUI.ui.gameObject);
 			Die ();
 		}
 	}
@@ -87,7 +102,8 @@ public class Damageable : MonoAbility {
 	}
 
 	[Command]
-	void CmdDeath () {
+	void CmdDeath () {	
+		Destroy (healthUI.ui.gameObject);
 		RpcDeath ();
 		Destroy (this.gameObject);
 
@@ -97,8 +113,15 @@ public class Damageable : MonoAbility {
 	void RpcDeath () {
 		//when used unit stays in client afterdeath
 		//	GetComponent<MonoUnitFramework>().PO.RemoveUnit(this.gameObject);
+		Destroy (healthUI.ui.gameObject);
 		Destroy (this.gameObject);
 
+	}
+
+	[ClientRpc]
+	void RpcUpdateHealthUI () {
+		float fill = (float) currentHealth / (float) maxHealth;
+		healthUI.healthSlider.fillAmount = fill;
 	}
 
 }

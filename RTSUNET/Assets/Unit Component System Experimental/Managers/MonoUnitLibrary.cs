@@ -8,7 +8,7 @@ public class MonoUnitLibrary : NetworkBehaviour {
 	//Damage
 	[Command] public void CmdDoDamage (NetworkIdentity targerStatsID, int damage) {
 		Debug.Log ("Do Damage");
-		targerStatsID.gameObject.GetComponent<Damageable> ().TakeDamage (damage);
+		targerStatsID.gameObject.GetComponent<Damageable> ().TakeDamage (damage,GetComponent<NetworkIdentity>());
 	}
 	//Build
 	public void DoBuild (Constructable constructable, int amount) {

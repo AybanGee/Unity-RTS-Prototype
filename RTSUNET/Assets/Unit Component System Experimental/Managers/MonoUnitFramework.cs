@@ -15,6 +15,7 @@ public abstract class MonoUnitFramework : NetworkBehaviour {
 	[HideInInspector] public PlayerObject PO;
 	/* [HideInInspector] */ public float rangeInfluence = 0;
 	public GameObject selectionCircle;
+	[HideInInspector] public MonoUnitFramework focus;
 
 
 
@@ -39,11 +40,11 @@ public abstract class MonoUnitFramework : NetworkBehaviour {
 	}
 	public void OnFocused () { }
 	public void OnDefocused () { }
-	public virtual void SetFocus (MonoUnitFramework newFocus, MonoSkill skill) {
+	public virtual bool SetFocus (MonoUnitFramework newFocus, MonoSkill skill) {
 		//if (!newFocus.isValidInteractor (this.GetComponent<Interactable> ())) return;
 		//if no target
-		if (newFocus == null) { Debug.Log ("Focus is null"); return; }
-		if (skill == null) { Debug.Log ("Skill is null"); return; }
+		if (newFocus == null) { Debug.Log ("Focus is null"); return false; }
+		if (skill == null) { Debug.Log ("Skill is null"); return false; }
 
 		MonoAbility targetAbility = null;
 		foreach (MonoAbility ma in newFocus.abilities) {
@@ -56,9 +57,10 @@ public abstract class MonoUnitFramework : NetworkBehaviour {
 //check if target ability is found
 		if (targetAbility == null) {
 			Debug.Log ("No Applicable Ability");
-			return;
+			return false;
 		}
-		
+
+			return true;
 
 	}
 

@@ -348,7 +348,7 @@ public class PlayerObject : NetworkBehaviour {
 			yield return null;
 		}
 		//All players have been found
-		//Debug.Log("all have been found");
+		Debug.Log("all have been found : "+ players.Count);
 
 		StartCoroutine(CheckAllPlayersAreLoaded());
 		yield return null;

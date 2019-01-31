@@ -53,12 +53,13 @@ public class MonoBuilding : MonoUnitFramework {
 	}
 
 	#endregion	
-	public override void SetFocus (MonoUnitFramework newFocus, MonoSkill skill) {
-		base.SetFocus (newFocus, skill);
-		Debug.Log("REACHED POINT OF ACTIVISION");
+	public override bool SetFocus (MonoUnitFramework newFocus, MonoSkill skill) {
+		bool returnVal = base.SetFocus (newFocus, skill);
+/* 		Debug.Log("REACHED POINT OF ACTIVISION");
 		Debug.Log("What's inside the new focus? It is none other than" + newFocus);
-		Debug.Log("What's inside the focus? It is none other than" + focus);
+		Debug.Log("What's inside the focus? It is none other than" + focus); */
 		//VALIDATE FOCUS HERE
+		if(returnVal)
 		if (newFocus != focus) {
 		Debug.Log("ACTIVISION");
 
@@ -66,6 +67,8 @@ public class MonoBuilding : MonoUnitFramework {
 			//motor.FollowTarget (newFocus, skill);
 			skill.Activate (newFocus.gameObject);
 		}
+
+		return returnVal;
 
 	}
 

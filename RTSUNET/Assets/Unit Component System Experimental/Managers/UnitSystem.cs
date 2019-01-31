@@ -39,8 +39,7 @@ public class UnitSystem : NetworkBehaviour {
 
 		Animator anim = graphics.transform.GetChild (0).GetComponent<Animator> ();
 		go.GetComponent<CharacterAnimator> ().animator = anim;
-		NetworkAnimator netAnim = graphics.transform.GetChild (0).gameObject.AddComponent<NetworkAnimator> ();
-		netAnim.animator = anim;
+
 		//go.GetComponent<NetworkAnimator>().animator = graphics.GetComponent<Animator>();
 
 		playerUnit.Initialize (go);
@@ -68,10 +67,11 @@ public class UnitSystem : NetworkBehaviour {
 		//Assigning data
 		MonoUnit unit = go.GetComponent<MonoUnit> ();
 		unit.team = PO.team;
+		if(playerUnit.abilities.Count == 0)
 		playerUnit.Initialize (go);
 
 		//set Graphics
-		if (go.transform.childCount == 1) {
+		if (go.transform.gameObject.GetComponentInChildren<GraphicsHolder>() == null) {
 			Debug.Log ("RPC add Graphics");
 			GameObject graphics = unitGroup.units[spawnableObjectIndex].graphics;
 			Vector3 offset = new Vector3 (0, (graphics.transform.localScale.y / 2) + 0.35f, 0);
@@ -79,9 +79,8 @@ public class UnitSystem : NetworkBehaviour {
 			graphics.GetComponent<GraphicsHolder> ().colorize (LobbyManager.singleton.GetComponent<LobbyManager> ().gameColors.gameColorList () [PO.colorIndex]);
 
 			Animator anim = graphics.transform.GetChild (0).GetComponent<Animator> ();
-			go.GetComponent<CharacterAnimator> ().animator = anim;
-			NetworkAnimator netAnim = graphics.transform.GetChild (0).gameObject.AddComponent<NetworkAnimator> ();
-			netAnim.animator = anim;
+		go.GetComponent<CharacterAnimator> ().animator = anim;
+
 		}
 		go.name = PO.team + " - unit" + go.GetComponent<NetworkIdentity> ().netId;
 

@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.Networking;
 [RequireComponent (typeof (UnitMotor))]
 public class MonoUnit : MonoUnitFramework {
-	[HideInInspector] public MonoUnitFramework focus;
 	[HideInInspector] public UnitMotor motor;
 	[HideInInspector] public UnitType unitType;
 	
@@ -21,15 +20,17 @@ public class MonoUnit : MonoUnitFramework {
 		motor = GetComponent<UnitMotor> ();
 	}
 
-	public override void SetFocus (MonoUnitFramework newFocus, MonoSkill skill) {
-		base.SetFocus(newFocus,skill);
+	public override bool SetFocus (MonoUnitFramework newFocus, MonoSkill skill) {
+		bool returnVal = base.SetFocus(newFocus,skill);
 		//VALIDATE FOCUS HERE
+		if(returnVal)
 		if (newFocus != focus) {
 			focus = newFocus;
 			motor.FollowTarget (newFocus, skill);
 			skill.Activate (newFocus.gameObject);
 		}
 
+		return returnVal;
 	}
 
 	public override void RemoveFocus () {

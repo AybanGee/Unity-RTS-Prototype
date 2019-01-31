@@ -337,6 +337,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   colliderCount: 0
+  isOre: 0
+  inRange: 0
 --- !u!54 &100536008
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -965,6 +967,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   colliderCount: 0
+  isOre: 0
+  inRange: 0
 --- !u!54 &274138490
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1812,7 +1816,7 @@ Terrain:
   m_DrawHeightmap: 1
   m_DrawTreesAndFoliage: 1
   m_ReflectionProbeUsage: 1
-  m_MaterialType: 0
+  m_MaterialType: 1
   m_LegacySpecular:
     serializedVersion: 2
     rgba: 4286545791
@@ -3499,6 +3503,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   colliderCount: 0
+  isOre: 0
+  inRange: 0
 --- !u!54 &1084503664
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -7150,6 +7156,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   colliderCount: 0
+  isOre: 0
+  inRange: 0
 --- !u!54 &2146483216
 Rigidbody:
   m_ObjectHideFlags: 0

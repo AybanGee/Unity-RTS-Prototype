@@ -21,10 +21,10 @@ RenderSettings:
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
   m_AmbientSkyColor: {r: 0, g: 0.3333335, b: 1, a: 1}
-  m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
-  m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
+  m_AmbientEquatorColor: {r: 0.24256852, g: 0.745283, b: 0.5560258, a: 1}
+  m_AmbientGroundColor: {r: 0.07320219, g: 0.4433962, b: 0.11170064, a: 1}
   m_AmbientIntensity: 1.2
-  m_AmbientMode: 0
+  m_AmbientMode: 1
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
   m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
   m_HaloStrength: 0.5
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18378054, g: 0.2283435, b: 0.29977262, a: 1}
+  m_IndirectSpecularColor: {r: 0.12731704, g: 0.13414727, b: 0.121078536, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -89,7 +89,7 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaIndirect: 2
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ShowResolutionOverlay: 1
-  m_LightingDataAsset: {fileID: 112000002, guid: c9583abb124d3c6468df7b9ca4139e45,
+  m_LightingDataAsset: {fileID: 112000002, guid: 4bd65a16e4644af4e8652a9e19004cc8,
     type: 2}
   m_UseShadowmask: 1
 --- !u!196 &4
@@ -1645,6 +1645,31 @@ Prefab:
     - target: {fileID: 4568462994685606, guid: 3e8deb1a87a8d5e46a95e7e55d227fb8, type: 2}
       propertyPath: m_LocalPosition.y
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 20638455078140398, guid: 3e8deb1a87a8d5e46a95e7e55d227fb8,
+        type: 2}
+      propertyPath: m_ClearFlags
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 20638455078140398, guid: 3e8deb1a87a8d5e46a95e7e55d227fb8,
+        type: 2}
+      propertyPath: orthographic
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 20638455078140398, guid: 3e8deb1a87a8d5e46a95e7e55d227fb8,
+        type: 2}
+      propertyPath: m_BackGroundColor.r
+      value: 0.3047348
+      objectReference: {fileID: 0}
+    - target: {fileID: 20638455078140398, guid: 3e8deb1a87a8d5e46a95e7e55d227fb8,
+        type: 2}
+      propertyPath: m_BackGroundColor.g
+      value: 0.6037736
+      objectReference: {fileID: 0}
+    - target: {fileID: 20638455078140398, guid: 3e8deb1a87a8d5e46a95e7e55d227fb8,
+        type: 2}
+      propertyPath: m_BackGroundColor.b
+      value: 0.33446425
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3e8deb1a87a8d5e46a95e7e55d227fb8, type: 2}

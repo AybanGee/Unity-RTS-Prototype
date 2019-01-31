@@ -5,7 +5,7 @@ using UnityEngine.AI;
 //using UnityEditor.Animations;
 using UnityEngine.Networking;
 
-public class CharacterAnimator : MonoBehaviour {
+public class CharacterAnimator : NetworkBehaviour {
 
 	const float locomotionSmoothTime = .1f;
 
@@ -15,22 +15,25 @@ public class CharacterAnimator : MonoBehaviour {
 	// Use this for initialization
 	protected virtual void Start () {
 		agent = GetComponent<NavMeshAgent>();		
-		//animator = transform.GetChild(0).GetComponentInChildren<Animator>();
 		
 	}
 	
 	// Update is called once per frame
 	protected virtual void Update () {
-// 		if(animator == null){
-// 		animator = transform.GetChild(0).GetComponentInChildren<Animator>();
-			
-// /* 		Animator netAnimator = GetComponent<Animator>();
-// 		netAnimator.runtimeAnimatorController = animator.runtimeAnimatorController;
-//         netAnimator.avatar = animator.avatar; */
-
-// 		return;
-// 		}
 		float speedPercent = agent.velocity.magnitude / agent.speed;
 		animator.SetFloat("speedPercent",speedPercent, locomotionSmoothTime, Time.deltaTime);
+	}
+
+	public void SetTrigger(string triggerName){
+		CmdSetTrigger(triggerName);
+	}
+	[Command]
+	public void CmdSetTrigger(string triggerName){
+		animator.SetTrigger(triggerName);
+		RpcSetTrigger(GetComponent<NetworkIdentity>(),triggerName);
+	}
+	[ClientRpc]
+	public void RpcSetTrigger(NetworkIdentity ni,string triggerName){
+		ni.GetComponent<CharacterAnimator>().animator.SetTrigger(triggerName);
 	}
 }

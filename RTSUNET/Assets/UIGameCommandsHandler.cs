@@ -171,7 +171,7 @@ public class UIGameCommandsHandler : MonoBehaviour {
 		foreach (GameObject unit in units) {
 			//Debug.Log("disp Count : " + displayCount);
 			if (displayCount <= 31) {
-				Debug.Log ("in IF");
+//				Debug.Log ("in IF");
 				//Instantiate ButtonPrefab and Assign Sprites
 				GameObject _skillUI = Instantiate (skillUI, Vector3.zero, Quaternion.identity, transform);
 				Image img = _skillUI.GetComponent<Image> ();

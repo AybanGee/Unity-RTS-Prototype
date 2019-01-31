@@ -17,10 +17,17 @@ public abstract class MonoAbility : NetworkBehaviour {
     [HideInInspector]
     public MonoUnitFramework parentUnit;
     public virtual bool isValidInteractor (MonoAbility interactor) {
+
+        Debug.Log("Checking if Valid Interactor :");
+        Debug.Log("is Interactable :" + isInteractable);
+        Debug.Log("is TeamDependent :" + isTeamDependent);
+
+
         if(!isInteractable){
             Debug.Log("target not interactable!" + this);
             return false;
         }
+
         if(isTeamDependent){
             //if(interactor.parentUnit.team == null){ Debug.Log("No Interactor Parent Unit team");  return;}
             //if(parentUnit == null) {Debug.Log("No intercourse"); return false;}
@@ -29,6 +36,7 @@ public abstract class MonoAbility : NetworkBehaviour {
             return false;
             }
         }
+        
         if(isOnlyFriendly){
             if(interactor.parentUnit.team != parentUnit.team){
             Debug.Log("target is not same team!");

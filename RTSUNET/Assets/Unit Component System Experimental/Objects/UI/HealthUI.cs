@@ -21,10 +21,10 @@ public class HealthUI : MonoBehaviour {
 				break;
 			}
 		}
-
 		if (isBuilding) {
 			target = transform.GetChild (0).GetChild (transform.GetChild (0).transform.childCount - 1).transform;
 		}
+
 	}
 
 	// Update is called once per frame
@@ -32,7 +32,7 @@ public class HealthUI : MonoBehaviour {
 
 		if (target == null)
 			target = transform.GetChild (0).GetChild (transform.GetChild (0).transform.childCount - 1).transform;
-	
+
 		ui.position = target.position;
 		ui.forward = -cam.forward;
 	}

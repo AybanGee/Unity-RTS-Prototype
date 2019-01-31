@@ -12,12 +12,12 @@ public abstract class Attack : MonoSkill {
 	bool hasAttacked = false;
 	Coroutine attackCoroutine;
 	MonoUnitLibrary attacker;
-	new void Start(){
-		attacker = GetComponent<MonoUnitLibrary>();
+	new void Start () {
+		attacker = GetComponent<MonoUnitLibrary> ();
 	}
 
 	new void Update () {
-		base.Update();
+		base.Update ();
 		if (hasAttacked && currentTime > 0) {
 			currentTime -= Time.deltaTime;
 		}
@@ -64,9 +64,9 @@ public abstract class Attack : MonoSkill {
 		for (int i = 0; i < targetDamageable.Length; i++) {
 			attacker.CmdDoDamage (targetDamageable[i].GetComponent<NetworkIdentity> (), damage);
 		}
-			
-			//DO ANIMATION
-			GetComponent<CharacterAnimator>().animator.SetTrigger(pickAnimation());
+
+		//DO ANIMATION
+		GetComponent<CharacterAnimator> ().SetTrigger (pickAnimation ());
 
 	}
 
@@ -78,9 +78,17 @@ public abstract class Attack : MonoSkill {
 
 			for (int i = 0; i < targetDamageable.Length; i++) {
 				Debug.Log ("ATTACKING");
-				if (targetDamageable == null) {
+				if (targetDamageable[i] == null) {
 
 					Debug.Log ("Target possible dead");
+					if (targetDamageable.Length == 1) {
+						//seearch for new target
+						
+						parentAbility.parentUnit.RemoveFocus();
+
+						SearchForNewTarget ();
+				
+					}
 					continue;
 				} else {
 					Debug.Log ("GOINH to take damage");
@@ -90,8 +98,8 @@ public abstract class Attack : MonoSkill {
 
 			}
 			//DO ANIMATION
-			if(GetComponent<CharacterAnimator>() != null)
-			GetComponent<CharacterAnimator>().animator.SetTrigger(pickAnimation());
+			if (GetComponent<CharacterAnimator> () != null)
+				GetComponent<CharacterAnimator> ().SetTrigger (pickAnimation ());
 
 			yield return new WaitForSeconds (coolDownTime);
 		}
@@ -112,8 +120,8 @@ public abstract class Attack : MonoSkill {
 
 			for (int j = 0; j < targetDamageable.Length; j++) {
 				Debug.Log ("ATTACKING");
-				if (targetDamageable == null) {
-
+				if (targetDamageable[i] == null) {
+						parentAbility.parentUnit.focus = null;
 					Debug.Log ("Target possible dead");
 					continue;
 				} else {
@@ -131,13 +139,34 @@ public abstract class Attack : MonoSkill {
 	}
 	#endregion
 
-
-
 	public void StopAttack () {
 		Debug.Log ("Stopped Attacking");
 		isAttacking = false;
 		if (attackCoroutine != null)
 			StopCoroutine (attackCoroutine);
+	}
+
+	public void SearchForNewTarget () {
+		if(parentAbility.parentUnit.focus != null)return;
+		// TODO
+		// Improvement check if there is target. 
+		//if yes dont try to find a new target which means to say return;
+		Collider[] hitColliders = Physics.OverlapSphere (transform.position, range + 3);
+		List<Damageable> damageables = new List<Damageable> ();
+
+		for (int i = 0; i < hitColliders.Length; i++) {
+			Damageable dmgHolder = hitColliders[i].gameObject.GetComponent<Damageable> ();
+			if (dmgHolder != null) {
+				if (dmgHolder.isValidInteractor (parentAbility))
+					damageables.Add (dmgHolder);
+			}
+		}
+
+		if (damageables.Count > 0){
+			int newTargetIndex = Random.Range(0,damageables.Count);
+			GetComponent<MonoUnitFramework>().SetFocus(damageables[newTargetIndex].parentUnit,this);
+		}
+
 	}
 
 }
