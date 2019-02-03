@@ -67,7 +67,13 @@ public class UnitSystem : NetworkBehaviour {
 		//Assigning data
 		MonoUnit unit = go.GetComponent<MonoUnit> ();
 		unit.team = PO.team;
-		if(playerUnit.abilities.Count == 0)
+
+
+		Debug.Log("UnitSystem :: unit : " + unit);
+		Debug.Log("UnitSystem :: playerunit : " + playerUnit);
+		Debug.Log("UnitSystem :: abilities.Count : " + playerUnit.abilities.Count);
+		
+		if(!isServer)
 		playerUnit.Initialize (go);
 
 		//set Graphics

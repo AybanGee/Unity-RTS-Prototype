@@ -15,6 +15,7 @@ public class PlayerUnit : UnitFramework {
         base.Initialize (go);
         MonoUnit unit = go.GetComponent<MonoUnit> ();
         unit.unitType = unitType;
+        Debug.Log("Player Unit :: unitType : " + unitType);
         UnitMotor motor = go.GetComponent<UnitMotor>();
         motor.speed = speed;
     //    Animator animator = go.GetComponent<Animator>();

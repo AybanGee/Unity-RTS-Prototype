@@ -234,6 +234,7 @@ public class BuildingSystem : NetworkBehaviour {
 			graphicsHolder.colorize (LobbyManager.singleton.GetComponent<LobbyManager> ().gameColors.gameColorList () [PO.colorIndex]);
 		PO.myBuildings.Add (spawnHolder);
 
+
 	}
 	#endregion
 

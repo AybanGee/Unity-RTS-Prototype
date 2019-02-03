@@ -20,7 +20,7 @@ public class PlayerObject : NetworkBehaviour {
 	[SerializeField]
 	BuildingFactionGroups buildingFactionGroups;
 	[SerializeField]
-	UnitFactionGroup unitFactionGroup,townhallUnitGroup,barracksUnitGroup;
+	UnitFactionGroup unitFactionGroup, townhallUnitGroup, barracksUnitGroup;
 	public LayerMask movementMask;
 	//passed variables
 	[SyncVar]
@@ -41,32 +41,36 @@ public class PlayerObject : NetworkBehaviour {
 	[SyncVar]
 	public bool startNow = false;
 	LoadMap mapLoader;
-	public List<PlayerObject> players = new List<PlayerObject>();
+	public List<PlayerObject> players = new List<PlayerObject> ();
 	public GameObject camGroup;
 	BaseHolder baseholder;
-
+	public List<PlayerObject> playingPlayers = new List<PlayerObject> ();
+	public List<PlayerObject> defeatedPlayers = new List<PlayerObject> ();
+	public bool gameIsDone = false;
+	public bool isDefeated = false;
+	public bool isWinner = false;
+	public Coroutine gameChecker;
+	public GameObject townhall;
+	public bool checkerWait = false;
 
 	public static PlayerObject singleton;
 	// Use this for initialization
-	void Awake()
-	{
-		Debug.Log("PlayerObject awake");
-
+	void Awake () {
+		Debug.Log ("PlayerObject awake");
 
 	}
 
 	void Start () {
 
-	if(isLocalPlayer){
-		Debug.Log("Assigning Player singleton");
+		if (isLocalPlayer) {
+			Debug.Log ("Assigning Player singleton");
 			singleton = this;
-	}
+		}
 
-		GameObject parentObject = GameObject.FindWithTag("Players");	
-		this.transform.SetParent(parentObject.transform);
+		GameObject parentObject = GameObject.FindWithTag ("Players");
+		this.transform.SetParent (parentObject.transform);
 
-
-	//Awake^
+		//Awake^
 
 		BuildSys = GetComponent<BuildingSystem> ();
 		if (BuildSys == null) { Debug.LogError ("Building System not found on player object"); } else {
@@ -87,7 +91,6 @@ public class PlayerObject : NetworkBehaviour {
 			return;
 		}
 
-
 		if (UIGameManager.singleton != null) {
 			uiGameManager = UIGameManager.singleton;
 			uiGameManager.Initialize (this);
@@ -102,9 +105,9 @@ public class PlayerObject : NetworkBehaviour {
 
 		mapLoader = LoadMap.singleton;
 
-		StartCoroutine(WaitForMap());
-		if(isServer)
-		StartCoroutine(GetAllPlayerObjects());
+		StartCoroutine (WaitForMap ());
+		if (isServer)
+			StartCoroutine (GetAllPlayerObjects ());
 
 	}
 	string DebugText (GameObject inspect) {
@@ -118,8 +121,8 @@ public class PlayerObject : NetworkBehaviour {
 			s += "\nSelected:" + inspect.name;
 			try {
 				s += "\n • ID:" + inspect.GetComponent<NetworkBehaviour> ().netId;
-				s += "\n • Is Able:" + ((inspect.GetComponent<MonoUnitFramework> () != null) ? "Yes | Count:"+ inspect.GetComponent<MonoUnitFramework> ().abilities.Count :"No");
-				s += "\n • Is Damageable:" + ((inspect.GetComponent<Damageable> () != null) ? "Yes | Health:" + inspect.GetComponent<Damageable> ().currentHealth: "No");
+				s += "\n • Is Able:" + ((inspect.GetComponent<MonoUnitFramework> () != null) ? "Yes | Count:" + inspect.GetComponent<MonoUnitFramework> ().abilities.Count : "No");
+				s += "\n • Is Damageable:" + ((inspect.GetComponent<Damageable> () != null) ? "Yes | Health:" + inspect.GetComponent<Damageable> ().currentHealth : "No");
 				s += "\n • Is Attacker:" + ((inspect.GetComponent<Attacker> () != null) ? "Yes | Skill(s):" + inspect.GetComponent<Attacker> ().skills.Count : "No");
 			} catch (System.Exception) {
 				s += "\nNot Unit";
@@ -135,14 +138,17 @@ public class PlayerObject : NetworkBehaviour {
 		if (isLocalPlayer == false) {
 			return;
 		}
-		
+		if (isDefeated == true) {
+			//return;
+		}
+
 		//DEBUGGING
 		Ray _ray = cam.ScreenPointToRay (Input.mousePosition);
 		RaycastHit _hit;
 		if (Physics.Raycast (_ray, out _hit, 100000)) {
-		if (UIGameManager.singleton != null)
-			if (UIGameManager.singleton.debugTxt != null)
-				UIGameManager.singleton.debugTxt.text = DebugText (_hit.collider.gameObject);
+			if (UIGameManager.singleton != null)
+				if (UIGameManager.singleton.debugTxt != null)
+					UIGameManager.singleton.debugTxt.text = DebugText (_hit.collider.gameObject);
 		}
 		//Spawns Unit DEBUG ONLY
 		if (Input.GetKeyDown (KeyCode.Space)) {
@@ -152,10 +158,7 @@ public class PlayerObject : NetworkBehaviour {
 		if (Input.GetKeyDown (KeyCode.M)) {
 			UnitSys.spawnUnit (1, new Vector3 (17f, -0.5f, 25f), Quaternion.identity);
 		}
-		// AYBAN PASOK SA BUILD MODE
-/* 		if (Input.GetKeyDown (KeyCode.B)) {
-			BuildSys.ToggleBuildMode ();
-		} */
+
 		if (BuildSys.buildMode) {
 			BuildSys.BuildingControl ();
 		} else
@@ -198,9 +201,23 @@ public class PlayerObject : NetworkBehaviour {
 
 			}
 
-		uiGameManager.manaHolder.text = manna.ToString();
+		uiGameManager.manaHolder.text = manna.ToString ("N0");
+
+	}
+
+	void LateUpdate () {
+
+		string output = "townhall : " + townhall;
+		output += "\n isDefeated: " + isDefeated;
+		output += "\n checkerWait: " + checkerWait;
+		Debug.Log (output);
 
 
+		if (townhall == null && isDefeated == false && checkerWait == true) {
+			isDefeated = true;
+			DeselectAll (new BaseEventData (EventSystem.current));
+			Debug.Log ("You are Defeated");
+		}
 	}
 	bool debugToggleForGameCommands = true;
 
@@ -216,48 +233,46 @@ public class PlayerObject : NetworkBehaviour {
 	}
 	#region "Unit Selection"
 
-	public void UpdateUI(){
+	public void UpdateUI () {
 
 		//For Single Selection
 		if (selectedUnits.Count == 1 && debugToggleForGameCommands) {
 			debugToggleForGameCommands = false;
 			//Check if selected Unit is a Building
-			if(selectedUnits[0].GetComponent<MonoBuilding> () != null){
-				Debug.Log("MonoBuilding Exists");
+			if (selectedUnits[0].GetComponent<MonoBuilding> () != null) {
+				Debug.Log ("MonoBuilding Exists");
 				//Check if Building can spawn Units
-				if(selectedUnits[0].GetComponent<QueueingSystem>() != null){				
-					Debug.Log("Q system : " +selectedUnits[0].GetComponent<QueueingSystem>());
-					uiGameManager.commandsHandler.ShowAbilities(selectedUnits[0].GetComponent<QueueingSystem>().spawnableUnits,selectedUnits[0].GetComponent<QueueingSystem>());
-					uiGameManager.commandsHandler.ShowProcessQueue(selectedUnits[0].GetComponent<QueueingSystem>().spawnQueue,selectedUnits[0].GetComponent<QueueingSystem>());
+				if (selectedUnits[0].GetComponent<QueueingSystem> () != null) {
+					Debug.Log ("Q system : " + selectedUnits[0].GetComponent<QueueingSystem> ());
+					uiGameManager.commandsHandler.ShowAbilities (selectedUnits[0].GetComponent<QueueingSystem> ().spawnableUnits, selectedUnits[0].GetComponent<QueueingSystem> ());
+					uiGameManager.commandsHandler.ShowProcessQueue (selectedUnits[0].GetComponent<QueueingSystem> ().spawnQueue, selectedUnits[0].GetComponent<QueueingSystem> ());
 
-				}
-				else
-				{
+				} else {
 					//Display Other Building Abilities Here
 				}
 			}
 
 			//Check if selected Unit is an actual Unit
-			if(selectedUnits[0].GetComponent<MonoUnit> () != null){
+			if (selectedUnits[0].GetComponent<MonoUnit> () != null) {
 				uiGameManager.commandsHandler.ShowAbilities (selectedUnits[0].GetComponent<MonoUnitFramework> ().abilities);
 			}
 		}
 
-		
 		//Check if multiple Units are Selected
-		if(selectedUnits.Count >= 2){
-			uiGameManager.commandsHandler.ShowMultiUnit(selectedUnits);
+		if (selectedUnits.Count >= 2) {
+			uiGameManager.commandsHandler.ShowMultiUnit (selectedUnits);
 		}
 
-		if(selectedUnits.Count == 0){
-			uiGameManager.commandsHandler.ShowBuildings(BuildSys);			
-		}	
+		//Display Buildable Buildings
+		if (selectedUnits.Count == 0) {
+			uiGameManager.commandsHandler.ShowBuildings (BuildSys);
+		}
 	}
 	public void DeselectAll (BaseEventData eventData) { //if(!isLocalPlayer)return;
 		//DEBUGGGG
 		//uiGameManager.commandsHandler.ClearAbilities ();
-		uiGameManager.commandsHandler.ClearAbilities();
-		uiGameManager.commandsHandler.ResetQueueDisplay();
+		uiGameManager.commandsHandler.ClearAbilities ();
+		uiGameManager.commandsHandler.ResetQueueDisplay ();
 
 		debugToggleForGameCommands = true;
 		CleanSelection (selectedUnits);
@@ -276,16 +291,16 @@ public class PlayerObject : NetworkBehaviour {
 		selectedUnits = sUnits;
 	}
 
-	public void RemoveUnit(GameObject go){
-		if(selectedUnits.Contains(go))
-		selectedUnits.Remove(go);
-		if(myUnits.Contains(go))
-		myUnits.Remove(go);
+	public void RemoveUnit (GameObject go) {
+		if (selectedUnits.Contains (go))
+			selectedUnits.Remove (go);
+		if (myUnits.Contains (go))
+			myUnits.Remove (go);
 
-		if(myUnits.Contains(null))
-		Debug.Log("There is null");
+		if (myUnits.Contains (null))
+			Debug.Log ("There is null");
 
-		CleanSelection(selectedUnits);
+		CleanSelection (selectedUnits);
 
 	}
 
@@ -327,149 +342,210 @@ public class PlayerObject : NetworkBehaviour {
 	#region MapIsLoaded
 	//For Server
 	//Get all player objects
-	public IEnumerator GetAllPlayerObjects(){
-		LobbyManager LM = LobbyManager.singleton.GetComponent<LobbyManager>();
+	public IEnumerator GetAllPlayerObjects () {
+		LobbyManager LM = LobbyManager.singleton.GetComponent<LobbyManager> ();
 		Transform playerTr = transform.parent;
 
 		//Debug.Log("Get all players start");
-		while(players.Count != LM.numOfPlayers){
-		//Debug.Log("Get all players loop");
+		while (players.Count != LM.lobbyPlayers.Count) {
+			//Debug.Log("Get all players loop");
 
-			players = new List<PlayerObject>();
-			foreach (Transform p in playerTr)
-			{
-		//Debug.Log("Get all players for each loop");
+			players = new List<PlayerObject> ();
+			foreach (Transform p in playerTr) {
+				//Debug.Log("Get all players for each loop");
 
-				PlayerObject po = p.GetComponent<PlayerObject>();
-				if(po != null)
-				players.Add(po);
+				PlayerObject po = p.GetComponent<PlayerObject> ();
+				if (po != null) {
+					if (!players.Contains (po))
+						players.Add (po);
+				}
 			}
 
 			yield return null;
 		}
 		//All players have been found
-		Debug.Log("all have been found : "+ players.Count);
+		Debug.Log ("all have been found : " + players.Count);
+		//Add to list of playing players
 
-		StartCoroutine(CheckAllPlayersAreLoaded());
+		if (isServer)
+			playingPlayers = players;
+
+		StartCoroutine (CheckAllPlayersAreLoaded ());
 		yield return null;
 	}
 
-
-	IEnumerator CheckAllPlayersAreLoaded(){
+	IEnumerator CheckAllPlayersAreLoaded () {
 		bool allReady = false;
 
-		while(!allReady){
+		while (!allReady) {
 			allReady = true;
-			foreach(PlayerObject p in players){
-				if(p.mapIsLoaded != true){
+			foreach (PlayerObject p in players) {
+				if (p.mapIsLoaded != true) {
 					allReady = false;
 				}
 			}
 			yield return null;
 		}
-		foreach(PlayerObject p in players){
-			p.CmdIAmReady(p.GetComponent<NetworkIdentity>());
+		foreach (PlayerObject p in players) {
+			p.CmdIAmReady (p.GetComponent<NetworkIdentity> ());
+
 			//p.CmdMoveCamToBase();
 		}
 	}
 
 	[Command]
-	void CmdIAmReady(NetworkIdentity id){
-		id.gameObject.GetComponent<PlayerObject>().startNow = true;
-		RpcIAmReady(id);
+	void CmdIAmReady (NetworkIdentity id) {
+		id.gameObject.GetComponent<PlayerObject> ().startNow = true;
+		RpcIAmReady (id);
 	}
+
 	[ClientRpc]
-	void RpcIAmReady(NetworkIdentity id){
-		id.gameObject.GetComponent<PlayerObject>().startNow = true;
+	void RpcIAmReady (NetworkIdentity id) {
+		id.gameObject.GetComponent<PlayerObject> ().startNow = true;
 	}
 	//For Client
-	IEnumerator WaitForMap(){
-		Debug.Log("Waiting for map start");
-		
-		while(mapLoader.isFinishedLoading != true){
-			Debug.Log("Waiting for map loop");
-			
+	IEnumerator WaitForMap () {
+		Debug.Log ("Waiting for map start");
+
+		while (mapLoader.isFinishedLoading != true) {
+			Debug.Log ("Waiting for map loop");
+
 			yield return null;
 		}
-		if(mapLoader.isFinishedLoading == true){
-			Debug.Log("map is Loaded : "+ mapLoader.isFinishedLoading);
+		if (mapLoader.isFinishedLoading == true) {
+			Debug.Log ("map is Loaded : " + mapLoader.isFinishedLoading);
 
-			SetLoadStatus(true);
+			SetLoadStatus (true);
 		}
-		StartCoroutine(WaitForStart());
+		StartCoroutine (WaitForStart ());
 		yield return null;
-		
+
 	}
 
-	IEnumerator WaitForStart(){
-		Debug.Log("Waiting for start");
+	IEnumerator WaitForStart () {
+		Debug.Log ("Waiting for start");
 
-		while(startNow != true){
-		Debug.Log("Waiting for start loop");
+		while (startNow != true) {
+			Debug.Log ("Waiting for start loop");
 
 			yield return null;
 		}
 
-		if(startNow == true){
+		if (startNow == true) {
 			//move cam to base
-			Debug.Log("Is Local Player : " + isLocalPlayer);
-			if(isLocalPlayer){
+			Debug.Log ("Is Local Player : " + isLocalPlayer);
+			if (isLocalPlayer) {
 				mapLoader = LoadMap.singleton;
-				Debug.Log("mapLoader : "+ mapLoader);
-				mapLoader.moveCamToBase();
+				Debug.Log ("mapLoader : " + mapLoader);
+				mapLoader.moveCamToBase ();
 			}
-			Debug.Log("start Now");
+			Debug.Log ("start Now");
 
 		}
 		yield return null;
 	}
 
+	public void SetLoadStatus (bool isReady) {
+		CmdSetLoaded (isReady);
+		//lM = LoadMap.singleton;	
+	}
 
-		public void SetLoadStatus(bool isReady){
-			CmdSetLoaded(isReady);
-			//lM = LoadMap.singleton;	
-		}
+	[Command]
+	void CmdSetLoaded (bool isReady) {
+		mapIsLoaded = isReady;
+		RpcSetLoaded (mapIsLoaded);
+	}
 
-		[Command]
-		void CmdSetLoaded(bool isReady){
-			mapIsLoaded = isReady;
-			RpcSetLoaded(mapIsLoaded);
-		}	
+	[ClientRpc]
+	void RpcSetLoaded (bool isReady) {
+		mapIsLoaded = isReady;
+	}
+	//=====
+	public void SetStartStatus (bool isReady) {
+		CmdSetStartStatus (isReady);
+	}
 
-		[ClientRpc]
-		void RpcSetLoaded(bool isReady){
-			mapIsLoaded = isReady;
-		}	
-		//=====
-		public void SetStartStatus(bool isReady){
-			CmdSetStartStatus(isReady);
-		}
-		[Command]
-		void CmdSetStartStatus(bool isReady){
-			startNow = isReady;
-			RpcSetStartStatus(startNow);
-		}	
-		[ClientRpc]
-		void RpcSetStartStatus(bool isReady){
-			startNow = isReady;
-		}
-		//=====
+	[Command]
+	void CmdSetStartStatus (bool isReady) {
+		startNow = isReady;
+		RpcSetStartStatus (startNow);
+	}
 
+	[ClientRpc]
+	void RpcSetStartStatus (bool isReady) {
+		startNow = isReady;
+	}
+	//=====
 
-
-/* 		[Command]
-		public void CmdMoveCamToBase(){
-			Debug.Log("CMD move cam ");
-			LoadMap lM = LoadMap.singleton;	
-			lM.moveCamToBase();
-			RpcMoveCamToBase();
-		}
-		[ClientRpc]
-		public void RpcMoveCamToBase(){
-			LoadMap lM = LoadMap.singleton;	
-			lM.moveCamToBase();
-		} */
+	/* 		[Command]
+			public void CmdMoveCamToBase(){
+				Debug.Log("CMD move cam ");
+				LoadMap lM = LoadMap.singleton;	
+				lM.moveCamToBase();
+				RpcMoveCamToBase();
+			}
+			[ClientRpc]
+			public void RpcMoveCamToBase(){
+				LoadMap lM = LoadMap.singleton;	
+				lM.moveCamToBase();
+			} */
 	#endregion
 
-	
+	IEnumerator CheckGameLoop () {
+		yield return new WaitForSeconds(10);
+		int counter = 0;
+		Debug.Log ("Start Game Loop");
+		while (gameIsDone == false) {
+			//
+			foreach (PlayerObject PO in playingPlayers) {
+				if (PO.isDefeated == true) {
+					defeatedPlayers.Add (PO);
+					playingPlayers.Remove (PO);
+					break;
+				}
+
+				if (playingPlayers[0].team == PO.team) {
+					Debug.Log ("Player : " + PO + "| team: " + PO.team + " |counter : " + counter);
+					counter++;
+				}
+			}
+			//
+
+			Debug.Log ("counter : " + counter);
+			Debug.Log ("playing Players : " + playingPlayers.Count);
+			if (counter == playingPlayers.Count) {
+				gameIsDone = true;
+				//DisplayWinScreen
+
+				foreach (PlayerObject PO in playingPlayers) {
+					RpcSetWinner (PO.gameObject.GetComponent<NetworkIdentity> (), true);
+				}
+
+				Debug.Log ("Game End");
+				uiGameManager.ShowWinScreen (isWinner);
+
+				StopCoroutine (gameChecker);
+			}
+			yield return null;
+		}
+
+		yield return null;
+	}
+
+	[ClientRpc]
+	void RpcSetWinner (NetworkIdentity netID, bool input) {
+		netID.gameObject.GetComponent<PlayerObject> ().isWinner = input;
+	}
+	public void StartGameLoop () {
+		//Start gameChecker
+		if (isServer)
+			//gameChecker = StartCoroutine (CheckGameLoop ());
+
+		Debug.Log ("The game Checker is : " + gameChecker);
+	}
+
+	[Command]
+	public void CmdSetChecker (bool input) {
+		checkerWait = input;
+	}
 }

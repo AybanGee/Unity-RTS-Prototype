@@ -188,9 +188,10 @@ public class LobbyManager : NetworkLobbyManager {
 	}
 
 	#region Player Preparation
+	public List<LobbyPlayer> lobbyPlayers = new List<LobbyPlayer> ();
 	bool IsAllPlayersValid () {
 		//prepare list of players
-		List<LobbyPlayer> lobbyPlayers = new List<LobbyPlayer> ();
+		
 		foreach (NetworkLobbyPlayer nlp in lobbySlots) {
 			if (nlp != null)
 				lobbyPlayers.Add ((LobbyPlayer) nlp);

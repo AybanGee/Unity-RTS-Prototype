@@ -35,5 +35,5 @@ public class HealthUI : MonoBehaviour {
 
 		ui.position = target.position;
 		ui.forward = -cam.forward;
-	}
+	} 
 }

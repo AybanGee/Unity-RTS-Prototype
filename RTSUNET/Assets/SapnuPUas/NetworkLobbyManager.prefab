@@ -1038,7 +1038,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1799975942087886
 GameObject:
   m_ObjectHideFlags: 1
@@ -1228,7 +1228,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1975284111044612
 GameObject:
   m_ObjectHideFlags: 1
@@ -2344,6 +2344,7 @@ MonoBehaviour:
   readyCount: 0
   numOfPlayers: 0
   allIsReady: 0
+  lobbyPlayers: []
 --- !u!114 &114145754704158894
 MonoBehaviour:
   m_ObjectHideFlags: 1

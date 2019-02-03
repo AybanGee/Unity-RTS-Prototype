@@ -32,8 +32,8 @@ public class Damageable : MonoAbility {
 		damage -= armour;
 		damage = Mathf.Clamp (damage, 0, int.MaxValue);
 		currentHealth -= damage;
-		
 		RpcTakeDamage (GetComponent<NetworkIdentity> (), damage);
+		
 		if(parentUnit.focus != null) return;
 		Attacker attack = GetComponent<Attacker>();
 		Damageable damageable = ni.gameObject.GetComponent<Damageable>();
@@ -51,6 +51,7 @@ public class Damageable : MonoAbility {
 	}
 
 	[ClientRpc] public void RpcTakeDamage (NetworkIdentity targerStatsID, int damage) {
+		if (isServer) return;
 
 			Damageable d = targerStatsID.gameObject.GetComponent<Damageable>();
 			d.currentHealth -= damage;
@@ -80,7 +81,7 @@ public class Damageable : MonoAbility {
 
 	public void OnChangeHealth (int curHealth) {
 		//if(!hasAuthority)return;
-		if (!isServer)
+		//if (!isServer)
 			currentHealth = healthHolder;
 
 		if (healthUI == null)
@@ -103,8 +104,9 @@ public class Damageable : MonoAbility {
 
 	[Command]
 	void CmdDeath () {	
-		Destroy (healthUI.ui.gameObject);
+		//Destroy (healthUI.ui.gameObject);
 		RpcDeath ();
+		Destroy (healthUI.ui.gameObject);
 		Destroy (this.gameObject);
 
 	}
@@ -113,6 +115,7 @@ public class Damageable : MonoAbility {
 	void RpcDeath () {
 		//when used unit stays in client afterdeath
 		//	GetComponent<MonoUnitFramework>().PO.RemoveUnit(this.gameObject);
+		if(isServer) return; 
 		Destroy (healthUI.ui.gameObject);
 		Destroy (this.gameObject);
 

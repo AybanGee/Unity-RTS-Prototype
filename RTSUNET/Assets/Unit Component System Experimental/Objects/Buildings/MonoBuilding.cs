@@ -8,7 +8,7 @@ public class MonoBuilding : MonoUnitFramework {
 	public int sellingPrice;
 	public float constructionTime;
 	[HideInInspector] public BuildingType buildingType;
-	[HideInInspector] public MonoUnitFramework focus;
+	//[HideInInspector] public MonoUnitFramework focus;
 
 	void Start () {
 		//Nasa building System yung assign ng abilities

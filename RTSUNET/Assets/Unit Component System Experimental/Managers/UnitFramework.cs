@@ -29,6 +29,7 @@ public abstract class UnitFramework : ScriptableObject {
 		monoUnit.manaCost = manaCost;
 		monoUnit.creationTime = creationTime;
 		monoUnit.primitiveAbilities = abilities;
+		Debug.Log("UnitFramework :: abilities : "+abilities[0]);
 		Debug.Log("SPAWNED INFLU"); 
 		monoUnit.rangeInfluence = rangeInfluence; 	
 		monoUnit.InitAbilities ();
