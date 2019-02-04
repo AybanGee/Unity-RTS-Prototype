@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Supplier : MonoAbility {
-public float interval;
+public float interval = 10;
 Coroutine ticker; 
 SupplySystem SS;
 

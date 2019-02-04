@@ -142,16 +142,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1705c2bbe6de8ed46b447f278499dd38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SyncVarDirtyBits: 0
-  m_LastSendTime: 0
-  m_SyncVarGuard: 0
-  m_MyView: {fileID: 0}
   UnitSpawnIndex: 4
   spawnPoint: {x: 0, y: 0, z: 0}
   unitGroup: {fileID: 0}
   thGroup: {fileID: 0}
   bGroup: {fileID: 0}
-  PO: {fileID: 0}
 --- !u!114 &114949821193209664
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -184,8 +179,15 @@ MonoBehaviour:
   playerName: 
   colorIndex: 0
   baseNo: 0
-  manna: 500000
+  manna: 1000
   mapIsLoaded: 0
   startNow: 0
   players: []
   camGroup: {fileID: 0}
+  playingPlayers: []
+  defeatedPlayers: []
+  gameIsDone: 0
+  isDefeated: 0
+  isWinner: 0
+  townhall: {fileID: 0}
+  checkerWait: 0

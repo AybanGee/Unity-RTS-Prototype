@@ -301,6 +301,7 @@ public class BuildingSystem : NetworkBehaviour {
 				qs = spawnHolder.AddComponent<QueueingSystem> ();
 				qs.PO = PO;
 				qs.spawnableUnits = PO.UnitSys.thGroup.units;
+				spawnHolder.AddComponent<Supplier>();
 				break;
 		}
 		//end of assignments

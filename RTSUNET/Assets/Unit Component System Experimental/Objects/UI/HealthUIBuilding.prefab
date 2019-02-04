@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 224918881149315070}
   - component: {fileID: 222661968506397936}
   - component: {fileID: 114666552639983512}
+  - component: {fileID: 114940935677629236}
   m_Layer: 0
   m_Name: HealthUIBuilding
   m_TagString: Untagged
@@ -99,6 +100,19 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114940935677629236
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1082256752367706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b4bad65c5792974a956585c460dfc38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthSlider: {fileID: 114454141030838508}
+  GO: {fileID: 1082256752367706}
 --- !u!222 &222652457463605244
 CanvasRenderer:
   m_ObjectHideFlags: 1

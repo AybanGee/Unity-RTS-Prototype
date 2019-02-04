@@ -18,38 +18,58 @@ public class UnitSystem : NetworkBehaviour {
 		CmdSpawnObject (spawnIndex, pos, rot);
 
 	}
+	[ClientRpc]
+	public void RpcAddPlayerUnit(NetworkIdentity ni, int spawnableObjectIndex){
+		GameObject go = ni.gameObject;
+		PlayerUnit playerUnit = unitGroup.units[spawnableObjectIndex];
+		Debug.Log(go);
+		MonoUnitFramework muf = go.GetComponent<MonoUnitFramework> ();
+		muf.playerUnit = playerUnit;
+		muf.PO = PO;	
+		playerUnit.Initialize (go);
+	}
 
 	[Command]
 	public void CmdSpawnObject (int spawnableObjectIndex, Vector3 position, Quaternion rotation) {
 		GameObject go = NetworkManager.singleton.spawnPrefabs[UnitSpawnIndex];
 		PlayerUnit playerUnit = unitGroup.units[spawnableObjectIndex];
 
-		go = Instantiate (go, position, rotation, this.transform);
-		MonoUnitFramework muf = go.GetComponent<MonoUnitFramework> ();
-		muf.playerUnit = playerUnit;
-		muf.PO = PO;
+		go = Instantiate (go, position, rotation);
 
 		//set Graphics
 
-		Debug.Log ("CMD add Graphics");
-		GameObject graphics = unitGroup.units[spawnableObjectIndex].graphics;
-		Vector3 offset = new Vector3 (0, (graphics.transform.localScale.y / 2) + 0.35f, 0);
-		graphics = Instantiate (graphics, go.transform.position + offset, go.transform.rotation, go.transform);
-		graphics.GetComponent<GraphicsHolder> ().colorize (LobbyManager.singleton.GetComponent<LobbyManager> ().gameColors.gameColorList () [PO.colorIndex]);
+		/* 		Debug.Log ("CMD add Graphics");
+				GameObject graphics = unitGroup.units[spawnableObjectIndex].graphics;
+				Vector3 offset = new Vector3 (0, (graphics.transform.localScale.y / 2) + 0.35f, 0);
+				graphics = Instantiate (graphics, go.transform.position + offset, go.transform.rotation, go.transform);
+				graphics.GetComponent<GraphicsHolder> ().colorize (LobbyManager.singleton.GetComponent<LobbyManager> ().gameColors.gameColorList () [PO.colorIndex]);
 
-		Animator anim = graphics.transform.GetChild (0).GetComponent<Animator> ();
-		go.GetComponent<CharacterAnimator> ().animator = anim;
+				Animator anim = graphics.transform.GetChild (0).GetComponent<Animator> ();
+				go.GetComponent<CharacterAnimator> ().animator = anim; */
 
 		//go.GetComponent<NetworkAnimator>().animator = graphics.GetComponent<Animator>();
-
-		playerUnit.Initialize (go);
-		//ClientScene.RegisterPrefab(go);	
+	//	Debug.Log ("UnitSystem :: MonoUnitFramework : " + muf);
+	//	Debug.Log ("UnitSystem :: Abilities : " + muf.primitiveAbilities.Count);
+		//ClientScene.RegisterPrefab(go);
 
 		//playerUnit.Initialize(go);
 		//initialize abilities
-
+	//	muf.debugMonoUnit ();
 		NetworkIdentity ni = go.GetComponent<NetworkIdentity> ();
 		NetworkServer.SpawnWithClientAuthority (go, connectionToClient);
+		
+		RpcAddPlayerUnit(go.GetComponent<NetworkIdentity>(),spawnableObjectIndex);
+
+		/* 		bool wait = true;
+				while (wait) {
+					Debug.Log("Unit System :: Wait :");
+					if (muf.primitiveAbilities.Count > 0) {
+						Debug.Log ("Unit System :: Player Abilities : " + muf.primitiveAbilities.Count);
+						wait = false;
+					}
+				} */
+		//Debug.Log("MonoUnitFramework : ");
+		Debug.Log ("UnitSystem :: NetID : Abilities : " + ni.gameObject.GetComponent<MonoUnitFramework> ().primitiveAbilities.Count);
 
 		RpcAssignObject (ni, spawnableObjectIndex);
 		//MonoUnit unit = go.GetComponent<MonoUnit> ();
@@ -57,37 +77,44 @@ public class UnitSystem : NetworkBehaviour {
 		// unit.team = PO.team;
 		// unit.playerObject =  PO;
 	}
-
+	
 	[ClientRpc]
 	public void RpcAssignObject (NetworkIdentity id, int spawnableObjectIndex) {
 		Debug.Log ("RpcAssign");
-		PlayerUnit playerUnit = unitGroup.units[spawnableObjectIndex];
 		GameObject go = id.gameObject;
+		go.GetComponent<MonoUnitFramework>().debugMonoUnit ();
+
+		//Debug.Log("RPC Assign :: NetID : " + id);
+
+		Debug.Log ("UnitSystem :: RpcAssign : GO : " + go);
+		//PlayerUnit playerUnit = unitGroup.units[spawnableObjectIndex];
+
+		/* 	if(!isServer)
+			playerUnit.Initialize (go); */
+
+		//set Graphics
+		/* if (go.transform.gameObject.GetComponentInChildren<GraphicsHolder> () == null) { */
+		Debug.Log ("RPC add Graphics");
+		GameObject graphics = unitGroup.units[spawnableObjectIndex].graphics;
+		Vector3 offset = new Vector3 (0, (graphics.transform.localScale.y / 2) + 0.35f, 0);
+		graphics = Instantiate (graphics, go.transform.position + offset, go.transform.rotation, go.transform);
+		graphics.GetComponent<GraphicsHolder> ().colorize (LobbyManager.singleton.GetComponent<LobbyManager> ().gameColors.gameColorList () [PO.colorIndex]);
+
+		Animator anim = graphics.transform.GetChild (0).GetComponent<Animator> ();
+		go.GetComponent<CharacterAnimator> ().animator = anim;
+		/* 
+				} */
 
 		//Assigning data
 		MonoUnit unit = go.GetComponent<MonoUnit> ();
 		unit.team = PO.team;
+		Debug.Log ("UnitSystem :: RpcAssign : MonoUnit : " + unit);
+		Debug.Log ("UnitSystem :: RpcAssign : Primitive Abilities : " + unit.primitiveAbilities.Count);
 
+		//Debug.Log ("UnitSystem :: unit : " + unit);
+		//Debug.Log ("UnitSystem :: playerunit : " + playerUnit);
+		//Debug.Log ("UnitSystem :: abilities.Count : " + playerUnit.abilities.Count);
 
-		Debug.Log("UnitSystem :: unit : " + unit);
-		Debug.Log("UnitSystem :: playerunit : " + playerUnit);
-		Debug.Log("UnitSystem :: abilities.Count : " + playerUnit.abilities.Count);
-		
-		if(!isServer)
-		playerUnit.Initialize (go);
-
-		//set Graphics
-		if (go.transform.gameObject.GetComponentInChildren<GraphicsHolder>() == null) {
-			Debug.Log ("RPC add Graphics");
-			GameObject graphics = unitGroup.units[spawnableObjectIndex].graphics;
-			Vector3 offset = new Vector3 (0, (graphics.transform.localScale.y / 2) + 0.35f, 0);
-			graphics = Instantiate (graphics, go.transform.position + offset, go.transform.rotation, go.transform);
-			graphics.GetComponent<GraphicsHolder> ().colorize (LobbyManager.singleton.GetComponent<LobbyManager> ().gameColors.gameColorList () [PO.colorIndex]);
-
-			Animator anim = graphics.transform.GetChild (0).GetComponent<Animator> ();
-		go.GetComponent<CharacterAnimator> ().animator = anim;
-
-		}
 		go.name = PO.team + " - unit" + go.GetComponent<NetworkIdentity> ().netId;
 
 		UnitSelectable unitSelectable = go.AddComponent<UnitSelectable> ();

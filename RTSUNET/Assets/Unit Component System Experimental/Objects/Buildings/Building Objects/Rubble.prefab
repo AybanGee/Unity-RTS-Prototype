@@ -1007,7 +1007,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33a004a30fae4964f9a62858c9b1b6b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: ' construction'
+  name: Maynilad construction
   faction: 0
   team: 1
   tier: 0
@@ -1017,14 +1017,14 @@ MonoBehaviour:
   manaCost: 50
   creationTime: 50
   PO: {fileID: 0}
-  rangeInfluence: 0
+  rangeInfluence: 1
   selectionCircle: {fileID: 0}
   focus: {fileID: 0}
   abilities:
   - {fileID: 114099704405043396}
   primitiveAbilities: []
   playerUnit: {fileID: 0}
-  assignedBuilding: {fileID: 11400000, guid: f3023101809978c4987359a3952dc860, type: 2}
+  assignedBuilding: {fileID: 11400000, guid: 69eca79824ed665469b05dc5969f3f20, type: 2}
   buildingIndex: 1
 --- !u!114 &114099704405043396
 MonoBehaviour:

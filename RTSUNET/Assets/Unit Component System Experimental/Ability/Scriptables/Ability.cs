@@ -26,10 +26,10 @@ public abstract class Ability : ScriptableObject {
         ma.isInteractable = isInteractable;
     }
 
-    // [Command] public void CmdInitialize (NetworkIdentity ni,int abilityID) { 
-    //     NetworkInit (ni.gameObject,abilityID); 
-    //     RpcInitialize (ni,abilityID);
-    //      }
+    [Command] public void CmdInitialize (NetworkIdentity ni,int abilityID) { 
+        NetworkInit (ni.gameObject,abilityID); 
+        RpcInitialize (ni,abilityID);
+         }
 
     [ClientRpc] public void RpcInitialize (NetworkIdentity ni,int abilityID) { 
         NetworkInit (ni.gameObject,abilityID); 

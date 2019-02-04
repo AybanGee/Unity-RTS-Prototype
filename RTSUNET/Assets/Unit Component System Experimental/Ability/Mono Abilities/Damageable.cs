@@ -26,14 +26,13 @@ public class Damageable : MonoAbility {
 
 	public void TakeDamage (int damage,NetworkIdentity ni) {
 		
-		if (!isServer) return;
 		
-
 		damage -= armour;
 		damage = Mathf.Clamp (damage, 0, int.MaxValue);
 		currentHealth -= damage;
-		RpcTakeDamage (GetComponent<NetworkIdentity> (), damage);
 		
+		UpdateHealthUI();
+
 		if(parentUnit.focus != null) return;
 		Attacker attack = GetComponent<Attacker>();
 		Damageable damageable = ni.gameObject.GetComponent<Damageable>();
@@ -50,14 +49,6 @@ public class Damageable : MonoAbility {
 		Debug.Log (transform.name + " takes " + damage + " damage.");
 	}
 
-	[ClientRpc] public void RpcTakeDamage (NetworkIdentity targerStatsID, int damage) {
-		if (isServer) return;
-
-			Damageable d = targerStatsID.gameObject.GetComponent<Damageable>();
-			d.currentHealth -= damage;
-			d.healthHolder = currentHealth;
-
-	}
 
 	public void TakeHealing (int healValue) {
 		if (!isServer) return;
@@ -87,7 +78,7 @@ public class Damageable : MonoAbility {
 		if (healthUI == null)
 			healthUI = gameObject.GetComponent<HealthUI> ();
 		else {
-			RpcUpdateHealthUI ();
+			UpdateHealthUI ();
 		}
 
 		if (curHealth <= 0) {
@@ -98,31 +89,11 @@ public class Damageable : MonoAbility {
 	public virtual void Die () {
 		Debug.Log (transform.name + " died.");
 		//GetComponent<MonoUnitFramework>().PO.myUnits.Remove(this.gameObject);
-		CmdDeath ();
+		GetComponent<MonoUnitLibrary>().CmdDeath ();
 
 	}
-
-	[Command]
-	void CmdDeath () {	
-		//Destroy (healthUI.ui.gameObject);
-		RpcDeath ();
-		Destroy (healthUI.ui.gameObject);
-		Destroy (this.gameObject);
-
-	}
-
-	[ClientRpc]
-	void RpcDeath () {
-		//when used unit stays in client afterdeath
-		//	GetComponent<MonoUnitFramework>().PO.RemoveUnit(this.gameObject);
-		if(isServer) return; 
-		Destroy (healthUI.ui.gameObject);
-		Destroy (this.gameObject);
-
-	}
-
-	[ClientRpc]
-	void RpcUpdateHealthUI () {
+	
+	void UpdateHealthUI () {
 		float fill = (float) currentHealth / (float) maxHealth;
 		healthUI.healthSlider.fillAmount = fill;
 	}

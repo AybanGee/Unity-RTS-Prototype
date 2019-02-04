@@ -35,5 +35,8 @@ public class HealthUI : MonoBehaviour {
 
 		ui.position = target.position;
 		ui.forward = -cam.forward;
+
+		if(healthSlider.fillAmount <= 0)
+			Destroy(healthSlider.transform.parent.gameObject);
 	} 
 }

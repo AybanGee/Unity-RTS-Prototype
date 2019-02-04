@@ -35,4 +35,6 @@ public abstract class UnitFramework : ScriptableObject {
 		monoUnit.InitAbilities ();
 	}
 
+	
+
 }
