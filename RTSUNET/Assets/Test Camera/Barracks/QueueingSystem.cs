@@ -61,7 +61,7 @@ public class QueueingSystem : MonoBehaviour {
 			isDone = true;
 
 			//Remove Unit
-			RemoveFromQueue (0);
+			QueueRemove (0);
 
 		}
 		queueIsRunning = false;
@@ -100,22 +100,41 @@ public class QueueingSystem : MonoBehaviour {
 	}
 
 	public void RemoveFromQueue (int unitIndex) {
+		
 		//Debug.Log ("unit Index : " + unitIndex);
-
 		if (unitIndex > spawnQueue.Count - 1) { Debug.LogError ("Index " + unitIndex + " was out of range FUUUU-"); return; }
-		//refund mana
+		
+		//Refund Manna
 		PO.manna += spawnQueue[unitIndex].manaCost;
-		//remove from queue
-		//Debug.Log ("Removing Unit at : " + unitIndex);
+		
+		//Remove from Queue
 		spawnQueue.RemoveAt (unitIndex);
 
-		//reset Timer if first unit
+		//Reset Timer if First Unit
 		if (unitIndex == 0 && spawnQueue.Count > 0) {
 			PlayerUnit u = spawnQueue[0];
 			creationTimeHolder = u.creationTime;
 		}
 
-		//updateDisplay
+		//Update Display
+		if (GetComponent<UnitSelectable> ().isSelected)
+			UpdateUIList ();
+	}
+
+	public void QueueRemove (int unitIndex) {
+
+		if (unitIndex > spawnQueue.Count - 1) { Debug.LogError ("Index " + unitIndex + " was out of range FUUUU-"); return; }
+
+		//Remove From List
+		spawnQueue.RemoveAt (unitIndex);
+
+		//Reset Timer
+		if (unitIndex == 0 && spawnQueue.Count > 0) {
+			PlayerUnit u = spawnQueue[0];
+			creationTimeHolder = u.creationTime;
+		}
+
+		//Update Display
 		if (GetComponent<UnitSelectable> ().isSelected)
 			UpdateUIList ();
 	}

@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05477fafcbc62de4089e399bdb8395ff, type: 3}
+  m_Name: Snipe Shot
+  m_EditorClassIdentifier: 
+  sName: Snipe Shot
+  sSprite: {fileID: 21300000, guid: 3197cb33d1412f2419e94a9930eed28d, type: 3}
+  sSound: {fileID: 0}
+  range: 15
+  animationTriggers: []
+  AttackCooldown: 6
+  damage: 50
+  isAttackOnce: 0

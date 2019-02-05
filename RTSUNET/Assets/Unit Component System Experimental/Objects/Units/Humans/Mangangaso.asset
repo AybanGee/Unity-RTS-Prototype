@@ -15,9 +15,16 @@ MonoBehaviour:
   faction: 0
   tier: 0
   battleType: 0
-  description: 
+  description: 'Cost: 100
+
+
+    A hunter trained to defend the freedom of humans.
+
+    Uses bows and arrows to defeat enemies.
+
+'
   artwork: {fileID: 21300000, guid: c5c4b33f877e41045988c169bf01bdcb, type: 3}
-  manaCost: 50
+  manaCost: 100
   creationTime: 5
   rangeInfluence: 0
   graphics: {fileID: 1960991594554096, guid: ad9c1fe65bc98c64f830937b660a7017, type: 2}

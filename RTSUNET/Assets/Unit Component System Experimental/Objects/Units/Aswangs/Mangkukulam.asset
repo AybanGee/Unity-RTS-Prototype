@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbb0aad43ed5bb140a4e58d2cedeb1d0, type: 3}
+  m_Name: Mangkukulam
+  m_EditorClassIdentifier: 
+  name: Mangkukulam
+  faction: 1
+  tier: 0
+  battleType: 0
+  description: 'Cost: 100
+
+
+    A witch that uses magic to attack opponents.
+
+    Uses bows and arrows to defeat enemies.
+
+'
+  artwork: {fileID: 21300000, guid: 19e0c338319db9c4ba2c242a30d19b2e, type: 3}
+  manaCost: 100
+  creationTime: 5
+  rangeInfluence: 0
+  graphics: {fileID: 1960991594554096, guid: 4ae675ecd5a088f49bc029709197ba19, type: 2}
+  abilities:
+  - {fileID: 11400000, guid: 6f3aaf7c6bdad3b4990f7699772f0cbb, type: 2}
+  - {fileID: 11400000, guid: d734c046ee68e3249b9958d072f84f36, type: 2}
+  unitType: 0
+  speed: 10

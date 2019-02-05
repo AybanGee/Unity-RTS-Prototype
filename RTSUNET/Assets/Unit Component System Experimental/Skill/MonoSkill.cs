@@ -52,6 +52,7 @@ public abstract class MonoSkill : NetworkBehaviour {
 				ActOn (skillTarget);
 				Deactivate ();
 			}
+			
 		} else if (isActive && skillTarget == null) {
 			Act ();
 			Deactivate ();

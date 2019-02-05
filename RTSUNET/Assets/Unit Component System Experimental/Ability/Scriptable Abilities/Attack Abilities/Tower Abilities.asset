@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 730e048b6091f0545a07ff39c16a4485, type: 3}
+  m_Name: Tower Abilities
+  m_EditorClassIdentifier: 
+  abilityType: {fileID: 0}
+  interactorAbilities: []
+  isTeamDependent: 1
+  isOnlyFriendly: 0
+  isInteractable: 0
+  attackAbilities:
+  - {fileID: 11400000, guid: 92330e4182e591046adc0f5169e9a778, type: 2}
+  - {fileID: 11400000, guid: 9c7e1ac48932da84881b9936dd58a209, type: 2}
+  - {fileID: 11400000, guid: c14ce479e23d77747aa227a2956b5eb4, type: 2}

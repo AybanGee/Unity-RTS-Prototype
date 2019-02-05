@@ -11,13 +11,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a982860f5b0e764f8215f21e8a72539, type: 3}
   m_Name: Supply
   m_EditorClassIdentifier: 
-  name: 
+  name: Supply Stash
   faction: 1
   tier: 0
   battleType: 2
-  description: 
+  description: 'Cost: 100
+
+
+    Used to generate Manna.
+
+    Must be placed near an Ore.
+
+'
   artwork: {fileID: 21300000, guid: 630b2653bd6203c41a353050a7ced5c0, type: 3}
-  manaCost: 50
+  manaCost: 100
   creationTime: 50
   rangeInfluence: 0
   graphics: {fileID: 1518684437163082, guid: dc69e18f50488fd4cb1cf6d035c26a70, type: 2}

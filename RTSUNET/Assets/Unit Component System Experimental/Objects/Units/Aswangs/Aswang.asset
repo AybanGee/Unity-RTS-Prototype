@@ -15,16 +15,21 @@ MonoBehaviour:
   faction: 1
   tier: 0
   battleType: 2
-  description: 'A worker of the undead
+  description: 'Cost: 80
+
+
+    A human turned beast used as soldiers to conquer the human realm.
+
+    Uses their claws to attack.
 
 '
   artwork: {fileID: 21300000, guid: b1c580d55036c7642ba2df04b0a26b8e, type: 3}
-  manaCost: 50
+  manaCost: 80
   creationTime: 5
   rangeInfluence: 0
   graphics: {fileID: 1960991594554096, guid: 7078fe9a23cbcd64598694a0f054b961, type: 2}
   abilities:
-  - {fileID: 11400000, guid: 992646d67c704e44a858599fd545c4a7, type: 2}
+  - {fileID: 11400000, guid: 76b3758ce95cf1140849726f86a834fd, type: 2}
   - {fileID: 11400000, guid: d734c046ee68e3249b9958d072f84f36, type: 2}
   unitType: 0
   speed: 20

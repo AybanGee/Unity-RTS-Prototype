@@ -15,11 +15,16 @@ MonoBehaviour:
   faction: 0
   tier: 0
   battleType: 0
-  description: Victor Magtanggol is a bootleg version of MCU's Thor from the non-creative
-    directors and writers of GMA. The show is one of the worst appliction of CGI in
-    Philippine national television.
+  description: 'Cost: 80
+
+
+    A warrior trained to defend the freedom of humans.
+
+    Uses swords to defeat enemies.
+
+'
   artwork: {fileID: 21300000, guid: 464308bea450e704bbb2437334172114, type: 3}
-  manaCost: 50
+  manaCost: 80
   creationTime: 5
   rangeInfluence: 0
   graphics: {fileID: 1960991594554096, guid: c9d4cb9549f05bd4d80a8a8cf0bd5ed8, type: 2}
