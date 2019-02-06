@@ -338,7 +338,7 @@ Transform:
   m_GameObject: {fileID: 1473980715398178}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.7666667, y: 2, z: 0.7666667}
+  m_LocalScale: {x: 1.1, y: 2, z: 1.1}
   m_Children:
   - {fileID: 4428799174158008}
   m_Father: {fileID: 0}
@@ -1007,9 +1007,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33a004a30fae4964f9a62858c9b1b6b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: Maynilad construction
+  name: 
   faction: 0
-  team: 1
+  team: 0
   tier: 0
   battleType: 0
   description: 
@@ -1017,15 +1017,16 @@ MonoBehaviour:
   manaCost: 50
   creationTime: 50
   PO: {fileID: 0}
-  rangeInfluence: 1
+  rangeInfluence: 0
   selectionCircle: {fileID: 0}
   focus: {fileID: 0}
   abilities:
   - {fileID: 114099704405043396}
   primitiveAbilities: []
   playerUnit: {fileID: 0}
-  assignedBuilding: {fileID: 11400000, guid: 69eca79824ed665469b05dc5969f3f20, type: 2}
-  buildingIndex: 1
+  building: {fileID: 0}
+  assignedBuilding: {fileID: 0}
+  buildingIndex: 0
 --- !u!114 &114099704405043396
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1045,6 +1046,7 @@ MonoBehaviour:
   interactorAbilities:
   - {fileID: 11400000, guid: f4815c854bf023b45a2cbe3fe2a0793f, type: 2}
   parentUnit: {fileID: 114044517204806298}
+  defaultSkillIndex: 0
   constructionTime: 50
   constructionTimeLeft: 0
 --- !u!114 &114136157027453940

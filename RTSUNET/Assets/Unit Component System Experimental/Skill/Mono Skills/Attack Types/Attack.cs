@@ -83,23 +83,24 @@ public abstract class Attack : MonoSkill {
 					Debug.Log ("Target possible dead");
 					if (targetDamageable.Length == 1) {
 						//seearch for new target
-						
-						parentAbility.parentUnit.RemoveFocus();
+
+						parentAbility.parentUnit.RemoveFocus ();
 
 						SearchForNewTarget ();
-				
+
 					}
 					continue;
 				} else {
 					Debug.Log ("GOINH to take damage");
 
 					attacker.CmdDoDamage (targetDamageable[i].GetComponent<NetworkIdentity> (), damage);
+					//DO ANIMATION
+					if (GetComponent<CharacterAnimator> () != null)
+						GetComponent<CharacterAnimator> ().SetTrigger (pickAnimation ());
+
 				}
 
 			}
-			//DO ANIMATION
-			if (GetComponent<CharacterAnimator> () != null)
-				GetComponent<CharacterAnimator> ().SetTrigger (pickAnimation ());
 
 			yield return new WaitForSeconds (coolDownTime);
 		}
@@ -121,7 +122,7 @@ public abstract class Attack : MonoSkill {
 			for (int j = 0; j < targetDamageable.Length; j++) {
 				Debug.Log ("ATTACKING");
 				if (targetDamageable[i] == null) {
-						parentAbility.parentUnit.focus = null;
+					parentAbility.parentUnit.focus = null;
 					Debug.Log ("Target possible dead");
 					continue;
 				} else {
@@ -147,7 +148,7 @@ public abstract class Attack : MonoSkill {
 	}
 
 	public void SearchForNewTarget () {
-		if(parentAbility.parentUnit.focus != null)return;
+		if (parentAbility.parentUnit.focus != null) return;
 		// TODO
 		// Improvement check if there is target. 
 		//if yes dont try to find a new target which means to say return;
@@ -162,11 +163,14 @@ public abstract class Attack : MonoSkill {
 			}
 		}
 
-		if (damageables.Count > 0){
-			int newTargetIndex = Random.Range(0,damageables.Count);
-			GetComponent<MonoUnitFramework>().SetFocus(damageables[newTargetIndex].parentUnit,this);
+		if (damageables.Count > 0) {
+			int newTargetIndex = Random.Range (0, damageables.Count);
+			GetComponent<MonoUnitFramework> ().SetFocus (damageables[newTargetIndex].parentUnit, this);
 		}
 
+	}
+	public bool GetIsActive(){
+		return isAttacking;
 	}
 
 }

@@ -37,7 +37,7 @@ public class Damageable : MonoAbility {
 		Attacker attack = GetComponent<Attacker>();
 		Damageable damageable = ni.gameObject.GetComponent<Damageable>();
 		if(attack != null && damageable != null){
-			MonoSkill defaultSkill = attack.skills[0];
+			MonoSkill defaultSkill = attack.defaultSkill();
 			if(defaultSkill == null) return;
 			if(Vector3.Distance(attack.transform.position,damageable.transform.position) <= defaultSkill.range){
 				parentUnit.RemoveFocus();
@@ -88,6 +88,10 @@ public class Damageable : MonoAbility {
 
 	public virtual void Die () {
 		Debug.Log (transform.name + " died.");
+		
+		if(gameObject.GetComponent<TownhallTrigger>() != null){
+			gameObject.GetComponent<TownhallTrigger>().SetIsDefeated();
+		}
 		//GetComponent<MonoUnitFramework>().PO.myUnits.Remove(this.gameObject);
 		GetComponent<MonoUnitLibrary>().CmdDeath ();
 

@@ -11,7 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 730e048b6091f0545a07ff39c16a4485, type: 3}
   m_Name: Tower Abilities
   m_EditorClassIdentifier: 
-  abilityType: {fileID: 0}
+  abilityType: {fileID: 11400000, guid: 899c39ae2c81a174a8eeb1cd44d643ba, type: 2}
   interactorAbilities: []
   isTeamDependent: 1
   isOnlyFriendly: 0

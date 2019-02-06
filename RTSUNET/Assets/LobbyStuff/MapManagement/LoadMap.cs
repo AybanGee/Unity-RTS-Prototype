@@ -91,7 +91,7 @@ public class LoadMap : MonoBehaviour {
 		camGroup.transform.position = new Vector3 (baseLoc.transform.position.x, 0, baseLoc.transform.position.x);
 
 		//maybe spawn Town Center here?
-		int buildingIndex = 2;
+		int buildingIndex = 3;
 		Debug.Log ("Spawning Townhall");
 		StartCoroutine (WaitForBuilding (PO));
 
@@ -109,7 +109,7 @@ public class LoadMap : MonoBehaviour {
 			}
 			Debug.Log ("Adding building to holder : " + PO.myBuildings[0]);
 			PO.townhall = PO.myBuildings[0];
-			PO.CmdSetChecker (true);
+			//PO.CmdSetChecker (true);
 			bool flag = false;
 
 			while (flag == false) {
@@ -124,7 +124,7 @@ public class LoadMap : MonoBehaviour {
 			}
 
 			if (PO.isServer && flag) {
-				PO.StartGameLoop ();
+				//PO.StartGameLoop ();
 				Debug.Log ("Starting Game Loop");
 			}
 			yield return null;

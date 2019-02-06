@@ -171,7 +171,7 @@ public class UIGameCommandsHandler : MonoBehaviour {
 		foreach (GameObject unit in units) {
 			//Debug.Log("disp Count : " + displayCount);
 			if (displayCount <= 31) {
-//				Debug.Log ("in IF");
+				//				Debug.Log ("in IF");
 				//Instantiate ButtonPrefab and Assign Sprites
 				GameObject _skillUI = Instantiate (skillUI, Vector3.zero, Quaternion.identity, transform);
 				Image img = _skillUI.GetComponent<Image> ();
@@ -203,10 +203,10 @@ public class UIGameCommandsHandler : MonoBehaviour {
 	}
 	//Show Buildable Buildings
 	public void ShowBuildings (BuildingSystem BS) {
-	ClearAbilities ();
+		ClearAbilities ();
 
 		//Loop through all Selected Units
-		foreach (Building building in BS.buildingGroups.buildings) {
+		foreach (Building building in BS.buildableGroup.buildings) {
 
 			//Instantiate ButtonPrefab and Assign Sprites
 			GameObject _skillUI = Instantiate (skillUI, Vector3.zero, Quaternion.identity, transform);
@@ -219,11 +219,37 @@ public class UIGameCommandsHandler : MonoBehaviour {
 
 			//Functions Delegates for buttons
 			_skillUI.GetComponent<Button> ().onClick.AddListener (delegate {
-			
-					BS.selectedBuildingIndex = BS.buildingGroups.buildings.IndexOf(building);
-					BS.ToggleBuildMode ();
+
+				BS.selectedBuildingIndex = BS.buildableGroup.buildings.IndexOf (building);
+				BS.ToggleBuildMode ();
 			});
 		}
+	}
+
+	public void ShowAbilitiesTowers (List<MonoAbility> abilities) {
+		ClearAbilities ();
+		foreach (MonoAbility ability in abilities) {
+			//if (ability.skills.Count > 0) {
+			//Transform abilityTransform = Instantiate (abilityPanel, Vector3.zero, Quaternion.identity, transform).transform;
+			foreach (MonoSkill skill in ability.skills) {
+				GameObject _skillUI = Instantiate (skillUI, Vector3.zero, Quaternion.identity, transform);
+				Image img = _skillUI.GetComponent<Image> ();
+				if (img == null) { Debug.LogError ("NO IMAGE!"); continue; }
+				if (skill.sSprite == null) Debug.LogWarning ("NO SPRITE");
+				img.sprite = skill.sSprite;
+
+				_skillUI.GetComponent<Button> ().onClick.AddListener (delegate {
+					ability.StopSkills();
+					ability.parentUnit.RemoveFocus();
+
+					Debug.Log("UICommandsHandler :: Tower : New Index : " + _skillUI.transform.GetSiblingIndex());
+					ability.SetDefaultSkill (_skillUI.transform.GetSiblingIndex()); 
+
+
+				});
+			}
+		}
+		//}
 	}
 
 }

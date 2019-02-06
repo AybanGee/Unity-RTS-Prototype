@@ -24,7 +24,9 @@ public abstract class MonoSkill : NetworkBehaviour {
 		isActing = true;
 
 	}
+
 	public virtual void Stop () { isActing = false; isActive = false; }
+	
 	public bool isTargetInRange (Transform target) {
 		MonoUnitFramework targetUnit = target.gameObject.GetComponent<MonoUnitFramework> ();
 		float influence = 0;
@@ -42,6 +44,7 @@ public abstract class MonoSkill : NetworkBehaviour {
 		//Debug.Log("Target not in range distance: " + distance + " - " + influence + " = " + (distance - influence) + " req range:" + range);
 		return false;
 	}
+
 	public void Update () {
 		//activates a skill
 		if (isActive && skillTarget != null) {
@@ -52,7 +55,7 @@ public abstract class MonoSkill : NetworkBehaviour {
 				ActOn (skillTarget);
 				Deactivate ();
 			}
-			
+
 		} else if (isActive && skillTarget == null) {
 			Act ();
 			Deactivate ();
@@ -66,6 +69,7 @@ public abstract class MonoSkill : NetworkBehaviour {
 			}
 		}
 	}
+
 	#region Activation
 	public void Activate () {
 		Debug.Log ("SKill engaged!");
@@ -88,4 +92,12 @@ public abstract class MonoSkill : NetworkBehaviour {
 		return animationTriggers[randomAnimation];
 	}
 	#endregion
+
+	public bool GetIsActing(){
+		return isActing;
+	}	
+	public void SetIsActing(bool input){
+		isActing = input;
+	}
+
 }

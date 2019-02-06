@@ -19,15 +19,15 @@ public class Build : MonoSkill {
 	}
 
 	public override void Stop () {
-		base.Stop();
+		base.Stop ();
 		StopBuild ();
 	}
 
 	#region Creation Action
 	public virtual void DoBuild (Constructable[] targetConstructable) {
 		Debug.Log ("goign to Build");
-		if (targetConstructable == null) return;//checks to see if there is something to be built
-		if (targetConstructable.Length == 0) return;//checks to see if there is something to be built
+		if (targetConstructable == null) return; //checks to see if there is something to be built
+		if (targetConstructable.Length == 0) return; //checks to see if there is something to be built
 
 		isBuilding = true;
 		buildCoroutine = StartCoroutine (BuildContinuous (targetConstructable));
@@ -35,19 +35,19 @@ public class Build : MonoSkill {
 	IEnumerator BuildContinuous (Constructable[] targetConstructable) {
 		while (isBuilding) {
 
-		if (targetConstructable.Length <= 0) StopBuild ();
+			if (targetConstructable.Length <= 0) StopBuild ();
 
-				for (int i = 0; i < targetConstructable.Length; i++) {
-				if(targetConstructable[i] == null)continue;
+			for (int i = 0; i < targetConstructable.Length; i++) {
+				if (targetConstructable[i] == null) continue;
 
-				if(targetConstructable[i].constructionTimeLeft <= 0)
-				StopBuild();
+				if (targetConstructable[i].constructionTimeLeft <= 0)
+					StopBuild ();
+
 				builder.DoBuild (targetConstructable[i], buildRate);
-
+				
+				if (GetComponent<CharacterAnimator> () != null)
+					GetComponent<CharacterAnimator> ().SetTrigger (pickAnimation ());
 			}
-			
-			if(GetComponent<CharacterAnimator>() != null)
-			GetComponent<CharacterAnimator>().SetTrigger(pickAnimation());
 
 			yield return new WaitForSeconds (buildSpeed);
 		}
@@ -58,8 +58,8 @@ public class Build : MonoSkill {
 
 	public override void ActOn (GameObject go) {
 		Debug.Log ("using Building!");
-		Constructable[] targetConstructable = {go.GetComponent<Constructable>()};
-		DoBuild ( targetConstructable);
+		Constructable[] targetConstructable = { go.GetComponent<Constructable> () };
+		DoBuild (targetConstructable);
 	}
 	public void StopBuild () {
 		Debug.Log ("Stopped Building");

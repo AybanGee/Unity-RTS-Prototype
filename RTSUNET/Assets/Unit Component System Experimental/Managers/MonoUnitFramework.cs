@@ -22,11 +22,12 @@ public abstract class MonoUnitFramework : NetworkBehaviour {
 	public List<Ability> primitiveAbilities = new List<Ability> ();
 
 	[HideInInspector] public PlayerUnit playerUnit;
+	[HideInInspector] public Building building;
 
 	public void InitAbilities () {
 		//nauuna to kesa assign ng value sa primitiveAbilities
 		//wait for assign dapat dito
-	Debug.Log ("MonoUnitFramework :: playerUnit : " + playerUnit);
+		Debug.Log ("MonoUnitFramework :: playerUnit : " + playerUnit);
 		if (primitiveAbilities.Count <= 0) { Debug.LogWarning ("This object does not have any ability!"); return; }
 		if (abilities.Count > 0) { Debug.LogWarning ("This object already has initialized abilities!"); return; }
 		Debug.Log ("Initializing " + primitiveAbilities.Count + " abilities");
@@ -79,10 +80,20 @@ public abstract class MonoUnitFramework : NetworkBehaviour {
 	void Awake () {
 		InitAbilities ();
 	}
+	public MonoSkill defaultUnitSkill () {
+		foreach (MonoAbility ability in abilities) {
+			MonoSkill skill = ability.defaultSkill ();
+			if (skill != null)
+				return skill;
+			//returns first skill on list
+
+		}
+		return null;
+	}
 
 	public void debugMonoUnit () {
 		string debugStr = "";
-		debugStr += "Auth:" + (isServer?"Server":"Client") + "\n";
+		debugStr += "Auth:" + (isServer? "Server": "Client") + "\n";
 		debugStr += "name:" + name + "\n";
 		debugStr += "team:" + team + "\n";
 		debugStr += "tier:" + tier + "\n";
@@ -106,7 +117,7 @@ public abstract class MonoUnitFramework : NetworkBehaviour {
 			debugStr += "No Primitive Abilities\n";
 		}
 
-		Debug.Log(debugStr);
+		Debug.Log (debugStr);
 		/* 
 			public new string name;
 	[HideInInspector] public Factions faction;

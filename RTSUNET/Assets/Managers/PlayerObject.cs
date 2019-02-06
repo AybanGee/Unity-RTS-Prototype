@@ -18,7 +18,7 @@ public class PlayerObject : NetworkBehaviour {
 	public List<GameObject> myBuildings = new List<GameObject> ();
 	public Camera cam;
 	[SerializeField]
-	BuildingFactionGroups buildingFactionGroups;
+	BuildingFactionGroups buildingFactionGroups, buildableGroup;
 	[SerializeField]
 	UnitFactionGroup unitFactionGroup, townhallUnitGroup, barracksUnitGroup;
 	public LayerMask movementMask;
@@ -46,12 +46,17 @@ public class PlayerObject : NetworkBehaviour {
 	BaseHolder baseholder;
 	public List<PlayerObject> playingPlayers = new List<PlayerObject> ();
 	public List<PlayerObject> defeatedPlayers = new List<PlayerObject> ();
+	[SyncVar]
 	public bool gameIsDone = false;
+	[SyncVar]
 	public bool isDefeated = false;
+	[SyncVar]
 	public bool isWinner = false;
 	public Coroutine gameChecker;
 	public GameObject townhall;
 	public bool checkerWait = false;
+
+	bool buildingsAreShown = false;
 
 	public static PlayerObject singleton;
 	// Use this for initialization
@@ -75,6 +80,7 @@ public class PlayerObject : NetworkBehaviour {
 		BuildSys = GetComponent<BuildingSystem> ();
 		if (BuildSys == null) { Debug.LogError ("Building System not found on player object"); } else {
 			BuildSys.buildingGroups = buildingFactionGroups.buildingFactionDictionary[(Factions) factionIndex];
+			BuildSys.buildableGroup = buildableGroup.buildingFactionDictionary[(Factions) factionIndex];
 
 		}
 
@@ -138,8 +144,17 @@ public class PlayerObject : NetworkBehaviour {
 		if (isLocalPlayer == false) {
 			return;
 		}
+		//If player is already Defeated return
 		if (isDefeated == true) {
 			//return;
+		}
+		//Surrender Debug
+		if (Input.GetKeyDown (KeyCode.P)) {
+			SetDefeatStatus (!isDefeated);
+		}
+
+		if (Input.GetKeyDown (KeyCode.T)) {
+			ShowNotice ("Debug Notice");
 		}
 
 		//DEBUGGING
@@ -185,7 +200,7 @@ public class PlayerObject : NetworkBehaviour {
 									continue;
 								}
 								MonoUnitFramework monoUnit = unit.GetComponent<MonoUnitFramework> ();
-								MonoSkill skill = defaultSkill (monoUnit);
+								MonoSkill skill = monoUnit.defaultUnitSkill ();
 								Debug.Log ("Applying default skill " + skill);
 								if (skill == null) continue;
 								monoUnit.SetFocus (interactable, skill);
@@ -202,38 +217,29 @@ public class PlayerObject : NetworkBehaviour {
 			}
 
 		uiGameManager.manaHolder.text = manna.ToString ("N0");
-
+		if (selectedUnits.Count <= 0 && buildingsAreShown == false) {
+			UpdateUI ();
+		}
 	}
 
 	void LateUpdate () {
+		/* 		string output = "townhall : " + townhall;
+				output += "\n isDefeated: " + isDefeated;
+				output += "\n checkerWait: " + checkerWait;
+				Debug.Log (output);
 
-		string output = "townhall : " + townhall;
-		output += "\n isDefeated: " + isDefeated;
-		output += "\n checkerWait: " + checkerWait;
-		Debug.Log (output);
-
-
-		if (townhall == null && isDefeated == false && checkerWait == true) {
-			isDefeated = true;
-			DeselectAll (new BaseEventData (EventSystem.current));
-			Debug.Log ("You are Defeated");
-		}
+				if (townhall == null && isDefeated == false && checkerWait == true) {
+					isDefeated = true;
+					DeselectAll (new BaseEventData (EventSystem.current));
+					Debug.Log ("You are Defeated");
+				} */
 	}
 	bool debugToggleForGameCommands = true;
 
-	MonoSkill defaultSkill (MonoUnitFramework monoUnit) {
-		List<MonoAbility> abilities = monoUnit.abilities;
-		foreach (MonoAbility ability in abilities) {
-			List<MonoSkill> skills = ability.skills;
-			if (skills.Count <= 0) continue;
-			else return skills[0]; //returns first skill on list
-
-		}
-		return null;
-	}
 	#region "Unit Selection"
 
 	public void UpdateUI () {
+		buildingsAreShown = false;
 
 		//For Single Selection
 		if (selectedUnits.Count == 1 && debugToggleForGameCommands) {
@@ -249,6 +255,7 @@ public class PlayerObject : NetworkBehaviour {
 
 				} else {
 					//Display Other Building Abilities Here
+					uiGameManager.commandsHandler.ShowAbilitiesTowers (selectedUnits[0].GetComponent<MonoUnitFramework> ().abilities);
 				}
 			}
 
@@ -266,6 +273,7 @@ public class PlayerObject : NetworkBehaviour {
 		//Display Buildable Buildings
 		if (selectedUnits.Count == 0) {
 			uiGameManager.commandsHandler.ShowBuildings (BuildSys);
+			buildingsAreShown = true;
 		}
 	}
 	public void DeselectAll (BaseEventData eventData) { //if(!isLocalPlayer)return;
@@ -443,6 +451,17 @@ public class PlayerObject : NetworkBehaviour {
 
 		}
 		yield return null;
+
+		//Start Game Checker
+		if (isServer) {
+			Debug.Log ("GameChecker :: Entering : Waiting 10 Sec.");
+			playingPlayers = players;
+			Debug.Log ("GameChecker :: Playing : " + playingPlayers.Count);
+
+			yield return new WaitForSeconds (10);
+
+			StartCoroutine (GameChecker ());
+		}
 	}
 
 	public void SetLoadStatus (bool isReady) {
@@ -490,62 +509,117 @@ public class PlayerObject : NetworkBehaviour {
 				lM.moveCamToBase();
 			} */
 	#endregion
+	#region Game Checker
+	//Server
+	IEnumerator GameChecker () {
+		Debug.Log ("GameChecker :: Entering : Waiting 10 Sec.");
+		yield return new WaitForSeconds (10);
 
-	IEnumerator CheckGameLoop () {
-		yield return new WaitForSeconds(10);
-		int counter = 0;
-		Debug.Log ("Start Game Loop");
 		while (gameIsDone == false) {
-			//
-			foreach (PlayerObject PO in playingPlayers) {
-				if (PO.isDefeated == true) {
-					defeatedPlayers.Add (PO);
-					playingPlayers.Remove (PO);
-					break;
-				}
+			UpdatePlayingList ();
+			CheckForWinner ();
 
-				if (playingPlayers[0].team == PO.team) {
-					Debug.Log ("Player : " + PO + "| team: " + PO.team + " |counter : " + counter);
-					counter++;
-				}
-			}
-			//
-
-			Debug.Log ("counter : " + counter);
-			Debug.Log ("playing Players : " + playingPlayers.Count);
-			if (counter == playingPlayers.Count) {
-				gameIsDone = true;
-				//DisplayWinScreen
-
-				foreach (PlayerObject PO in playingPlayers) {
-					RpcSetWinner (PO.gameObject.GetComponent<NetworkIdentity> (), true);
-				}
-
-				Debug.Log ("Game End");
-				uiGameManager.ShowWinScreen (isWinner);
-
-				StopCoroutine (gameChecker);
-			}
 			yield return null;
 		}
 
-		yield return null;
+		Debug.Log ("PO :: GameChecker : Game is Done!");
+		SetWinner ();
 	}
 
-	[ClientRpc]
-	void RpcSetWinner (NetworkIdentity netID, bool input) {
-		netID.gameObject.GetComponent<PlayerObject> ().isWinner = input;
+	void CheckForWinner () {
+		bool flag = true;
+		for (int i = playingPlayers.Count - 1; i >= 0; i--) {
+			if (playingPlayers[0].team != playingPlayers[i].team) {
+				flag = false;
+			}
+		}
+		gameIsDone = flag;
 	}
-	public void StartGameLoop () {
-		//Start gameChecker
-		if (isServer)
-			//gameChecker = StartCoroutine (CheckGameLoop ());
 
-		Debug.Log ("The game Checker is : " + gameChecker);
+	void SetWinner () {
+		for (int i = players.Count - 1; i >= 0; i--) {
+			if (players[i].team == playingPlayers[0].team) {
+				players[i].SetWinnerStatus (true);
+				players[i].SetDefeatStatus (true);
+			}
+
+			players[i].SetGameStatus (true);
+
+		}
+	}
+
+	void UpdatePlayingList () {
+		for (int i = playingPlayers.Count - 1; i >= 0; i--) {
+			if (playingPlayers[i].isDefeated == true) {
+				playingPlayers.RemoveAt (i);
+			}
+		}
+	}
+
+	//Commands and RPC's
+	public void SetDefeatStatus (bool input) {
+		CmdSetDefeatStatus (input);
+
+		uiGameManager.ShowSpectatorScreen ();
 	}
 
 	[Command]
-	public void CmdSetChecker (bool input) {
-		checkerWait = input;
+	void CmdSetDefeatStatus (bool input) {
+		isDefeated = input;
+		RpcSetDefeatStatus (isDefeated);
+	}
+
+	[ClientRpc]
+	void RpcSetDefeatStatus (bool input) {
+		isDefeated = input;
+	}
+
+	public void SetWinnerStatus (bool input) {
+		CmdSetWinnerStatus (input);
+
+		uiGameManager.ShowWinScreen (input);
+	}
+
+	[Command]
+	void CmdSetWinnerStatus (bool input) {
+		isWinner = input;
+		RpcSetWinnerStatus (isWinner);
+	}
+
+	[ClientRpc]
+	void RpcSetWinnerStatus (bool input) {
+		isWinner = input;
+	}
+
+	public void SetGameStatus (bool input) {
+		CmdSetGameStatus (input);
+
+		uiGameManager.ShowWinScreen (isWinner);
+	}
+
+	[Command]
+	void CmdSetGameStatus (bool input) {
+		gameIsDone = input;
+		RpcSetGameStatus (gameIsDone);
+	}
+
+	[ClientRpc]
+	void RpcSetGameStatus (bool input) {
+		gameIsDone = input;
+	}
+	//Client
+
+	void OnDefeat () {
+		SetDefeatStatus (true);
+		//Show Spectator UI
+	}
+	void OnGameIsDone () {
+		//Show End UI
+	}
+	#endregion
+
+	public void ShowNotice (string inputText) {
+		GameObject notice = Instantiate (uiGameManager.notice,uiGameManager.winScreen.transform.parent);
+		notice.GetComponent<NoticeAnimator>().textHolder.text = inputText;
 	}
 }

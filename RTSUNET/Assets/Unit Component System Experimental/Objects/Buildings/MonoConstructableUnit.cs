@@ -11,6 +11,8 @@ public class MonoConstructableUnit : MonoUnitFramework {
 
     public void InitializeConstructable (Building bldg, int spawnIndex, int _team, PlayerObject _PO) {
         Debug.Log ("Creating Constructable");
+        Debug.Log("MonoConstructableUnit :: team : " + _team);
+
         Constructable constructable = gameObject.GetComponent<Constructable> ();
         assignedBuilding = bldg;
         name = bldg.name + " construction";

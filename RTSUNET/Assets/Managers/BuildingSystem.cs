@@ -4,7 +4,7 @@ using UnityEngine.Networking;
 [RequireComponent (typeof (PlayerObject))]
 public class BuildingSystem : NetworkBehaviour {
 	public BuildingConstructor constructor;
-	public BuildingGroups buildingGroups;
+	public BuildingGroups buildingGroups, buildableGroup;
 	public bool buildMode = false;
 	public bool isGrid = true;
 	public int prefabBuildingIndex = 1;
@@ -38,6 +38,7 @@ public class BuildingSystem : NetworkBehaviour {
 	}
 
 	public void BuildingControl () {
+
 		if (Input.GetKeyDown (KeyCode.Escape)) {
 			ToggleBuildMode ();
 		}
@@ -94,9 +95,22 @@ public class BuildingSystem : NetworkBehaviour {
 		}
 		if (Input.GetMouseButtonDown (0) && isValidLocation) {
 			PO.manna -= buildingGroups.buildings[selectedBuildingIndex].manaCost;
+			Debug.Log ("Building System :: team : " + PO.team);
 			constructor.SpawnRubble (selectedBuildingIndex, mouseWorldPointPosition - buildingOffset, buildingPlaceholder.transform.rotation, PO.team);
 			ToggleBuildMode ();
+		} else if (Input.GetMouseButtonDown (0) && !isValidLocation) {
+			if ((buildingGroups.buildings[selectedBuildingIndex].type == BuildingType.SupplyChain)) {
+				if (!buildingCreationTrigger.inRange) {
+					PO.ShowNotice ("Supply Stash must be built near Ore.");
+				} else if (buildingCreationTrigger.inRange && buildingCreationTrigger.colliderCount > 0) {
+					PO.ShowNotice ("Building Obstructed.");
+				}
+			} else {
+				PO.ShowNotice ("Building Obstructed.");
+			}
+
 		}
+
 	}
 	public void ToggleBuildMode () {
 		// if we are in build mode turn it off 
@@ -104,6 +118,7 @@ public class BuildingSystem : NetworkBehaviour {
 		//Condition NetworkManager.singleton.spawnPrefabs[selectedCreateBuildingIndex].GetComponent<BuildingUnit> ().buildingPrice > manna
 		if (buildingGroups.buildings[selectedBuildingIndex].manaCost > PO.manna) {
 			Debug.Log ("Insufficient funds");
+			PO.ShowNotice ("Insufficient Manna");
 			if (buildingPlaceholder)
 				Destroy (buildingPlaceholder);
 			buildMode = false;
@@ -153,11 +168,9 @@ public class BuildingSystem : NetworkBehaviour {
 
 	[Command]
 	public void CmdSpawnObject (int spawnableIndex, Vector3 position, Quaternion rotation) {
-
 		GameObject go = NetworkManager.singleton.spawnPrefabs[prefabBuildingIndex];
-
 		MonoBuilding buildingUnit = go.GetComponent<MonoBuilding> ();
-		Vector3 navMeshObstacleSize = go.GetComponent<BoxCollider> ().size - new Vector3 (1, 0, 1);
+		//Vector3 navMeshObstacleSize = go.GetComponent<BoxCollider> ().size - new Vector3 (1, 0, 1);
 
 		//AssignData (go, spawnableIndex, buildingUnit, navMeshObstacleSize);
 
@@ -168,20 +181,22 @@ public class BuildingSystem : NetworkBehaviour {
 				//BuildingUnit buildingUnit = go.GetComponent<BuildingUnit> ();
 				Vector3 navMeshObstacleSize = go.GetComponent<BoxCollider> ().size;
 		 */
-		MonoUnitFramework muf = go.GetComponent<MonoUnitFramework> ();
-		Building building = buildingGroups.buildings[spawnableIndex];
-		//muf.playerUnit = buildingUnit;
-		muf.PO = PO;
-		building.Initialize (go);
 
-		AssignData (go, spawnableIndex, buildingUnit, navMeshObstacleSize);
+		/* 		MonoUnitFramework muf = go.GetComponent<MonoUnitFramework> ();
+				Building building = buildingGroups.buildings[spawnableIndex];
+				//muf.playerUnit = buildingUnit;
+				muf.PO = PO;
+				building.Initialize (go);
+
+				AssignData (go, spawnableIndex, buildingUnit, navMeshObstacleSize);
+		 */
 
 		//DESTROY COMPONENTS NOT NEEDED
 		/* 	Destroy (go.GetComponent<Rigidbody> ());
 		Destroy (go.GetComponent<BuildingCreationTrigger> ());
  */
 		//SPAWNING AND AUTHORIZE BLDG
-		NetworkServer.Spawn (go);
+		NetworkServer.SpawnWithClientAuthority (go, connectionToClient);
 		bool ToF = go.GetComponent<NetworkIdentity> ().AssignClientAuthority (GetComponent<NetworkIdentity> ().connectionToClient);
 
 		//SYNCING TO CLIENTS
@@ -192,21 +207,29 @@ public class BuildingSystem : NetworkBehaviour {
 
 	[ClientRpc]
 	public void RpcAssignObject (NetworkIdentity id, int spawnableIndex) {
-		//	if(!isLocalPlayer)return;
 		Debug.Log ("Building RPC Assign");
-		//Debug.Log(id.netId.Value);
+
+		//RpcAddPlayerUnit
 		GameObject spawnHolder = id.gameObject;
+		Building building = buildingGroups.buildings[spawnableIndex];
+		MonoUnitFramework muf = spawnHolder.GetComponent<MonoUnitFramework> ();
+
+		//AssignData
+		muf.building = building;
+		muf.PO = PO;
+		building.Initialize (spawnHolder);
+
+		//Add Graphics
+		Debug.Log ("RPC add Graphics");
+
 		GameObject graphics = buildingGroups.buildings[spawnableIndex].graphics;
 		Vector3 grapihicsOffset = new Vector3 (0, graphics.transform.localScale.y / 2, 0);
+
 		graphics = Instantiate (graphics, spawnHolder.transform.position /* + grapihicsOffset */ , spawnHolder.transform.rotation, spawnHolder.transform);
 		graphics.GetComponent<GraphicsHolder> ().colorize (LobbyManager.singleton.GetComponent<LobbyManager> ().gameColors.gameColorList () [PO.colorIndex]);
+
 		MonoBuilding buildingUnit = spawnHolder.GetComponent<MonoBuilding> ();
-		//	BuildingUnit buildingUnit = spawnHolder.GetComponent<BuildingUnit> ();
-
-		//Vector3 navMeshObstacleSize = spawnHolder.GetComponent<BoxCollider> ().size;
 		Vector3 navMeshObstacleSize = buildingGroups.buildings[spawnableIndex].addedColliderScale;
-
-		AssignData (spawnHolder, spawnableIndex, buildingUnit, navMeshObstacleSize);
 
 		if (spawnHolder.transform.childCount <= 0) { Debug.LogError ("No graphics"); }
 		NavMeshObstacle navMeshObstacle = spawnHolder.AddComponent (typeof (NavMeshObstacle)) as NavMeshObstacle;
@@ -234,6 +257,7 @@ public class BuildingSystem : NetworkBehaviour {
 			graphicsHolder.colorize (LobbyManager.singleton.GetComponent<LobbyManager> ().gameColors.gameColorList () [PO.colorIndex]);
 		PO.myBuildings.Add (spawnHolder);
 
+		AssignData (spawnHolder, spawnableIndex, buildingUnit, navMeshObstacleSize);
 
 	}
 	#endregion
@@ -276,32 +300,49 @@ public class BuildingSystem : NetworkBehaviour {
 			*/
 
 		if (!isLocalPlayer) return;
-		if (spawnHolder.GetComponent<QueueingSystem> () != null) return;
+		//if (spawnHolder.GetComponent<QueueingSystem> () != null) return;
 
 		QueueingSystem qs;
+		TownhallTrigger tt;
+		DefaultSkillManager ds;
 
 		switch (buildingGroups.buildings[spawnableIndex].type) {
 			case BuildingType.Barracks:
 				Debug.Log ("Barracks Time");
-				qs = spawnHolder.AddComponent<QueueingSystem> ();
-				qs.PO = PO;
-				qs.spawnableUnits = PO.UnitSys.bGroup.units;
+
+				if (spawnHolder.GetComponent<QueueingSystem> () == null) {
+					qs = spawnHolder.AddComponent<QueueingSystem> ();
+					qs.PO = PO;
+					qs.spawnableUnits = PO.UnitSys.bGroup.units;
+				}
+
 				break;
 			case BuildingType.TownCenter:
 				Debug.Log ("TownHall Time");
-				qs = spawnHolder.AddComponent<QueueingSystem> ();
-				qs.PO = PO;
-				qs.spawnableUnits = PO.UnitSys.thGroup.units;
+				if (spawnHolder.GetComponent<QueueingSystem> () == null) {
+					qs = spawnHolder.AddComponent<QueueingSystem> ();
+					qs.PO = PO;
+					qs.spawnableUnits = PO.UnitSys.thGroup.units;
+				}
+				if (spawnHolder.GetComponent<TownhallTrigger> () == null) {
+					tt = spawnHolder.AddComponent<TownhallTrigger> ();
+					tt.PO = PO;
+				}
 				break;
 			case BuildingType.Tower:
-				//buildingInteractable = spawnHolder.AddComponent<BuildingInteractable> ();
+				if(spawnHolder.GetComponent<DefaultSkillManager>() == null){
+					ds = spawnHolder.AddComponent<DefaultSkillManager>();
+				}
 				break;
 			case BuildingType.SupplyChain:
 				Debug.Log ("Supply Time");
-				qs = spawnHolder.AddComponent<QueueingSystem> ();
-				qs.PO = PO;
-				qs.spawnableUnits = PO.UnitSys.thGroup.units;
-				spawnHolder.AddComponent<Supplier>();
+				if (spawnHolder.GetComponent<TownhallTrigger> () == null) {
+					qs = spawnHolder.AddComponent<QueueingSystem> ();
+					qs.PO = PO;
+					qs.spawnableUnits = PO.UnitSys.thGroup.units;
+				}
+
+				spawnHolder.AddComponent<Supplier> ();
 				break;
 		}
 		//end of assignments

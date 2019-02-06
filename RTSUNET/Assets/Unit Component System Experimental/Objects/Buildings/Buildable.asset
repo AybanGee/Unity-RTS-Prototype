@@ -9,10 +9,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2c8a0956754efc640ac4b33c2d8224ed, type: 3}
-  m_Name: FactionBuildingDictionary
+  m_Name: Buildable
   m_EditorClassIdentifier: 
   buildingFactionDictionary:
     m_keys: 0000000001000000
     m_values:
-    - {fileID: 11400000, guid: 1c487b50910a1344b81ef1e8dfbcc037, type: 2}
-    - {fileID: 11400000, guid: 9975cbf614a9ccb4c8c46e6275d9f8c6, type: 2}
+    - {fileID: 11400000, guid: a38adccdf3d77774bbadd126320dc1f0, type: 2}
+    - {fileID: 11400000, guid: 4ee484445cadce042a19abd482a689cd, type: 2}

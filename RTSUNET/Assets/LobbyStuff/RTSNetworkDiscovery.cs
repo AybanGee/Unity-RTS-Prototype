@@ -16,24 +16,28 @@ public class RTSNetworkDiscovery : NetworkDiscovery {
 	private List<LanConnectionInfo> lanAddresses = new List<LanConnectionInfo> ();
 
 	private void Start () {
+
+		Initialize ();
+		StartAsClient ();
+		
 		StartListen ();
 		StartCoroutine (CleanupExpiredEntries ());
 
-		Debug.Log("Start");
+		Debug.Log ("Start");
 
 	}
 
 	public void StartBroadcast () {
-/* 		base.StopBroadcast ();
-		StopBroadcast ();
-		Initialize ();
-		StartAsServer (); */		
+		/* 		base.StopBroadcast ();
+				StopBroadcast ();
+				Initialize ();
+				StartAsServer (); */
 		while (running) {
 			base.StopBroadcast ();
 			StopBroadcast ();
 			Debug.Log ("Its already running(B)");
 		}
-		if (!NetworkTransport.IsBroadcastDiscoveryRunning()) {
+		if (!NetworkTransport.IsBroadcastDiscoveryRunning ()) {
 			Debug.Log ("gameName : " + gameName);
 			RTSNetworkDiscovery.singleton.broadcastData = gameName;
 			Initialize ();
@@ -42,46 +46,45 @@ public class RTSNetworkDiscovery : NetworkDiscovery {
 	}
 
 	public void StartListen () {
-/* 		base.StopBroadcast ();
-		StopBroadcast ();
-		Initialize ();
-		StartAsClient ();
-		Debug.Log("Listening"); */
+		/* 		base.StopBroadcast ();
+				StopBroadcast ();
+				Initialize ();
+				StartAsClient ();
+				Debug.Log("Listening"); */
 
 		if (isServer) {
-				while (NetworkTransport.IsBroadcastDiscoveryRunning()) {
-					base.StopBroadcast ();
-					StopBroadcast ();
-					Debug.Log ("Its already running(L)");
-				}
-				if (!NetworkTransport.IsBroadcastDiscoveryRunning()) {
-					Initialize ();
-					StartAsClient ();
-				}
+			while (NetworkTransport.IsBroadcastDiscoveryRunning ()) {
+				base.StopBroadcast ();
+				StopBroadcast ();
+				Debug.Log ("Its already running(L)");
 			}
-			else{
-				if (!NetworkTransport.IsBroadcastDiscoveryRunning()) {
-					Initialize ();
-					StartAsClient ();
-				}
+			if (!NetworkTransport.IsBroadcastDiscoveryRunning ()) {
+				Initialize ();
+				StartAsClient ();
 			}
+		} else {
+			if (!NetworkTransport.IsBroadcastDiscoveryRunning ()) {
+				Initialize ();
+				StartAsClient ();
+			}
+		}
 	}
 	private IEnumerator CleanupExpiredEntries () {
 		while (true) {
 			bool changed = false;
 			//var keys = lanAddresses;
-			List <LanConnectionInfo> tempLan = new List<LanConnectionInfo>(lanAddresses);
+			List<LanConnectionInfo> tempLan = new List<LanConnectionInfo> (lanAddresses);
 
 			foreach (var key in tempLan) {
 				if (key.timeout <= Time.time) {
 					lanAddresses.Remove (key);
 					changed = true;
-					Debug.Log ("Removed : "+ changed);
+					Debug.Log ("Removed : " + changed);
 
 				}
 			}
-			if (changed){
-				Debug.Log ("changed : "+ changed);
+			if (changed) {
+				Debug.Log ("changed : " + changed);
 				UpdateMatchInfos ();
 			}
 
@@ -112,7 +115,7 @@ public class RTSNetworkDiscovery : NetworkDiscovery {
 			info.timeout = Time.time + timeout;
 			lanAddresses.Add (info);
 			UpdateMatchInfos ();
-		} 
+		}
 	}
 
 	private void UpdateMatchInfos () {
@@ -123,51 +126,47 @@ public class RTSNetworkDiscovery : NetworkDiscovery {
 	}
 
 	#region fix1	
-		void Awake()
-        {
-            if (singleton != null && singleton != this)
-                this.enabled = false;
-            else
-                singleton = this;
-        }
-        public new void StopBroadcast()
-        {
-            if (running)
-                base.StopBroadcast();
-            ConfirmStopped();
-        }
-         void LateUpdate()
-        {
-            if (!running && !stopConfirmed)
-                ConfirmStopped();
-        }
-         void ConfirmStopped()
-        {
-            try {
-                stopConfirmed = !NetworkTransport.IsBroadcastDiscoveryRunning();
-            } catch (Exception) {
-                stopConfirmed = true;
-            }
-        }
+	void Awake () {
+		if (singleton != null && singleton != this)
+			this.enabled = false;
+		else
+			singleton = this;
+	}
+	public new void StopBroadcast () {
+		if (running)
+			base.StopBroadcast ();
+		ConfirmStopped ();
+	}
+	void LateUpdate () {
+		if (!running && !stopConfirmed)
+			ConfirmStopped ();
+	}
+	void ConfirmStopped () {
+		try {
+			stopConfirmed = !NetworkTransport.IsBroadcastDiscoveryRunning ();
+		} catch (Exception) {
+			stopConfirmed = true;
+		}
+	}
 	#endregion
 
 	void UpdateUI () {
-		Debug.Log("updates");
+		Debug.Log ("updates");
 		LobbyManager LM = GetComponent<LobbyManager> ();
 		Transform RoomPanel = LM.roomUIPanel.transform;
 
-		ClearChildren(RoomPanel);
+		ClearChildren (RoomPanel);
 
 		foreach (LanConnectionInfo l in lanAddresses) {
 			GameObject Room = LM.roomUIPrefab;
 			Room.GetComponent<RoomUI> ().ipAddress = l.ipAddress;
 			Room.GetComponent<RoomUI> ().gameName = l.rawData[0];
 			Room = Instantiate (Room, RoomPanel, false);
-			Room.GetComponent<Button>().onClick.AddListener(delegate {
-				LM.CtrStartClient(l.ipAddress);
+			Room.GetComponent<Button> ().onClick.AddListener (delegate {
+				LM.CtrStartClient (l.ipAddress);
 				LM.gameName = l.rawData[0];
-				LM.toggleMenu();
-				});
+				LM.toggleMenu ();
+			});
 
 			//Debug.Log(lanAddresses.Key.rawData[2]);
 			//Debug.Log(lanAddresses.Key.ipAddress);
@@ -175,8 +174,8 @@ public class RTSNetworkDiscovery : NetworkDiscovery {
 	}
 
 	public void ClearChildren (Transform panel) {
-		foreach(Transform t in panel){
-			Destroy(t.gameObject);
+		foreach (Transform t in panel) {
+			Destroy (t.gameObject);
 		}
 		/* 		var gameObjects = GameObject.FindGameObjectsWithTag ("RoomUI");
 				
@@ -194,7 +193,7 @@ public class RTSNetworkDiscovery : NetworkDiscovery {
 		} else {
 			gameName = "local";
 		}
-		
+
 		LobbyManager LM = GetComponent<LobbyManager> ();
 		LM.gameName = gameName;
 	}

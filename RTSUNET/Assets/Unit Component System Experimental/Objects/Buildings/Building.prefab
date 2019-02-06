@@ -27,7 +27,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1680590169875568
 GameObject:
   m_ObjectHideFlags: 0
@@ -58,8 +58,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1547469107877200}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0.1, z: 0}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 4758799212705420}
   m_RootOrder: 0
@@ -219,16 +219,14 @@ MonoBehaviour:
   PO: {fileID: 0}
   rangeInfluence: 0
   selectionCircle: {fileID: 1547469107877200}
+  focus: {fileID: 0}
   abilities: []
-  primitiveAbilities:
-  - {fileID: 11400000, guid: d734c046ee68e3249b9958d072f84f36, type: 2}
-  - {fileID: 11400000, guid: 992646d67c704e44a858599fd545c4a7, type: 2}
+  primitiveAbilities: []
   playerUnit: {fileID: 0}
   buildingPrice: 0
   sellingPrice: 0
   constructionTime: 0
   buildingType: 0
-  focus: {fileID: 0}
   AscendOnStart: 1
 --- !u!212 &212385378180235850
 SpriteRenderer:

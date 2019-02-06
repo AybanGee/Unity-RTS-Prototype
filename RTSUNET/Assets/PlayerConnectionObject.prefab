@@ -121,6 +121,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   constructor: {fileID: 0}
   buildingGroups: {fileID: 0}
+  buildableGroup: {fileID: 0}
   buildMode: 0
   isGrid: 1
   prefabBuildingIndex: 1
@@ -167,6 +168,7 @@ MonoBehaviour:
   cam: {fileID: 0}
   buildingFactionGroups: {fileID: 11400000, guid: 44b765f7598b035428e1710b856a3e9c,
     type: 2}
+  buildableGroup: {fileID: 11400000, guid: fe67d8f82bab7304ca029a8dcf171827, type: 2}
   unitFactionGroup: {fileID: 11400000, guid: 8fd697b59d47db64aadb40e11c6c7aa9, type: 2}
   townhallUnitGroup: {fileID: 11400000, guid: aa8ba28ae9b7b39428141af7c817eff3, type: 2}
   barracksUnitGroup: {fileID: 11400000, guid: 61a63d9140d96dd4f8a32030121d6902, type: 2}

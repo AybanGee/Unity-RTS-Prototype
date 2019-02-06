@@ -80,7 +80,8 @@ public class QueueingSystem : MonoBehaviour {
 		//check if Player has enough mana
 		if (PO.manna < spawnableUnits[unitIndex].manaCost) {
 			//Tell the player that he doesn't have enough Mana
-			Debug.Log ("Not Enough Mana");
+			PO.ShowNotice("Insufficient Manna");
+			//Debug.Log ("Not Enough Mana");
 			return;
 		}
 		//check if the queue is full
@@ -91,7 +92,8 @@ public class QueueingSystem : MonoBehaviour {
 			PO.manna -= spawnableUnits[unitIndex].manaCost;
 		} else {
 			//the queue is Full
-			Debug.Log ("The Queue is full");
+			PO.ShowNotice("The Queue is full");
+			//Debug.Log ("The Queue is full");
 		}
 		//check the queue is already being processed
 		if (!queueIsRunning) {
