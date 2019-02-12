@@ -15,14 +15,9 @@ MonoBehaviour:
   faction: 0
   tier: 0
   battleType: 0
-  description: 'Cost: 80
+  description: 'A warrior trained to defend the freedom of humans.
 
-
-    A warrior trained to defend the freedom of humans.
-
-    Uses swords to defeat enemies.
-
-'
+    Uses swords to defeat enemies.'
   artwork: {fileID: 21300000, guid: 464308bea450e704bbb2437334172114, type: 3}
   manaCost: 80
   creationTime: 5

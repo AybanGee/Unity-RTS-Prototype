@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Name: BasicBuild
   m_EditorClassIdentifier: 
   sName: Build
+  description: This unit can be used to construct buildings.
   sSprite: {fileID: 21300000, guid: 1a557eb9c6212a34fb1869586c6af8c5, type: 3}
   sSound: {fileID: 0}
   range: 3

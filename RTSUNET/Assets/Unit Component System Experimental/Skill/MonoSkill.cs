@@ -5,6 +5,7 @@ using UnityEngine.Networking;
 public abstract class MonoSkill : NetworkBehaviour {
 	public string sName;
 	public Sprite sSprite;
+	public string description;
 	public AudioClip sSound;
 	public float range;
 	public List<string> animationTriggers;

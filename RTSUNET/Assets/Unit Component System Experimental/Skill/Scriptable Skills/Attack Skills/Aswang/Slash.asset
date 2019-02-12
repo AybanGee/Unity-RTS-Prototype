@@ -11,7 +11,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05477fafcbc62de4089e399bdb8395ff, type: 3}
   m_Name: Slash
   m_EditorClassIdentifier: 
-  sName: Slash
+  sName: Maul
+  description: The Aswang uses its jaws and claws to attack a target.
   sSprite: {fileID: 21300000, guid: d14a027d3fe71df4091f22b668db0408, type: 3}
   sSound: {fileID: 0}
   range: 0

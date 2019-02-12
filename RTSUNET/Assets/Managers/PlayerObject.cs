@@ -59,14 +59,25 @@ public class PlayerObject : NetworkBehaviour {
 	bool buildingsAreShown = false;
 
 	public static PlayerObject singleton;
+
+	public bool isSinglelPlayer = false;
+
+	public bool isDummyPlayer = false;
 	// Use this for initialization
 	void Awake () {
 		Debug.Log ("PlayerObject awake");
-
 	}
 
 	void Start () {
+		/* 		if (!isDummyPlayer) {
+					if (LobbyManager.singleton.GetComponent<LobbyManager> ().isSinglePlayer) {
 
+						// TODO setup own variables here
+					
+						CmdSpawnOpponent ();
+					}
+				}
+		 */
 		if (isLocalPlayer) {
 			Debug.Log ("Assigning Player singleton");
 			singleton = this;
@@ -146,8 +157,16 @@ public class PlayerObject : NetworkBehaviour {
 		}
 		//If player is already Defeated return
 		if (isDefeated == true) {
-			//return;
+			DeselectAll (new BaseEventData (EventSystem.current));
+			return;
 		}
+		if (Input.GetKeyDown (KeyCode.O)) {
+			SwapPOTeams (true);
+		}
+		if (Input.GetKeyDown (KeyCode.I)) {
+			SwapPOTeams (false);
+		}
+
 		//Surrender Debug
 		if (Input.GetKeyDown (KeyCode.P)) {
 			SetDefeatStatus (!isDefeated);
@@ -459,8 +478,8 @@ public class PlayerObject : NetworkBehaviour {
 			Debug.Log ("GameChecker :: Playing : " + playingPlayers.Count);
 
 			yield return new WaitForSeconds (10);
-
-			StartCoroutine (GameChecker ());
+			if (gameChecker == null && isServer && !isSinglelPlayer)
+				gameChecker = StartCoroutine (GameChecker ());
 		}
 	}
 
@@ -558,6 +577,7 @@ public class PlayerObject : NetworkBehaviour {
 
 	//Commands and RPC's
 	public void SetDefeatStatus (bool input) {
+		Debug.Log ("SetDefeatStatus :: input : " + input);
 		CmdSetDefeatStatus (input);
 
 		uiGameManager.ShowSpectatorScreen ();
@@ -565,12 +585,16 @@ public class PlayerObject : NetworkBehaviour {
 
 	[Command]
 	void CmdSetDefeatStatus (bool input) {
+		Debug.Log ("CMD :: SetDefeatStatus :: input : " + input);
+
 		isDefeated = input;
 		RpcSetDefeatStatus (isDefeated);
 	}
 
 	[ClientRpc]
 	void RpcSetDefeatStatus (bool input) {
+		Debug.Log ("RPC :: SetDefeatStatus :: input : " + input);
+
 		isDefeated = input;
 	}
 
@@ -619,7 +643,118 @@ public class PlayerObject : NetworkBehaviour {
 	#endregion
 
 	public void ShowNotice (string inputText) {
-		GameObject notice = Instantiate (uiGameManager.notice,uiGameManager.winScreen.transform.parent);
-		notice.GetComponent<NoticeAnimator>().textHolder.text = inputText;
+		GameObject notice = Instantiate (uiGameManager.notice, uiGameManager.winScreen.transform.parent);
+		notice.GetComponent<NoticeAnimator> ().textHolder.text = inputText;
 	}
+
+	#region SinglePlayers
+
+	public override void OnStartAuthority () {
+		Debug.LogWarning ("<color:red>AuthStart</color>");
+		if (!isDummyPlayer) {
+			if (LobbyManager.singleton.GetComponent<LobbyManager> ().isSinglePlayer) {
+
+				// TODO setup own variables here
+				if (hasAuthority)
+					Debug.LogWarning ("I have authority and by the power vested in me of the department of education division of cavite. I now spawn thee Sir SpawnOpponent as spawn in the network this day of february 12 2019");
+				StartCoroutine (WaitForReady ());
+			}
+		}
+
+	}
+	bool isSwapped = false;
+	//Call after move camera to base if singleplayer
+	public void SpawnEnemyBuildings () {
+		SwapPOTeams (true);
+		//wait until teams are swapped
+
+		//spawn Buildings Here
+
+		Debug.Log ("PlayerObject :: SpawnEnemyBuildings : isSwapped : " + isSwapped);
+		if (isSwapped)
+			transform.parent.GetChild (1).GetComponent<EnemySpawn> ().spawnObjects (this);
+
+		//SwapPOTeams(false);
+	}
+
+	int temp_team;
+	int temp_factionIndex;
+	int temp_colorIndex;
+	public void SwapPOTeams (bool toEnemy) {
+		if (toEnemy) {
+			temp_team = team;
+			temp_factionIndex = factionIndex;
+			temp_colorIndex = colorIndex;
+
+			team = team + 1;
+			factionIndex = (factionIndex == 0) ? 1 : 0;
+			colorIndex = colorIndex + 3;
+
+			BuildSys.buildingGroups = buildingFactionGroups.buildingFactionDictionary[(Factions) factionIndex];
+			BuildSys.buildableGroup = buildableGroup.buildingFactionDictionary[(Factions) factionIndex];
+
+		} else {
+			team = temp_team;
+			factionIndex = temp_factionIndex;
+			colorIndex = temp_colorIndex;
+
+			BuildSys.buildingGroups = buildingFactionGroups.buildingFactionDictionary[(Factions) factionIndex];
+			BuildSys.buildableGroup = buildableGroup.buildingFactionDictionary[(Factions) factionIndex];
+		}
+		Debug.Log ("PlayerObject :: TeamSwap : Buildables : " + BuildSys.buildableGroup);
+
+		isSwapped = !isSwapped;
+
+	}
+
+	[Command] public void CmdSpawnOpponent () {
+		GameObject go = NetworkManager.singleton.spawnPrefabs[5]; //sets spawnable index of the single players
+		go = Instantiate (go, Vector3.zero, Quaternion.identity, this.transform);
+		PlayerObject opponentPO = go.GetComponent<PlayerObject> ();
+		//Setting up variables of opponentPO
+		opponentPO.isDummyPlayer = true;
+		opponentPO.team = team + 1;
+		opponentPO.factionIndex = (factionIndex == 0) ? 1 : 0;
+		opponentPO.colorIndex = colorIndex + 3;
+		opponentPO.playerId = (int) playerId;
+
+		/* [SyncVar]
+			public int playerId;
+			[SyncVar]
+			public int team;
+			[SyncVar]
+			public int factionIndex;
+			[SyncVar]
+			public string playerName;
+			[SyncVar]
+			public int colorIndex;
+			[SyncVar]
+			public int baseNo;
+			public int manna; */
+		Debug.LogError ("Now we will add authority to the enemy object");
+		if (GetComponent<NetworkIdentity> ().connectionToClient != null)
+			Debug.LogError ("Network identity does not equal null");
+		NetworkServer.SpawnWithClientAuthority (go, GetComponent<NetworkIdentity> ().connectionToClient);
+		go.GetComponent<NetworkIdentity> ().AssignClientAuthority (GetComponent<NetworkIdentity> ().connectionToClient);
+
+		// go.GetComponent<NetworkIdentity> ().AssignClientAuthority (GetComponent<NetworkIdentity> ().connectionToClient);
+
+		/* 		EnemySpawn es = go.GetComponent<EnemySpawn>();
+				es.holderSearch = es.StartCoroutine(es.FindingBaseLocation()); */
+
+	}
+
+	IEnumerator WaitForReady ( /* GameObject _go */ ) {
+		while (!connectionToClient.isReady) {
+			yield return new WaitForSeconds (0.25f);
+		}
+		Debug.LogWarning ("Connection to client is ready!");
+		CmdSpawnOpponent ();
+		/* 	NetworkServer.SpawnWithClientAuthority (_go, connectionToClient);
+			bool ToF = _go.GetComponent<NetworkIdentity> ().AssignClientAuthority (GetComponent<NetworkIdentity> ().connectionToClient);
+
+			_go.SetActive (true); */
+		yield return null;
+	}
+	#endregion
 }

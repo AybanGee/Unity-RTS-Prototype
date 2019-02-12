@@ -1,0 +1,134 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1654858102843276}
+  m_IsPrefabAsset: 1
+--- !u!1 &1654858102843276
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4779873874412172}
+  - component: {fileID: 114590333103826194}
+  - component: {fileID: 114172522718191630}
+  - component: {fileID: 114489268190436282}
+  m_Layer: 0
+  m_Name: SP_Enemy
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4779873874412172
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1654858102843276}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114172522718191630
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1654858102843276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40500831f84171249b1b7c2f9468c3dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BuildSys: {fileID: 0}
+  UnitSys: {fileID: 0}
+  uiGameManager: {fileID: 0}
+  selectedUnits: []
+  myUnits: []
+  myBuildings: []
+  cam: {fileID: 0}
+  buildingFactionGroups: {fileID: 0}
+  buildableGroup: {fileID: 0}
+  unitFactionGroup: {fileID: 0}
+  townhallUnitGroup: {fileID: 0}
+  barracksUnitGroup: {fileID: 0}
+  movementMask:
+    serializedVersion: 2
+    m_Bits: 0
+  playerId: 0
+  team: 0
+  factionIndex: 0
+  playerName: 
+  colorIndex: 0
+  baseNo: 0
+  manna: 0
+  mapIsLoaded: 0
+  startNow: 0
+  players: []
+  camGroup: {fileID: 0}
+  playingPlayers: []
+  defeatedPlayers: []
+  gameIsDone: 0
+  isDefeated: 0
+  isWinner: 0
+  townhall: {fileID: 0}
+  checkerWait: 0
+  isSinglelPlayer: 0
+  isDummyPlayer: 0
+--- !u!114 &114489268190436282
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1654858102843276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ba155d611b19944cac715ad1a86baa2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyPO: {fileID: 0}
+--- !u!114 &114590333103826194
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1654858102843276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 127
+    i1: 42
+    i2: 208
+    i3: 59
+    i4: 9
+    i5: 127
+    i6: 98
+    i7: 244
+    i8: 26
+    i9: 1
+    i10: 5
+    i11: 12
+    i12: 171
+    i13: 107
+    i14: 114
+    i15: 102
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 1

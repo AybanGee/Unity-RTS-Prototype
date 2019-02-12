@@ -11,7 +11,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05477fafcbc62de4089e399bdb8395ff, type: 3}
   m_Name: Simple Melee
   m_EditorClassIdentifier: 
-  sName: New Skill
+  sName: Sword Attack
+  description: The warrior uses his sword to attack an enemy.
   sSprite: {fileID: 21300000, guid: 8d31d2adf8330234fae3c9099ffbdbdb, type: 3}
   sSound: {fileID: 0}
   range: 3

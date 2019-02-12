@@ -36,5 +36,12 @@ public abstract class UnitFramework : ScriptableObject {
 	}
 
 	
+ public ToolTipData toolTipData(){
+        ToolTipData ttd = new ToolTipData();
+        ttd.displayPic =  artwork;
+        ttd.name =  name;
+        ttd.description = description;
+        return ttd;
 
+    }
 }

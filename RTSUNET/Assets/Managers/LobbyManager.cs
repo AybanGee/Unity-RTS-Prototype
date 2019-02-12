@@ -26,6 +26,7 @@ public class LobbyManager : NetworkLobbyManager {
 
 	public GameColorsScriptable gameColors;
 	//[HideInInspector()]
+	//[SyncVar]
 	public string mapName, gameName;
 	public TextMeshProUGUI roomInfo;
 	public TextMeshProUGUI statusTxt;
@@ -35,6 +36,10 @@ public class LobbyManager : NetworkLobbyManager {
 	public int readyCount;
 	public int numOfPlayers;
 	public bool allIsReady = false;
+	public List<LobbyPlayer> lobbyPlayers = new List<LobbyPlayer> ();
+
+	public bool isSinglePlayer = false;
+
 
 	#region "Host & Client Controls"
 	public void CtrStartHost () {
@@ -70,6 +75,7 @@ public class LobbyManager : NetworkLobbyManager {
 	public override void OnServerAddPlayer (NetworkConnection conn, short playerControllerId) {
 		base.OnServerAddPlayer (conn, playerControllerId);
 		Debug.Log ("OnServerAddPlayer");
+
 		//	GameObject ui = Instantiate(playerUiPrefab);
 		///	GameObject txt = ui.GetComponent<ComponentHandler>().components[0].componentObject;
 		//	txt.GetComponent<TextMeshProUGUI>().text = "Player" + playerControllerId;
@@ -97,7 +103,8 @@ public class LobbyManager : NetworkLobbyManager {
 	}
 
 	public override void OnLobbyStopHost () {
-		Debug.Log ("OnLobbyStopHost");
+		if (isSinglePlayer)
+			Debug.Log ("OnLobbyStopHost");
 		playerUIiPanel.SetActive (true);
 		playerCanvas.SetActive (true);
 		base.OnLobbyStopHost ();
@@ -113,8 +120,9 @@ public class LobbyManager : NetworkLobbyManager {
 			playerUIiPanel.GetComponent<CanvasGroup> ().interactable = true;
 			return;
 		}
-		base.OnLobbyServerPlayersReady();
+		base.OnLobbyServerPlayersReady ();
 	}
+
 	public override bool OnLobbyServerSceneLoadedForPlayer (GameObject lobbyPlayer, GameObject gamePlayer) {
 
 		LobbyPlayer lb = lobbyPlayer.GetComponent<LobbyPlayer> ();
@@ -124,7 +132,10 @@ public class LobbyManager : NetworkLobbyManager {
 		po.factionIndex = lb.faction;
 		po.colorIndex = lb.colorIndex;
 
-		Debug.LogWarning(lb.baseNo);
+		if(isSinglePlayer)
+		po.isSinglelPlayer = true;
+
+		Debug.LogWarning (lb.baseNo);
 		po.baseNo = lb.baseNo;
 		po.playerId = (int) lobbyPlayer.GetComponent<NetworkIdentity> ().netId.Value;
 		Debug.Log ("Transition method of team" + lb.team);
@@ -188,10 +199,10 @@ public class LobbyManager : NetworkLobbyManager {
 	}
 
 	#region Player Preparation
-	public List<LobbyPlayer> lobbyPlayers = new List<LobbyPlayer> ();
 	bool IsAllPlayersValid () {
 		//prepare list of players
-		
+		lobbyPlayers.Clear ();
+
 		foreach (NetworkLobbyPlayer nlp in lobbySlots) {
 			if (nlp != null)
 				lobbyPlayers.Add ((LobbyPlayer) nlp);
@@ -216,8 +227,12 @@ public class LobbyManager : NetworkLobbyManager {
 		// 	ShowStatus ("Cannot Start! Cannot have every one on one team", 5, Color.red);
 		// 	return false;
 		// }
-		
-		AssignPlayerBases(lobbyPlayers);
+
+		foreach (LobbyPlayer lp in lobbyPlayers) {
+			if (lp.broadcaster != null)
+				StopCoroutine (lp.broadcaster);
+		}
+		AssignPlayerBases (lobbyPlayers);
 		return true;
 	}
 	void ResetAllAsNotReady (List<LobbyPlayer> lobbyPlayers) {
@@ -232,12 +247,16 @@ public class LobbyManager : NetworkLobbyManager {
 		List<LobbyPlayer> newLp = lp.OrderBy (o => o.team).ToList ();
 		if (newLp.Count > 2) {
 			for (int i = 0; i < newLp.Count; i++) {
-				newLp[i].OnChangeBase(i);
+				newLp[i].OnChangeBase (i);
 			}
 		} else {
 			for (int i = 0; i < newLp.Count; i++) {
-				newLp[i].OnChangeBase(i + 1);
+				newLp[i].OnChangeBase (i + 1);
 			}
+		}
+
+		foreach (LobbyPlayer _lp in lp) {
+			_lp.LM.SetMapName (mapName);
 		}
 	}
 	#endregion
@@ -266,6 +285,8 @@ public class LobbyManager : NetworkLobbyManager {
 	}
 	#endregion
 
-	
+	public void SetMapName (string input) {
+		mapName = input;
+	}
 
 }

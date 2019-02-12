@@ -2345,6 +2345,7 @@ MonoBehaviour:
   numOfPlayers: 0
   allIsReady: 0
   lobbyPlayers: []
+  isSinglePlayer: 0
 --- !u!114 &114145754704158894
 MonoBehaviour:
   m_ObjectHideFlags: 1

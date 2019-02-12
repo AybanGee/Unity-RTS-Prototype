@@ -30,6 +30,13 @@ public class MonoUnitLibrary : NetworkBehaviour {
 	public void RpcDeath () {
 		//when used unit stays in client afterdeath
 		//	GetComponent<MonoUnitFramework>().PO.RemoveUnit(this.gameObject);
+		
+		if (transform.GetComponent<TownhallTrigger> () != null) {
+			Debug.Log ("Die :: townhalltrigger : exists");
+
+			transform.GetComponent<TownhallTrigger> ().SetIsDefeated ();
+		}
+		
 		if (isServer) return;
 		Destroy (this.gameObject);
 

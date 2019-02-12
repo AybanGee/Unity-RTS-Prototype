@@ -15,10 +15,7 @@ MonoBehaviour:
   faction: 0
   tier: 0
   battleType: 2
-  description: 'Cost: 10,000
-
-
-    Your base of operations.
+  description: 'Your base of operations.
 
     You must defend this at all cost.'
   artwork: {fileID: 21300000, guid: 7782631d447f7b74bba9515ff8d29d23, type: 3}

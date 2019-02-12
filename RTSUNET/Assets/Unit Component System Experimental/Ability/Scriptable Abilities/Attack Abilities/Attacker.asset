@@ -14,7 +14,7 @@ MonoBehaviour:
   abilityType: {fileID: 11400000, guid: 899c39ae2c81a174a8eeb1cd44d643ba, type: 2}
   interactorAbilities: []
   isTeamDependent: 1
+  isOnlyFriendly: 0
   isInteractable: 0
   attackAbilities:
   - {fileID: 11400000, guid: ec7c30140445b944da4b92adfebf19af, type: 2}
-  - {fileID: 11400000, guid: 1f6fd82afcf9c4e48b8ff3a5b11aa8c2, type: 2}

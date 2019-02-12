@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Name: Witch
   m_EditorClassIdentifier: 
   sName: Ranged Attack
+  description: The mangkukulam uses witchcraft to attack targets from afar.
   sSprite: {fileID: 21300000, guid: 14d2df7783cdad74ba2ebc0f472c58df, type: 3}
   sSound: {fileID: 0}
   range: 15

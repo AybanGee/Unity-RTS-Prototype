@@ -7,25 +7,42 @@ using UnityEngine.UI;
 
 public class LobbyPlayer : NetworkLobbyPlayer {
 
-    public int team;
+    public int team = 1;
+    [SyncVar]
+    public string P_name = "Player";
 
-    public string P_name;
+    public int faction = 1;
 
-    public int faction;
-
-    public int colorIndex;
+    public int colorIndex = 1;
 
     public bool ready = false;
 
+    [SyncVar]
     public int baseNo = -1;
 
     ComponentHandler CH;
-    void Start () {
 
+    public LobbyManager LM;
+
+    [SyncVar]
+    public int mapNumber;
+    public MapSelection mapDropdown;
+    public Dropdown dropdown;
+    public Coroutine broadcaster = null, mapbroadcaster = null;
+    
+    //Debugging
+    public GameObject flag;
+    
+    void Start () {
+        LM = LobbyManager.singleton.GetComponent<LobbyManager> ();
         CH = GetComponent<ComponentHandler> ();
+        mapDropdown = LM.mapDropdown;
+        dropdown = mapDropdown.transform.GetComponent<Dropdown> ();
+        dropdown.onValueChanged.AddListener (delegate {
+            SetMap (dropdown.value);
+        });
 
         this.transform.SetParent (LobbyManager.singleton.GetComponent<LobbyManager> ().playerUIiPanel.transform, false);
-
         if (isLocalPlayer == false) {
             //this belongs to another player
             GetComponent<CanvasGroup> ().interactable = false;
@@ -34,6 +51,17 @@ public class LobbyPlayer : NetworkLobbyPlayer {
 
         CmdSelectTeam (1);
         CmdChangeName ("Player");
+
+        if (isLocalPlayer) {
+            if (broadcaster == null){
+                broadcaster = StartCoroutine (broadcastSettings ());
+                flag.SetActive(true);
+            }
+
+            if (isServer && mapbroadcaster == null)
+               mapbroadcaster = StartCoroutine(broadcastMap());
+        }
+
     }
 
     #region "ready player one"
@@ -72,40 +100,71 @@ public class LobbyPlayer : NetworkLobbyPlayer {
         }
     }
     #endregion
+
     #region "GameChanges"
+    public void InitData () {
+        CmdChangeName ( CH.components[0].componentObject.GetComponent<TMP_InputField> ().text);
+        CmdSelectFaction ( CH.components[2].componentObject.GetComponent<TMP_Dropdown> ().value);
+        CmdSelectTeam ( CH.components[1].componentObject.GetComponent<TMP_Dropdown> ().value + 1);
+        CmdSelectColor (CH.components[4].componentObject.GetComponent<Dropdown> ().value);
+    }
+    float sendRate = 1;
+    IEnumerator broadcastSettings () {
+
+        while (true) {
+            InitData ();
+            yield return new WaitForSeconds (1 / sendRate);
+        }
+
+    }
+    IEnumerator broadcastMap () {
+
+        while (true) {
+            CmdChangeMap(LM.mapDropdown.gameObject.GetComponent<Dropdown>().value);
+            yield return new WaitForSeconds (1 / sendRate);
+        }
+
+    }
     public void OnChangeTeam (int i) {
+        if (!isLocalPlayer) return;
 
         i++;
         Debug.Log ("Changing team to : " + i);
         // Clicked red team (team nr 0)
         CmdSelectTeam (i);
+        //team = i;
     }
 
     public void OnChangeFaction (int f) {
+        if (!isLocalPlayer) return;
 
         Debug.Log ("Changing faction to : " + f);
         // Clicked red team (team nr 0)
         CmdSelectFaction (f);
+        //faction = f;
     }
 
     public void OnChangeColor (int c) {
+        if (!isLocalPlayer) return;
 
         Debug.Log ("Changing color to : " + c);
         // Clicked red team (team nr 0)
         CmdSelectColor (c);
+       //colorIndex = c;
     }
 
     public void OnChangeName (string s) {
         // Clicked blueteam (team nr 1)
+        if (!isLocalPlayer) return;
 
         Debug.Log ("Changing name to : " + s);
         CmdChangeName (s);
-
+        //name = s;
     }
 
     public void OnChangeBase (int b) {
         // Clicked blueteam (team nr 1)
-
+        //if (!isLocalPlayer) return;
         Debug.Log ("Changing base to : " + b);
         CmdChangeBase (b);
 
@@ -148,6 +207,7 @@ public class LobbyPlayer : NetworkLobbyPlayer {
 
     [ClientRpc]
     public void RpcChangeName (string newName) {
+        if (isLocalPlayer) return;
         Debug.Log ("Client: change player name from " + P_name + " to " + newName);
         P_name = newName;
         CH.components[0].componentObject.GetComponent<TMP_InputField> ().text = newName;
@@ -180,6 +240,25 @@ public class LobbyPlayer : NetworkLobbyPlayer {
         baseNo = bIndex;
         //CH.components[4].componentObject.GetComponent<Dropdown> ().value = cIndex;
     }
+
     #endregion
+
+    public void SetMap (int mapIndex) {
+        CmdChangeMap (mapIndex);
+    }
+
+    [Command]
+    public void CmdChangeMap (int mapIndex) {
+        //Set Map
+        dropdown.value = mapIndex;
+        RpcChangeMap (mapIndex);
+    }
+
+    [ClientRpc]
+    public void RpcChangeMap (int mapIndex) {
+        mapNumber = mapIndex;
+        dropdown.value = mapIndex;
+    }
+
 
 }

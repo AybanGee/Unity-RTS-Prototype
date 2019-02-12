@@ -196,6 +196,18 @@ public class BuildingSystem : NetworkBehaviour {
 		Destroy (go.GetComponent<BuildingCreationTrigger> ());
  */
 		//SPAWNING AND AUTHORIZE BLDG
+		if(gameObject.GetComponent<EnemySpawn>() != null)
+		if(GetComponent<NetworkIdentity>().connectionToClient != null)
+			{Debug.LogError("BuildSystem :: connectionToClient : " + GetComponent<NetworkIdentity>().connectionToClient);
+
+			}
+			else
+			Debug.LogError("BuildSystem :: connectionToClient : isEmpty" + gameObject.name);
+
+		if(gameObject.GetComponent<EnemySpawn>() != null)
+			Debug.LogError("DummyObject :: BuildSystem :");
+
+
 		NetworkServer.SpawnWithClientAuthority (go, connectionToClient);
 		bool ToF = go.GetComponent<NetworkIdentity> ().AssignClientAuthority (GetComponent<NetworkIdentity> ().connectionToClient);
 

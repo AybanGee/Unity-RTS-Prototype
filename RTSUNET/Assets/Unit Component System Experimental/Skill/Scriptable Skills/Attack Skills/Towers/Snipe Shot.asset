@@ -11,7 +11,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05477fafcbc62de4089e399bdb8395ff, type: 3}
   m_Name: Snipe Shot
   m_EditorClassIdentifier: 
-  sName: Snipe Shot
+  sName: Aimed Shot
+  description: Attack with more accurate and stronger shots but slower rate of fire.
   sSprite: {fileID: 21300000, guid: 3197cb33d1412f2419e94a9930eed28d, type: 3}
   sSound: {fileID: 0}
   range: 15

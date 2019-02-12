@@ -15,10 +15,7 @@ MonoBehaviour:
   faction: 1
   tier: 0
   battleType: 2
-  description: 'Cost: 100
-
-
-    Used to generate Manna.
+  description: 'Used to generate Manna.
 
     Must be placed near an Ore.
 
@@ -26,11 +23,11 @@ MonoBehaviour:
   artwork: {fileID: 21300000, guid: 630b2653bd6203c41a353050a7ced5c0, type: 3}
   manaCost: 100
   creationTime: 50
-  rangeInfluence: 0
+  rangeInfluence: 3
   graphics: {fileID: 1518684437163082, guid: dc69e18f50488fd4cb1cf6d035c26a70, type: 2}
   abilities:
   - {fileID: 11400000, guid: d734c046ee68e3249b9958d072f84f36, type: 2}
   - {fileID: 11400000, guid: 19162aff398d5684394e26427bab3fa7, type: 2}
   type: 1
   sellPrice: 50
-  addedColliderScale: {x: 2, y: 2, z: 2}
+  addedColliderScale: {x: 4, y: 2, z: 4}

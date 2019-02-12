@@ -1,0 +1,197 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1825360176485784}
+  m_IsPrefabAsset: 1
+--- !u!1 &1825360176485784
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4899728561153142}
+  - component: {fileID: 114214745242076926}
+  - component: {fileID: 114949821193209664}
+  - component: {fileID: 114605971129237458}
+  - component: {fileID: 114799433701067554}
+  - component: {fileID: 114349574003385586}
+  - component: {fileID: 114599523113874580}
+  m_Layer: 0
+  m_Name: SinglePlayerConnectionObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4899728561153142
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1825360176485784}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114214745242076926
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1825360176485784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 9
+    i1: 94
+    i2: 46
+    i3: 41
+    i4: 189
+    i5: 68
+    i6: 9
+    i7: 228
+    i8: 233
+    i9: 179
+    i10: 182
+    i11: 116
+    i12: 42
+    i13: 194
+    i14: 16
+    i15: 230
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 1
+--- !u!114 &114349574003385586
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1825360176485784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39fc9b689bfe7204bbd4c79f5ba24b66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obstacleSizeCut: 2
+  obstacleHeightAdd: 2
+  rubbleIndex: 2
+--- !u!114 &114599523113874580
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1825360176485784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2420f974792446542bd1c5d7bc22acde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  supplyManna: 100
+  supplyChangeTimer: 0.002
+  supplyChange: -1
+  supplyMin: 5
+  supplyMax: 100
+  PO: {fileID: 0}
+--- !u!114 &114605971129237458
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1825360176485784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7998434eb539747449572d1f56dd5d31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  constructor: {fileID: 0}
+  buildingGroups: {fileID: 0}
+  buildableGroup: {fileID: 0}
+  buildMode: 0
+  isGrid: 1
+  prefabBuildingIndex: 1
+  selectedBuildingIndex: 1
+  placeholderMat: {fileID: 2100000, guid: 52bf1a9597eb85640baf52953d2e8a6b, type: 2}
+  invalidPlaceholderMat: {fileID: 2100000, guid: 1cbb0278905ea504c98ae4b6e20e2ae0,
+    type: 2}
+  PO: {fileID: 0}
+  obstacleSizeCut: 2
+  obstacleHeightAdd: 2
+--- !u!114 &114799433701067554
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1825360176485784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1705c2bbe6de8ed46b447f278499dd38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UnitSpawnIndex: 4
+  spawnPoint: {x: 0, y: 0, z: 0}
+  unitGroup: {fileID: 0}
+  thGroup: {fileID: 0}
+  bGroup: {fileID: 0}
+--- !u!114 &114949821193209664
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1825360176485784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40500831f84171249b1b7c2f9468c3dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BuildSys: {fileID: 0}
+  UnitSys: {fileID: 0}
+  uiGameManager: {fileID: 0}
+  selectedUnits: []
+  myUnits: []
+  myBuildings: []
+  cam: {fileID: 0}
+  buildingFactionGroups: {fileID: 11400000, guid: 44b765f7598b035428e1710b856a3e9c,
+    type: 2}
+  buildableGroup: {fileID: 11400000, guid: fe67d8f82bab7304ca029a8dcf171827, type: 2}
+  unitFactionGroup: {fileID: 11400000, guid: 8fd697b59d47db64aadb40e11c6c7aa9, type: 2}
+  townhallUnitGroup: {fileID: 11400000, guid: aa8ba28ae9b7b39428141af7c817eff3, type: 2}
+  barracksUnitGroup: {fileID: 11400000, guid: 61a63d9140d96dd4f8a32030121d6902, type: 2}
+  movementMask:
+    serializedVersion: 2
+    m_Bits: 512
+  playerId: 0
+  team: 0
+  factionIndex: 0
+  playerName: 
+  colorIndex: 0
+  baseNo: 0
+  manna: 1000
+  mapIsLoaded: 0
+  startNow: 0
+  players: []
+  camGroup: {fileID: 0}
+  playingPlayers: []
+  defeatedPlayers: []
+  gameIsDone: 0
+  isDefeated: 0
+  isWinner: 0
+  townhall: {fileID: 0}
+  checkerWait: 0
+  isSinglelPlayer: 0
+  isDummyPlayer: 0

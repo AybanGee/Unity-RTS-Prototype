@@ -11,6 +11,7 @@ public class UIGameCommandsHandler : MonoBehaviour {
 	public Image queueTimer;
 	public Sprite baseImage;
 	QueueingSystem QS;
+	public ToolTip tooltip;
 
 	PlayerObject PO;
 	public void Initialize (PlayerObject playerObject) {
@@ -26,6 +27,10 @@ public class UIGameCommandsHandler : MonoBehaviour {
 			foreach (MonoSkill skill in ability.skills) {
 				GameObject _skillUI = Instantiate (skillUI, Vector3.zero, Quaternion.identity, transform);
 				Image img = _skillUI.GetComponent<Image> ();
+
+				_skillUI.GetComponent<SkillUI> ().ttd = ToolTipFunctions.Skill (skill);
+				_skillUI.GetComponent<SkillUI> ().tooltip = tooltip;
+
 				if (img == null) { Debug.LogError ("NO IMAGE!"); continue; }
 				if (skill.sSprite == null) Debug.LogWarning ("NO SPRITE");
 				img.sprite = skill.sSprite;
@@ -47,6 +52,9 @@ public class UIGameCommandsHandler : MonoBehaviour {
 			GameObject _skillUI = Instantiate (skillUI, Vector3.zero, Quaternion.identity, transform);
 			Image img = _skillUI.GetComponent<Image> ();
 
+			_skillUI.GetComponent<SkillUI> ().ttd = ToolTipFunctions.Units (unit);
+			_skillUI.GetComponent<SkillUI> ().tooltip = tooltip;
+
 			//check if there are sprites
 			if (img == null) { Debug.LogError ("NO IMAGE!"); continue; }
 			if (unit.artwork == null) Debug.LogWarning ("NO SPRITE");
@@ -58,6 +66,7 @@ public class UIGameCommandsHandler : MonoBehaviour {
 				unitIndex = units.IndexOf (unit);
 				queue.AddToQueue (unitIndex);
 			});
+
 		}
 	}
 	public void ClearAbilities () {
@@ -79,6 +88,9 @@ public class UIGameCommandsHandler : MonoBehaviour {
 			//Instantiate ButtonPrefab and Assign Sprites
 			GameObject _skillUI = Instantiate (skillUI, Vector3.zero, Quaternion.identity, transform);
 			Image img = _skillUI.GetComponent<Image> ();
+
+			_skillUI.GetComponent<SkillUI> ().ttd = ToolTipFunctions.Units (unit);
+			_skillUI.GetComponent<SkillUI> ().tooltip = tooltip;
 
 			//check if there are sprites
 			if (img == null) { Debug.LogError ("NO IMAGE!"); continue; }
@@ -105,8 +117,7 @@ public class UIGameCommandsHandler : MonoBehaviour {
 		QS = queue;
 		int unitIndex = -1;
 		ResetQueueDisplay ();
-		//Debug.Log("Show Process Queue list count : "+units.Count);
-		//Loop through all Selected Unit
+		//Loop Through all queued Units
 		foreach (PlayerUnit unit in units) {
 
 			unitIndex++;
@@ -125,13 +136,13 @@ public class UIGameCommandsHandler : MonoBehaviour {
 
 			//Functions Delegates for buttons
 			Button _btn = _skillUI.GetComponent<Button> ();
-			//_btn.onClick.RemoveAllListeners();
-			/* 	Debug.Log("Setting button to index "+ unitIndex);
-				_btn.onClick.AddListener(delegate {
-						//unitIndex = units.IndexOf(unit);
-					Debug.LogWarning("removing "+ unitIndex);
-					queue.RemoveFromQueue(unitIndex);
-				}); */
+			_btn.onClick.RemoveAllListeners ();
+			Debug.Log ("Setting button to index " + unitIndex);
+			_btn.onClick.AddListener (delegate {
+				//unitIndex = units.IndexOf(unit);
+				Debug.LogWarning ("removing " + unitIndex);
+				RemoveFromQueue (unitIndex);
+			});
 			//if(unitIndex <= 8)
 		}
 	}
@@ -176,6 +187,9 @@ public class UIGameCommandsHandler : MonoBehaviour {
 				GameObject _skillUI = Instantiate (skillUI, Vector3.zero, Quaternion.identity, transform);
 				Image img = _skillUI.GetComponent<Image> ();
 
+				_skillUI.GetComponent<SkillUI> ().ttd = ToolTipFunctions.Units (unit.GetComponent<MonoUnitFramework> ());
+				_skillUI.GetComponent<SkillUI> ().tooltip = tooltip;
+
 				//Check if there are Sprites
 				if (img == null) { Debug.LogError ("NO IMAGE!"); continue; }
 				if (unit.GetComponent<MonoUnit> ().artwork == null) Debug.LogWarning ("NO SPRITE");
@@ -212,6 +226,9 @@ public class UIGameCommandsHandler : MonoBehaviour {
 			GameObject _skillUI = Instantiate (skillUI, Vector3.zero, Quaternion.identity, transform);
 			Image img = _skillUI.GetComponent<Image> ();
 
+			_skillUI.GetComponent<SkillUI> ().ttd = ToolTipFunctions.Building (building);
+			_skillUI.GetComponent<SkillUI> ().tooltip = tooltip;
+
 			//check if there are sprites
 			if (img == null) { Debug.LogError ("NO IMAGE!"); continue; }
 			if (building.artwork == null) Debug.LogWarning ("NO SPRITE");
@@ -234,17 +251,20 @@ public class UIGameCommandsHandler : MonoBehaviour {
 			foreach (MonoSkill skill in ability.skills) {
 				GameObject _skillUI = Instantiate (skillUI, Vector3.zero, Quaternion.identity, transform);
 				Image img = _skillUI.GetComponent<Image> ();
+
+				_skillUI.GetComponent<SkillUI> ().ttd = ToolTipFunctions.Skill (skill);
+				_skillUI.GetComponent<SkillUI> ().tooltip = tooltip;
+
 				if (img == null) { Debug.LogError ("NO IMAGE!"); continue; }
 				if (skill.sSprite == null) Debug.LogWarning ("NO SPRITE");
 				img.sprite = skill.sSprite;
 
 				_skillUI.GetComponent<Button> ().onClick.AddListener (delegate {
-					ability.StopSkills();
-					ability.parentUnit.RemoveFocus();
+					ability.StopSkills ();
+					ability.parentUnit.RemoveFocus ();
 
-					Debug.Log("UICommandsHandler :: Tower : New Index : " + _skillUI.transform.GetSiblingIndex());
-					ability.SetDefaultSkill (_skillUI.transform.GetSiblingIndex()); 
-
+					Debug.Log ("UICommandsHandler :: Tower : New Index : " + _skillUI.transform.GetSiblingIndex ());
+					ability.SetDefaultSkill (_skillUI.transform.GetSiblingIndex ());
 
 				});
 			}

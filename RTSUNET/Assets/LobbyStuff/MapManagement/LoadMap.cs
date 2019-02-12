@@ -27,7 +27,7 @@ public class LoadMap : MonoBehaviour {
 
 		//commented for testing
 		LM = LobbyManager.singleton.GetComponent<LobbyManager> ();
-		//mapSceneName = LM.mapName;
+		mapSceneName = LM.mapName;
 
 		Load (mapSceneName);
 
@@ -97,6 +97,7 @@ public class LoadMap : MonoBehaviour {
 
 		PO.BuildSys.SpawnBuilding (buildingIndex, baseLoc.transform.position, baseLoc.transform.rotation);
 
+		//PO.SpawnEnemyBuildings();
 	}
 
 	IEnumerator WaitForBuilding (PlayerObject PO) {
