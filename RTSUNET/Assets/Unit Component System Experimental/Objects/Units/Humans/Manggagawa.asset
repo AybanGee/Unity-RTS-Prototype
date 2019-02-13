@@ -19,7 +19,7 @@ MonoBehaviour:
   artwork: {fileID: 21300000, guid: 9998779593f5f7c43aa620573cbcf10d, type: 3}
   manaCost: 50
   creationTime: 20
-  rangeInfluence: 0
+  rangeInfluence: 1
   graphics: {fileID: 1156041450987396, guid: 1a58a7b7236c47c408c80716d118852d, type: 2}
   abilities:
   - {fileID: 11400000, guid: d734c046ee68e3249b9958d072f84f36, type: 2}

@@ -6,6 +6,8 @@ using UnityEditor;
 [CustomPropertyDrawer(typeof(FactionBuildingDictionary))]
 [CustomPropertyDrawer(typeof(FactionUnitDictionary))]
 [CustomPropertyDrawer(typeof(ColorDictionary))]
+[CustomPropertyDrawer(typeof(QuestUnitDictionary))]
 public class DictionaryPropertyDrawer : SerializableDictionaryPropertyDrawer{
+
 
 }

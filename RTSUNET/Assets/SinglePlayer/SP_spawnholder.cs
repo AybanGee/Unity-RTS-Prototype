@@ -10,6 +10,7 @@ public class SP_spawnholder : MonoBehaviour {
 	public GameObject[] supplyLocations = new GameObject[2];
 	public GameObject[] barracksLocations = new GameObject[1];
 	public GameObject[] towerLocations = new GameObject[4];
+
 	// Use this for initialization
 	void Awake()
 	{

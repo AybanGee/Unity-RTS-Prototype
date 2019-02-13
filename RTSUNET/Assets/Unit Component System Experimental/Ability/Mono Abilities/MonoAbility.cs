@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.Events;
 
 public abstract class MonoAbility : NetworkBehaviour {
     public bool isTeamDependent = true;
@@ -18,6 +19,8 @@ public abstract class MonoAbility : NetworkBehaviour {
     public MonoUnitFramework parentUnit;
 
     public int defaultSkillIndex = 0;
+
+    public UnityEvent abilityEvent;
 
     public virtual bool isValidInteractor (MonoAbility interactor) {
 
@@ -60,6 +63,9 @@ public abstract class MonoAbility : NetworkBehaviour {
 
     void Start () {
         if (abilityType == null) Debug.LogError ("Ability type not found!");
+
+        if (abilityEvent == null)
+            abilityEvent = new UnityEvent ();
     }
 
     public void StopSkills () {
@@ -70,15 +76,19 @@ public abstract class MonoAbility : NetworkBehaviour {
     }
 
     public virtual void SetDefaultSkill (int index) {
-        if (index >= skills.Count && index < 0) 
-        { Debug.LogError ("Default skill of index " + index + " is out of range"); return; }
+        if (index >= skills.Count && index < 0) { Debug.LogError ("Default skill of index " + index + " is out of range"); return; }
         defaultSkillIndex = index;
     }
 
-    public MonoSkill defaultSkill(){
-        if(skills.Count == 0)
-        return null;
+    public MonoSkill defaultSkill () {
+        if (skills.Count == 0)
+            return null;
         return skills[defaultSkillIndex];
     }
+
+ /*    public virtual void EventSender(QuestEventData questEventData){
+        Debug.Log("Standard Event");
+        parentUnit.PO.QER.OnReceiveQuestTrigger(questEventData);
+    } */
 
 }

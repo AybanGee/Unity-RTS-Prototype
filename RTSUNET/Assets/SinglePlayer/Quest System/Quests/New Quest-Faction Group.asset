@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf07371108ce0ba4ba63f410efdf5bd4, type: 3}
+  m_Name: New Quest-Faction Group
+  m_EditorClassIdentifier: 
+  questUnitDictionary:
+    m_keys: 0000000001000000
+    m_values:
+    - {fileID: 11400000, guid: 5e04023a26bfdc44eb4a3956a624d699, type: 2}
+    - {fileID: 11400000, guid: b5c01678ce240f04689da9583fb9d941, type: 2}

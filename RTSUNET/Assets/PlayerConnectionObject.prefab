@@ -193,3 +193,8 @@ MonoBehaviour:
   isWinner: 0
   townhall: {fileID: 0}
   checkerWait: 0
+  isSinglelPlayer: 0
+  isDummyPlayer: 0
+  questFactionGroup: {fileID: 11400000, guid: 79239715fae995a40b3fa18eb9e83171, type: 2}
+  QM: {fileID: 0}
+  QER: {fileID: 0}

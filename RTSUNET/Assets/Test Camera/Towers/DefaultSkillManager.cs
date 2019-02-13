@@ -12,16 +12,16 @@ public class DefaultSkillManager : MonoBehaviour {
 
 	IEnumerator GuardMode () {
 		while (true) {
-			Debug.Log ("Guard Mode :: loop");
+			//Debug.Log ("Guard Mode :: loop");
 			if (ability.defaultSkill ().GetIsActing ()) {
-				Debug.Log ("Guard Mode :: isActing");
+				//Debug.Log ("Guard Mode :: isActing");
 				if (ability.parentUnit.focus == null) {
 					ability.defaultSkill ().SetIsActing (false);
 				}
 
 			} else {
 				//find target
-				Debug.Log ("Guard Mode :: Find New Target");
+				//Debug.Log ("Guard Mode :: Find New Target");
 
 				Attack attackSkill = (Attack) ability.defaultSkill ();
 
@@ -29,7 +29,7 @@ public class DefaultSkillManager : MonoBehaviour {
 				attackSkill.parentAbility.parentUnit.RemoveFocus ();
 				attackSkill.SearchForNewTarget ();
 
-				Debug.Log ("Guard Mode :: Attack Skill : " + attackSkill);
+//				Debug.Log ("Guard Mode :: Attack Skill : " + attackSkill);
 
 			}
 

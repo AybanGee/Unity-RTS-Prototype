@@ -15,13 +15,11 @@ MonoBehaviour:
   faction: 1
   tier: 0
   battleType: 0
-  description: 'A witch that uses magic to attack opponents.
-
-    Uses bows and arrows to defeat enemies.'
+  description: A witch that uses magic to attack opponents.
   artwork: {fileID: 21300000, guid: 19e0c338319db9c4ba2c242a30d19b2e, type: 3}
   manaCost: 100
   creationTime: 5
-  rangeInfluence: 0
+  rangeInfluence: 1
   graphics: {fileID: 1960991594554096, guid: 4ae675ecd5a088f49bc029709197ba19, type: 2}
   abilities:
   - {fileID: 11400000, guid: 6f3aaf7c6bdad3b4990f7699772f0cbb, type: 2}

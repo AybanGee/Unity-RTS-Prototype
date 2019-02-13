@@ -1024,7 +1024,6 @@ MonoBehaviour:
   - {fileID: 114099704405043396}
   primitiveAbilities: []
   playerUnit: {fileID: 0}
-  building: {fileID: 0}
   assignedBuilding: {fileID: 0}
   buildingIndex: 0
 --- !u!114 &114099704405043396
@@ -1047,6 +1046,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f4815c854bf023b45a2cbe3fe2a0793f, type: 2}
   parentUnit: {fileID: 114044517204806298}
   defaultSkillIndex: 0
+  abilityEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   constructionTime: 50
   constructionTimeLeft: 0
 --- !u!114 &114136157027453940

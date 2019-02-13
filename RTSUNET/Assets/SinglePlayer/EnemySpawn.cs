@@ -11,7 +11,6 @@ public class EnemySpawn : NetworkBehaviour {
 	PlayerObject _po;
 	bool isSpawned = false;
 
-	public List<QuestTrigger> qt = new List<QuestTrigger>();
 	void Start () {
 		//holderSearch = StartCoroutine (FindingBaseLocation ());
 	}
@@ -89,7 +88,7 @@ public class EnemySpawn : NetworkBehaviour {
 			Debug.Log ("Spawning Towers");
 			PO.BuildSys.SpawnBuilding (buildingIndex, spawnHolder.transform.position, spawnHolder.transform.rotation);
 			//add triggers here
-			
+
 		}
 
 		isSpawned = true;

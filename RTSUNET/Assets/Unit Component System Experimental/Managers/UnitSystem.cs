@@ -120,6 +120,10 @@ public class UnitSystem : NetworkBehaviour {
 		UnitSelectable unitSelectable = go.AddComponent<UnitSelectable> ();
 		unitSelectable.playerObject = PO;
 		PO.myUnits.Add (go);
+
+		if(PO.isSinglelPlayer){
+			QuestItem qi = go.AddComponent<QuestItem>();
+		}
 	}
 
 	//for Spawning

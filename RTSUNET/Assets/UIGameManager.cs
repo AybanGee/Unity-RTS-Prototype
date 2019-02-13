@@ -9,6 +9,7 @@ public class UIGameManager : MonoBehaviour {
 	public UIGameCommandsHandler commandsHandler;
 	public TextMeshProUGUI manaHolder, victoryDisplay, endTextDisplay;
 	public GameObject winScreen,spectateScreen,notice;
+	public QuestUIHandler questUI;
 
 	public Text debugTxt;
 

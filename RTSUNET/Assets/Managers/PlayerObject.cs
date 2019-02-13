@@ -63,6 +63,13 @@ public class PlayerObject : NetworkBehaviour {
 	public bool isSinglelPlayer = false;
 
 	public bool isDummyPlayer = false;
+
+	public QuestFactionGroup questFactionGroup;
+
+	[HideInInspector]
+	public QuestManager QM;
+	[HideInInspector]
+	public QuestEventReciever QER;
 	// Use this for initialization
 	void Awake () {
 		Debug.Log ("PlayerObject awake");
@@ -78,6 +85,16 @@ public class PlayerObject : NetworkBehaviour {
 					}
 				}
 		 */
+
+		if (isSinglelPlayer) {
+			QM = gameObject.AddComponent<QuestManager> ();
+			QM.quests = questFactionGroup.questUnitDictionary[(Factions) factionIndex].quests;
+			QM.PO = this;
+			QER = gameObject.AddComponent<QuestEventReciever> ();
+
+			//if(uiGameManager.questUI != null)
+				//uiGameManager.questUI.gameObject.SetActive (true);
+		}
 		if (isLocalPlayer) {
 			Debug.Log ("Assigning Player singleton");
 			singleton = this;
@@ -545,7 +562,7 @@ public class PlayerObject : NetworkBehaviour {
 		SetWinner ();
 	}
 
-	void CheckForWinner () {
+	public void CheckForWinner () {
 		bool flag = true;
 		for (int i = playingPlayers.Count - 1; i >= 0; i--) {
 			if (playingPlayers[0].team != playingPlayers[i].team) {
@@ -555,7 +572,7 @@ public class PlayerObject : NetworkBehaviour {
 		gameIsDone = flag;
 	}
 
-	void SetWinner () {
+	public void SetWinner () {
 		for (int i = players.Count - 1; i >= 0; i--) {
 			if (players[i].team == playingPlayers[0].team) {
 				players[i].SetWinnerStatus (true);

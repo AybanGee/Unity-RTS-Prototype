@@ -6,28 +6,33 @@ using UnityEngine.Networking;
 using UnityEngine.UI;
 
 public class Damageable : MonoAbility {
-	UnityEvent m_Death;
+	//UnityEvent m_Death;
 
 	public int maxHealth = 100;
 	[SyncVar (hook = "OnChangeHealth")] public int currentHealth;
 	[SyncVar] public int armour = 0;
 	public int healthHolder;
+	bool isDead = false;
 
 	public HealthUI healthUI;
+
+	public void Test () {
+		Debug.LogError ("Unit Died");
+	}
 
 	public void Awake () {
 		currentHealth = maxHealth;
 		healthHolder = currentHealth;
-		//m_Death.AddListener(Test);
-	}
-
-	void Test(){
-		Debug.LogError("Unit Died");
 	}
 
 	public void Start () {
 		if (gameObject.GetComponent<HealthUI> () != null)
 			healthUI = gameObject.GetComponent<HealthUI> ();
+
+		if (abilityEvent == null)
+			abilityEvent = new UnityEvent ();
+
+		//abilityEvent.AddListener (delegate{ QuestEventReciever.singleton.OnReceiveQuestTrigger (new QuestEventData(QuestEventType.Death,parentUnit,this));});
 
 	}
 
@@ -79,14 +84,15 @@ public class Damageable : MonoAbility {
 		//if (!isServer)
 		currentHealth = healthHolder;
 
-		if (healthUI == null)
+		if (healthUI == null && !isDead)
 			healthUI = gameObject.GetComponent<HealthUI> ();
 		else {
 			UpdateHealthUI ();
 		}
 
-		if (curHealth <= 0) {
+		if (curHealth <= 0 && isDead == false) {
 			Die ();
+			isDead = true;
 		}
 	}
 
@@ -94,8 +100,8 @@ public class Damageable : MonoAbility {
 		Debug.Log (transform.name + " died.");
 
 		//GetComponent<MonoUnitFramework>().PO.myUnits.Remove(this.gameObject);
-		
-		//m_Death.Invoke ();
+
+		abilityEvent.Invoke ();
 		GetComponent<MonoUnitLibrary> ().CmdDeath ();
 
 	}
@@ -104,5 +110,10 @@ public class Damageable : MonoAbility {
 		float fill = (float) currentHealth / (float) maxHealth;
 		healthUI.healthSlider.fillAmount = fill;
 	}
+
+/* 	public override void EventSender (QuestEventData questEventData) {
+		Debug.Log ("Death :: Local Event");
+		base.EventSender (questEventData);
+	} */
 
 }

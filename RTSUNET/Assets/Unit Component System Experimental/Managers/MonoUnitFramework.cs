@@ -21,8 +21,7 @@ public abstract class MonoUnitFramework : NetworkBehaviour {
 	public List<MonoAbility> abilities = new List<MonoAbility> ();
 	public List<Ability> primitiveAbilities = new List<Ability> ();
 
-	[HideInInspector] public PlayerUnit playerUnit;
-	[HideInInspector] public Building building;
+	[HideInInspector] public UnitFramework playerUnit;
 
 	public void InitAbilities () {
 		//nauuna to kesa assign ng value sa primitiveAbilities

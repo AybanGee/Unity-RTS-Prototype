@@ -10,7 +10,7 @@ public class MainMenu : MonoBehaviour {
 			Destroy (LobbyManager.singleton.gameObject);
 			Debug.Log ("Lobby Exists");
 		}
-		SceneManager.LoadScene("CampaignSelect");
+		SceneManager.LoadScene ("CampaignSelect");
 	}
 	public void EnterLobby () {
 		if (LobbyManager.singleton != null) {

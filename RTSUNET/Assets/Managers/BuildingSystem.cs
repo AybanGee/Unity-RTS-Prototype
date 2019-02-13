@@ -227,7 +227,7 @@ public class BuildingSystem : NetworkBehaviour {
 		MonoUnitFramework muf = spawnHolder.GetComponent<MonoUnitFramework> ();
 
 		//AssignData
-		muf.building = building;
+		muf.playerUnit = building;
 		muf.PO = PO;
 		building.Initialize (spawnHolder);
 

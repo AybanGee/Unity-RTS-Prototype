@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93bcd9998324c684c867863ee74d02b3, type: 3}
+  m_Name: HumanQuests
+  m_EditorClassIdentifier: 
+  quests:
+  - {fileID: 11400000, guid: bd053c3e51d80dd40a161c676c4d8dce, type: 2}
+  - {fileID: 11400000, guid: 556a45ecd96708643b5f0bddc08d93f8, type: 2}
+  - {fileID: 11400000, guid: 1f60deabdd8bb8b43a4d38b6b6883db3, type: 2}
