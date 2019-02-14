@@ -26,6 +26,8 @@ public class BuildingSystem : NetworkBehaviour {
 	[SerializeField]
 	int obstacleHeightAdd = 2;
 
+	public GameObject lastSpawnedUnit;
+
 	void Awake () {
 		//Move to spawn manager
 		PO = GetComponent<PlayerObject> ();
@@ -176,7 +178,7 @@ public class BuildingSystem : NetworkBehaviour {
 
 		//if (graphics == null) { Debug.LogError ("No graphics"); }
 		go = Instantiate (go, position, rotation, this.transform);
-
+		lastSpawnedUnit = go;
 		/* 		MonoBuilding  buildingUnit = go.GetComponent<MonoBuilding> ();
 				//BuildingUnit buildingUnit = go.GetComponent<BuildingUnit> ();
 				Vector3 navMeshObstacleSize = go.GetComponent<BoxCollider> ().size;
@@ -196,17 +198,16 @@ public class BuildingSystem : NetworkBehaviour {
 		Destroy (go.GetComponent<BuildingCreationTrigger> ());
  */
 		//SPAWNING AND AUTHORIZE BLDG
-		if(gameObject.GetComponent<EnemySpawn>() != null)
-		if(GetComponent<NetworkIdentity>().connectionToClient != null)
-			{Debug.LogError("BuildSystem :: connectionToClient : " + GetComponent<NetworkIdentity>().connectionToClient);
+		if (gameObject.GetComponent<EnemySpawn> () != null)
+			if (GetComponent<NetworkIdentity> ().connectionToClient != null) {
+				Debug.LogError ("BuildSystem :: connectionToClient : " + GetComponent<NetworkIdentity> ().connectionToClient);
 
 			}
-			else
-			Debug.LogError("BuildSystem :: connectionToClient : isEmpty" + gameObject.name);
+		else
+			Debug.LogError ("BuildSystem :: connectionToClient : isEmpty" + gameObject.name);
 
-		if(gameObject.GetComponent<EnemySpawn>() != null)
-			Debug.LogError("DummyObject :: BuildSystem :");
-
+		if (gameObject.GetComponent<EnemySpawn> () != null)
+			Debug.LogError ("DummyObject :: BuildSystem :");
 
 		NetworkServer.SpawnWithClientAuthority (go, connectionToClient);
 		bool ToF = go.GetComponent<NetworkIdentity> ().AssignClientAuthority (GetComponent<NetworkIdentity> ().connectionToClient);
@@ -267,9 +268,14 @@ public class BuildingSystem : NetworkBehaviour {
 		unitSelectable.isOneSelection = true;
 		if (graphicsHolder != null)
 			graphicsHolder.colorize (LobbyManager.singleton.GetComponent<LobbyManager> ().gameColors.gameColorList () [PO.colorIndex]);
+		
+		lastSpawnedUnit = spawnHolder;
 		PO.myBuildings.Add (spawnHolder);
 
 		AssignData (spawnHolder, spawnableIndex, buildingUnit, navMeshObstacleSize);
+		if (PO.isSinglelPlayer) {
+			QuestItem qi = spawnHolder.AddComponent<QuestItem> ();
+		}
 
 	}
 	#endregion
@@ -342,8 +348,8 @@ public class BuildingSystem : NetworkBehaviour {
 				}
 				break;
 			case BuildingType.Tower:
-				if(spawnHolder.GetComponent<DefaultSkillManager>() == null){
-					ds = spawnHolder.AddComponent<DefaultSkillManager>();
+				if (spawnHolder.GetComponent<DefaultSkillManager> () == null) {
+					ds = spawnHolder.AddComponent<DefaultSkillManager> ();
 				}
 				break;
 			case BuildingType.SupplyChain:

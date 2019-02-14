@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Name: HighlandTrilane
   m_EditorClassIdentifier: 
   mapName: Highland Trilane
-  sceneName: Map_02
+  sceneName: map_trilane
   description: Beware of Flanking
   displayImage: {fileID: 21300000, guid: 1d98e62f653a73f44a78dd227f86cc73, type: 3}

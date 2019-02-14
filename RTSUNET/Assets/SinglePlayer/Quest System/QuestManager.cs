@@ -16,7 +16,8 @@ public class QuestManager : MonoBehaviour {
 	public void PrepareQuests () {
 		if (quests.Count <= 0) { Debug.LogWarning ("no quests set!"); return; }
 		foreach (Quest quest in quests) {
-			quest.Initialize ();
+			quest.Initialize (PO);
+			
 		}
 		//activate first quest
 		NextQuest ();
@@ -37,8 +38,11 @@ public class QuestManager : MonoBehaviour {
 		questDoneDetector = StartCoroutine (QuestDoneDetector ());
 
 		//Display UI
-		if (PO.uiGameManager.questUI != null)
+		if (PO.uiGameManager.questUI != null){
+			
+			PO.uiGameManager.questUI.gameObject.SetActive(true);
 			PO.uiGameManager.questUI.DisplayQuest (currentQuest);
+		}
 	}
 
 	public void QuestDone () {

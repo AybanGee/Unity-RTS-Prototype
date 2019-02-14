@@ -15,7 +15,7 @@ public class Quest : ScriptableObject {
 	 */
 	public bool questIsDone = false;
 	
-	public virtual void Initialize(){
+	public virtual void Initialize(PlayerObject PO){
 
 	}
 	public virtual void OnQuestTrigger (QuestEventData questEvent) {

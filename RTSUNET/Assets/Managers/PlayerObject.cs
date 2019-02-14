@@ -93,7 +93,7 @@ public class PlayerObject : NetworkBehaviour {
 			QER = gameObject.AddComponent<QuestEventReciever> ();
 
 			//if(uiGameManager.questUI != null)
-				//uiGameManager.questUI.gameObject.SetActive (true);
+			//uiGameManager.questUI.gameObject.SetActive (true);
 		}
 		if (isLocalPlayer) {
 			Debug.Log ("Assigning Player singleton");

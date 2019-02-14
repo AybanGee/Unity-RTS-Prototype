@@ -96,7 +96,8 @@ public class LoadMap : MonoBehaviour {
 		StartCoroutine (WaitForBuilding (PO));
 
 		PO.BuildSys.SpawnBuilding (buildingIndex, baseLoc.transform.position, baseLoc.transform.rotation);
-
+		
+		PO.uiGameManager.loadingScreen.SetActive(false);
 		//PO.SpawnEnemyBuildings();
 	}
 

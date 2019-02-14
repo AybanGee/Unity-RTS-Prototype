@@ -14,21 +14,21 @@ public class EnemySpawn : NetworkBehaviour {
 	void Start () {
 		//holderSearch = StartCoroutine (FindingBaseLocation ());
 	}
-/* 	public override void OnStartAuthority () {
-			if (GetComponent<NetworkIdentity> ().connectionToClient == null)
-			Debug.LogError ("Oopsie doopsie");
-		CmdOnStart();
-	}
-
-	[Command] void CmdOnStart () {
-		if (GetComponent<NetworkIdentity> ().connectionToClient == null){
-			
-			Debug.LogError (gameObject.name + " Enemy Spawn has no connectionToClient");
+	/* 	public override void OnStartAuthority () {
+				if (GetComponent<NetworkIdentity> ().connectionToClient == null)
+				Debug.LogError ("Oopsie doopsie");
+			CmdOnStart();
 		}
-		//	Debug.Log ("Finding Spawn Holder");
-		enemyPO = GetComponent<PlayerObject> ();
-		holderSearch = StartCoroutine (FindingBaseLocation ());
-	} */
+
+		[Command] void CmdOnStart () {
+			if (GetComponent<NetworkIdentity> ().connectionToClient == null){
+				
+				Debug.LogError (gameObject.name + " Enemy Spawn has no connectionToClient");
+			}
+			//	Debug.Log ("Finding Spawn Holder");
+			enemyPO = GetComponent<PlayerObject> ();
+			holderSearch = StartCoroutine (FindingBaseLocation ());
+		} */
 	public IEnumerator FindingBaseLocation () {
 		/* 	while (!enemyPO.connectionToClient.isReady) {
 				Debug.LogWarning ("Wait for connection to client");
@@ -46,8 +46,8 @@ public class EnemySpawn : NetworkBehaviour {
 
 			if (sp_spawn != null && !isSpawned) {
 				//spawnObjects ();
-				_po = transform.parent.GetChild(0).GetComponent<PlayerObject>();
-				_po.SpawnEnemyBuildings();
+				_po = transform.parent.GetChild (0).GetComponent<PlayerObject> ();
+				_po.SpawnEnemyBuildings ();
 			}
 			//isFinishedLoading = true;
 			//moveCamToBase();
@@ -57,7 +57,7 @@ public class EnemySpawn : NetworkBehaviour {
 
 		yield return null;
 
-		_po.SwapPOTeams(false);
+		_po.SwapPOTeams (false);
 	}
 
 	private void Update () {

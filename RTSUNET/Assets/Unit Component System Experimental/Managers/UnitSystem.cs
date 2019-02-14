@@ -9,6 +9,7 @@ public class UnitSystem : NetworkBehaviour {
 	[HideInInspector]
 	public UnitGroup unitGroup, thGroup, bGroup;
 	PlayerObject PO;
+	public GameObject lastSpawnedUnit;
 
 	void Awake () {
 		PO = GetComponent<PlayerObject> ();
@@ -18,14 +19,15 @@ public class UnitSystem : NetworkBehaviour {
 		CmdSpawnObject (spawnIndex, pos, rot);
 
 	}
+
 	[ClientRpc]
-	public void RpcAddPlayerUnit(NetworkIdentity ni, int spawnableObjectIndex){
+	public void RpcAddPlayerUnit (NetworkIdentity ni, int spawnableObjectIndex) {
 		GameObject go = ni.gameObject;
 		PlayerUnit playerUnit = unitGroup.units[spawnableObjectIndex];
-		Debug.Log(go);
+		Debug.Log (go);
 		MonoUnitFramework muf = go.GetComponent<MonoUnitFramework> ();
 		muf.playerUnit = playerUnit;
-		muf.PO = PO;	
+		muf.PO = PO;
 		playerUnit.Initialize (go);
 	}
 
@@ -35,7 +37,7 @@ public class UnitSystem : NetworkBehaviour {
 		PlayerUnit playerUnit = unitGroup.units[spawnableObjectIndex];
 
 		go = Instantiate (go, position, rotation);
-
+		lastSpawnedUnit = go;
 		//set Graphics
 
 		/* 		Debug.Log ("CMD add Graphics");
@@ -48,17 +50,17 @@ public class UnitSystem : NetworkBehaviour {
 				go.GetComponent<CharacterAnimator> ().animator = anim; */
 
 		//go.GetComponent<NetworkAnimator>().animator = graphics.GetComponent<Animator>();
-	//	Debug.Log ("UnitSystem :: MonoUnitFramework : " + muf);
-	//	Debug.Log ("UnitSystem :: Abilities : " + muf.primitiveAbilities.Count);
+		//	Debug.Log ("UnitSystem :: MonoUnitFramework : " + muf);
+		//	Debug.Log ("UnitSystem :: Abilities : " + muf.primitiveAbilities.Count);
 		//ClientScene.RegisterPrefab(go);
 
 		//playerUnit.Initialize(go);
 		//initialize abilities
-	//	muf.debugMonoUnit ();
+		//	muf.debugMonoUnit ();
 		NetworkIdentity ni = go.GetComponent<NetworkIdentity> ();
 		NetworkServer.SpawnWithClientAuthority (go, connectionToClient);
-		
-		RpcAddPlayerUnit(go.GetComponent<NetworkIdentity>(),spawnableObjectIndex);
+
+		RpcAddPlayerUnit (go.GetComponent<NetworkIdentity> (), spawnableObjectIndex);
 
 		/* 		bool wait = true;
 				while (wait) {
@@ -77,12 +79,12 @@ public class UnitSystem : NetworkBehaviour {
 		// unit.team = PO.team;
 		// unit.playerObject =  PO;
 	}
-	
+
 	[ClientRpc]
 	public void RpcAssignObject (NetworkIdentity id, int spawnableObjectIndex) {
 		Debug.Log ("RpcAssign");
 		GameObject go = id.gameObject;
-		go.GetComponent<MonoUnitFramework>().debugMonoUnit ();
+		go.GetComponent<MonoUnitFramework> ().debugMonoUnit ();
 
 		//Debug.Log("RPC Assign :: NetID : " + id);
 
@@ -116,13 +118,13 @@ public class UnitSystem : NetworkBehaviour {
 		//Debug.Log ("UnitSystem :: abilities.Count : " + playerUnit.abilities.Count);
 
 		go.name = PO.team + " - unit" + go.GetComponent<NetworkIdentity> ().netId;
-
+		lastSpawnedUnit = go;
 		UnitSelectable unitSelectable = go.AddComponent<UnitSelectable> ();
 		unitSelectable.playerObject = PO;
 		PO.myUnits.Add (go);
 
-		if(PO.isSinglelPlayer){
-			QuestItem qi = go.AddComponent<QuestItem>();
+		if (PO.isSinglelPlayer) {
+			QuestItem qi = go.AddComponent<QuestItem> ();
 		}
 	}
 

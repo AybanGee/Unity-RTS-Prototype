@@ -8,7 +8,7 @@ public class UIGameManager : MonoBehaviour {
 	public DragSelectionHandler dragSelectionHandler;
 	public UIGameCommandsHandler commandsHandler;
 	public TextMeshProUGUI manaHolder, victoryDisplay, endTextDisplay;
-	public GameObject winScreen,spectateScreen,notice;
+	public GameObject winScreen,spectateScreen,notice,loadingScreen;
 	public QuestUIHandler questUI;
 
 	public Text debugTxt;

@@ -16,6 +16,9 @@ public class Damageable : MonoAbility {
 
 	public HealthUI healthUI;
 
+	public UnityEvent onChangedHealth;
+	public UnityEvent onDeath;
+
 	public void Test () {
 		Debug.LogError ("Unit Died");
 	}
@@ -29,9 +32,11 @@ public class Damageable : MonoAbility {
 		if (gameObject.GetComponent<HealthUI> () != null)
 			healthUI = gameObject.GetComponent<HealthUI> ();
 
-		if (abilityEvent == null)
-			abilityEvent = new UnityEvent ();
-
+		onChangedHealth = new UnityEvent ();
+		onDeath = new UnityEvent ();
+		
+		if(QuestEventReciever.singleton != null)
+		onDeath.AddListener (delegate { QuestEventReciever.singleton.OnReceiveQuestTrigger (new QuestEventData (QuestEventType.Death, parentUnit, this)); });
 		//abilityEvent.AddListener (delegate{ QuestEventReciever.singleton.OnReceiveQuestTrigger (new QuestEventData(QuestEventType.Death,parentUnit,this));});
 
 	}
@@ -41,7 +46,7 @@ public class Damageable : MonoAbility {
 		damage -= armour;
 		damage = Mathf.Clamp (damage, 0, int.MaxValue);
 		currentHealth -= damage;
-
+		onChangedHealth.Invoke ();
 		UpdateHealthUI ();
 
 		if (parentUnit.focus != null) return;
@@ -91,6 +96,7 @@ public class Damageable : MonoAbility {
 		}
 
 		if (curHealth <= 0 && isDead == false) {
+
 			Die ();
 			isDead = true;
 		}
@@ -98,10 +104,9 @@ public class Damageable : MonoAbility {
 
 	public virtual void Die () {
 		Debug.Log (transform.name + " died.");
-
+		onDeath.Invoke ();
 		//GetComponent<MonoUnitFramework>().PO.myUnits.Remove(this.gameObject);
 
-		abilityEvent.Invoke ();
 		GetComponent<MonoUnitLibrary> ().CmdDeath ();
 
 	}
@@ -111,9 +116,9 @@ public class Damageable : MonoAbility {
 		healthUI.healthSlider.fillAmount = fill;
 	}
 
-/* 	public override void EventSender (QuestEventData questEventData) {
-		Debug.Log ("Death :: Local Event");
-		base.EventSender (questEventData);
-	} */
+	/* 	public override void EventSender (QuestEventData questEventData) {
+			Debug.Log ("Death :: Local Event");
+			base.EventSender (questEventData);
+		} */
 
 }

@@ -20,7 +20,6 @@ public abstract class MonoAbility : NetworkBehaviour {
 
     public int defaultSkillIndex = 0;
 
-    public UnityEvent abilityEvent;
 
     public virtual bool isValidInteractor (MonoAbility interactor) {
 
@@ -64,8 +63,6 @@ public abstract class MonoAbility : NetworkBehaviour {
     void Start () {
         if (abilityType == null) Debug.LogError ("Ability type not found!");
 
-        if (abilityEvent == null)
-            abilityEvent = new UnityEvent ();
     }
 
     public void StopSkills () {
