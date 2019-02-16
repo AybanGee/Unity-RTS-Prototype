@@ -24,7 +24,7 @@ MonoBehaviour:
   rangeInfluence: 12
   graphics: {fileID: 1943037947715906, guid: d9dd58eb85594e947b6c330f6990ad60, type: 2}
   abilities:
-  - {fileID: 11400000, guid: d734c046ee68e3249b9958d072f84f36, type: 2}
+  - {fileID: 11400000, guid: d658a217b1c3c02469307cfc40df2bcb, type: 2}
   - {fileID: 11400000, guid: c195ba0fef4cb2343aadc8b102d2367a, type: 2}
   type: 0
   sellPrice: 50

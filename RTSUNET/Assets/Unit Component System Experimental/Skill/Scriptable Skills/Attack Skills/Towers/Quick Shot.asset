@@ -17,6 +17,6 @@ MonoBehaviour:
   sSound: {fileID: 0}
   range: 15
   animationTriggers: []
-  AttackCooldown: 1
+  AttackCooldown: 0.5
   damage: 1
   isAttackOnce: 0

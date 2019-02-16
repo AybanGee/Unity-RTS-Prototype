@@ -12,6 +12,10 @@ MonoBehaviour:
   m_Name: AswangQuests
   m_EditorClassIdentifier: 
   quests:
+  - {fileID: 11400000, guid: 4f5f868d00ee9f24da007e0bbac359e5, type: 2}
+  - {fileID: 11400000, guid: c7b6113740e9f814f85e1753d5995876, type: 2}
+  - {fileID: 11400000, guid: 7a65ba346fa0c7d4985f585b47ce0f9a, type: 2}
+  - {fileID: 11400000, guid: 3b5868f7d469f43438af72aa80dcdd48, type: 2}
   - {fileID: 11400000, guid: f190fc43aaed2c845a7c7ddae03c40bc, type: 2}
-  - {fileID: 11400000, guid: e3ee6425007c14b4a9615b5f1690b16b, type: 2}
+  - {fileID: 11400000, guid: c7b6113740e9f814f85e1753d5995876, type: 2}
   - {fileID: 11400000, guid: a31164853cd61b04bbde985731a93500, type: 2}

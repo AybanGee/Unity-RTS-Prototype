@@ -16,7 +16,9 @@ MonoBehaviour:
   sSprite: {fileID: 21300000, guid: 43fcf1d2f7498ce4fada4ddfbe8cb704, type: 3}
   sSound: {fileID: 0}
   range: 15
-  animationTriggers: []
+  animationTriggers:
+  - atk01
+  - atk02
   AttackCooldown: 2
   damage: 3
   isAttackOnce: 0

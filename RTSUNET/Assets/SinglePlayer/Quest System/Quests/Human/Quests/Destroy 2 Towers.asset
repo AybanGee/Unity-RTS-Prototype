@@ -22,8 +22,13 @@ MonoBehaviour:
     their supply
 
 
-    Destroy two (2) Enemy Towers.'
-  questIsDone: 0
+    Destroy two (2) Enemy Towers.
+
+
+    Select the warriors and Right-Click the Towers to attack them.
+
+'
+  questIsDone: 1
   requiredCount: 2
   currentCount: 0
   requiredObject: {fileID: 11400000, guid: 9e747aba34f31944d8429b93cf2ae603, type: 2}

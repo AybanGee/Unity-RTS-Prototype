@@ -8,18 +8,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2afaf6df93583f44b3d6dcd37c62a54, type: 3}
-  m_Name: Destroy 6 Enemy Units
+  m_Script: {fileID: 11500000, guid: 2607bfc8eb8e2d14da18a89f88b060f0, type: 3}
+  m_Name: Spawn 6 Aswang
   m_EditorClassIdentifier: 
   QuestDoneEvent:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  questType: 1
-  questName: Kill
-  instructions: Destroy 6 Land soldiers
-  questIsDone: 1
+  questType: 0
+  questName: Buildup Forces (2/2)
+  instructions: 'Now the Barracks is finished we can train aswang to fight for us.
+
+
+    Train six(6) Aswang.
+
+
+    Select the Barracks [Left-Click] to see trainable units.
+
+    Click the Aswang Icon to Start Training.'
+  questIsDone: 0
   requiredCount: 6
-  currentCount: 6
+  currentCount: 0
   requiredObject: {fileID: 11400000, guid: 83bfedaf7c56c1748ae842db61585261, type: 2}

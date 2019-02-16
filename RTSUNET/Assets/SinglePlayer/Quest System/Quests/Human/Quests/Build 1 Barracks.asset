@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2607bfc8eb8e2d14da18a89f88b060f0, type: 3}
+  m_Name: Build 1 Barracks
+  m_EditorClassIdentifier: 
+  QuestDoneEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  questType: 0
+  questName: Ready for War (1/2)
+  instructions: 'After Gaining some Manna we can now build a Barracks
+
+
+    Build one(1) Kuwartel.
+
+
+    Deselect all [Esc] to show constructable buildings.
+
+
+    Select the Kuwartel to choose where to build.
+
+
+    Select Builders and Right-Click on the rubble to command them to build.'
+  questIsDone: 0
+  requiredCount: 1
+  currentCount: 0
+  requiredObject: {fileID: 11400000, guid: e0593554b6bcae54d85d70e9e8960901, type: 2}

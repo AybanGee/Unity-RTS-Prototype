@@ -132,6 +132,7 @@ MonoBehaviour:
   PO: {fileID: 0}
   obstacleSizeCut: 2
   obstacleHeightAdd: 2
+  lastSpawnedUnit: {fileID: 0}
 --- !u!114 &114799433701067554
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -148,6 +149,7 @@ MonoBehaviour:
   unitGroup: {fileID: 0}
   thGroup: {fileID: 0}
   bGroup: {fileID: 0}
+  lastSpawnedUnit: {fileID: 0}
 --- !u!114 &114949821193209664
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -181,7 +183,7 @@ MonoBehaviour:
   playerName: 
   colorIndex: 0
   baseNo: 0
-  manna: 1000
+  manna: 800
   mapIsLoaded: 0
   startNow: 0
   players: []

@@ -22,7 +22,9 @@ MonoBehaviour:
   rangeInfluence: 3
   graphics: {fileID: 1837562233060174, guid: 1de2d92e8ad279f4ab61039b0e8d552c, type: 2}
   abilities:
-  - {fileID: 11400000, guid: d734c046ee68e3249b9958d072f84f36, type: 2}
+  - {fileID: 11400000, guid: 8d3bfb05c84038140b06a08d0de74b3f, type: 2}
   type: 2
   sellPrice: 50
   addedColliderScale: {x: 5, y: 2, z: 5}
+  rubbleSize: {x: 2, y: 2, z: 2}
+  rubbleObstacleSize: {x: 6, y: 6, z: 6}

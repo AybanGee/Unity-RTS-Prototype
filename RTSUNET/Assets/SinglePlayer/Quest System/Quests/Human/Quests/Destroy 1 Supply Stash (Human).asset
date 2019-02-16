@@ -22,7 +22,7 @@ MonoBehaviour:
 
 
     Destroy 1 Supply Stash.'
-  questIsDone: 0
+  questIsDone: 1
   requiredCount: 1
   currentCount: 0
   requiredObject: {fileID: 11400000, guid: f3023101809978c4987359a3952dc860, type: 2}

@@ -148,6 +148,10 @@ public class BuildingSystem : NetworkBehaviour {
 
 			buildingCreationTrigger = buildingPlaceholder.AddComponent<BuildingCreationTrigger> ();
 			placeHolderRenderers = buildingPlaceholder.GetComponentsInChildren<Renderer> ();
+
+			Building building = buildingGroups.buildings[selectedBuildingIndex];
+			buildingCollider.size = building.addedColliderScale;
+
 			TogglePlaceholderColor ();
 
 		}

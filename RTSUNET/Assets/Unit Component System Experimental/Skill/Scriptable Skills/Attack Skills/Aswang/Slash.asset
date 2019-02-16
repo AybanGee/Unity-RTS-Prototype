@@ -15,7 +15,7 @@ MonoBehaviour:
   description: The Aswang uses its jaws and claws to attack a target.
   sSprite: {fileID: 21300000, guid: d14a027d3fe71df4091f22b668db0408, type: 3}
   sSound: {fileID: 0}
-  range: 0
+  range: 3
   animationTriggers:
   - atk01
   - atk02

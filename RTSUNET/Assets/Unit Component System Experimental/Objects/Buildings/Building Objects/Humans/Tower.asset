@@ -25,7 +25,9 @@ MonoBehaviour:
   graphics: {fileID: 1462126941420248, guid: fecb75ef881046c4fb2e1ca8d0d3286d, type: 2}
   abilities:
   - {fileID: 11400000, guid: 053b1568d2a37b54e96315ae23411812, type: 2}
-  - {fileID: 11400000, guid: d734c046ee68e3249b9958d072f84f36, type: 2}
+  - {fileID: 11400000, guid: db70cfdbabd722f46843a1b07e954ef6, type: 2}
   type: 3
   sellPrice: 50
-  addedColliderScale: {x: 1, y: 0.5, z: 1}
+  addedColliderScale: {x: 3, y: 2, z: 3}
+  rubbleSize: {x: 0.3, y: 0.3, z: 0.3}
+  rubbleObstacleSize: {x: 6, y: 6, z: 6}

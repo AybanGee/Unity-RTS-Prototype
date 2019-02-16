@@ -17,6 +17,8 @@ public class DamageableAbility : Ability {
 		MonoUnitFramework unit = go.GetComponent<MonoUnitFramework> ();
 
 		Damageable damageable = go.AddComponent<Damageable> ();
+
+		Debug.LogWarning("Damageable Ablility :: maxhealth : " + maxHealth);
 		damageable.maxHealth = maxHealth;
 		damageable.armour = armour;
 

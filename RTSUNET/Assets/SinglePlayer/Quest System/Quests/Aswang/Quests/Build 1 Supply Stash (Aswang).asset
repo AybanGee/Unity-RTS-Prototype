@@ -8,8 +8,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2afaf6df93583f44b3d6dcd37c62a54, type: 3}
-  m_Name: Destroy 5 Enemy Units
+  m_Script: {fileID: 11500000, guid: 2607bfc8eb8e2d14da18a89f88b060f0, type: 3}
+  m_Name: Build 1 Supply Stash (Aswang)
   m_EditorClassIdentifier: 
   QuestDoneEvent:
     m_PersistentCalls:
@@ -17,9 +17,9 @@ MonoBehaviour:
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   questType: 0
-  questName: Kill
-  instructions: Destroy 5 Land soldiers
-  questIsDone: 1
-  requiredCount: 5
-  currentCount: 5
-  requiredObject: {fileID: 11400000, guid: d5bf17d481c034d44bbde2084bd08b6b, type: 2}
+  questName: Gather and Build(2/2)
+  instructions: After training some builders
+  questIsDone: 0
+  requiredCount: 1
+  currentCount: 0
+  requiredObject: {fileID: 11400000, guid: f3023101809978c4987359a3952dc860, type: 2}

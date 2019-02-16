@@ -17,6 +17,6 @@ MonoBehaviour:
   isOnlyFriendly: 0
   isInteractable: 0
   attackAbilities:
-  - {fileID: 11400000, guid: 92330e4182e591046adc0f5169e9a778, type: 2}
+  - {fileID: 11400000, guid: 81556ad1aefa56644a3658d25a2b9425, type: 2}
   - {fileID: 11400000, guid: 9c7e1ac48932da84881b9936dd58a209, type: 2}
   - {fileID: 11400000, guid: c14ce479e23d77747aa227a2956b5eb4, type: 2}

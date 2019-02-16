@@ -8,7 +8,7 @@ public class SupplySystem : MonoBehaviour {
 	public float supplyChangeTimer = 0.05f;
 	public int supplyChange = 1;
 	public int supplyMin = 5;
-	public int supplyMax = 100;
+	public int supplyMax = 50;
 	float timer = 0;
 	public PlayerObject PO;
 	void Awake () {

@@ -12,6 +12,10 @@ MonoBehaviour:
   m_Name: HumanQuests
   m_EditorClassIdentifier: 
   quests:
+  - {fileID: 11400000, guid: 4f5f868d00ee9f24da007e0bbac359e5, type: 2}
+  - {fileID: 11400000, guid: 205447efa77cf544ab077f37ed551f74, type: 2}
+  - {fileID: 11400000, guid: b1e4d5f141f789947b3036ff20bf4919, type: 2}
+  - {fileID: 11400000, guid: f825e6a055d56154d9543a122206cbd6, type: 2}
   - {fileID: 11400000, guid: bd053c3e51d80dd40a161c676c4d8dce, type: 2}
   - {fileID: 11400000, guid: 556a45ecd96708643b5f0bddc08d93f8, type: 2}
   - {fileID: 11400000, guid: 1f60deabdd8bb8b43a4d38b6b6883db3, type: 2}

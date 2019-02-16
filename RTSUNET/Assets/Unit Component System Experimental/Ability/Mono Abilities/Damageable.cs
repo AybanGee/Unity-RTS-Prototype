@@ -18,26 +18,38 @@ public class Damageable : MonoAbility {
 
 	public UnityEvent onChangedHealth;
 	public UnityEvent onDeath;
+	public UnityEvent onSpawn;
 
 	public void Test () {
 		Debug.LogError ("Unit Died");
 	}
 
 	public void Awake () {
-		currentHealth = maxHealth;
-		healthHolder = currentHealth;
+
 	}
 
 	public void Start () {
+
+		Debug.LogWarning ("Damageable :: maxhealth : " + maxHealth);
+
+		currentHealth = maxHealth;
+		healthHolder = maxHealth;
+		
 		if (gameObject.GetComponent<HealthUI> () != null)
 			healthUI = gameObject.GetComponent<HealthUI> ();
 
 		onChangedHealth = new UnityEvent ();
 		onDeath = new UnityEvent ();
-		
-		if(QuestEventReciever.singleton != null)
-		onDeath.AddListener (delegate { QuestEventReciever.singleton.OnReceiveQuestTrigger (new QuestEventData (QuestEventType.Death, parentUnit, this)); });
+		onSpawn = new UnityEvent ();
+
+		if (QuestEventReciever.singleton != null)
+		{
+			onDeath.AddListener (delegate { QuestEventReciever.singleton.OnReceiveQuestTrigger (new QuestEventData (QuestEventType.Death, parentUnit, this)); });
+			onSpawn.AddListener(delegate {QuestEventReciever.singleton.OnReceiveQuestTrigger (new QuestEventData (QuestEventType.Spawn, parentUnit, this)); });	
+		}
 		//abilityEvent.AddListener (delegate{ QuestEventReciever.singleton.OnReceiveQuestTrigger (new QuestEventData(QuestEventType.Death,parentUnit,this));});
+
+		onSpawn.Invoke ();
 
 	}
 
