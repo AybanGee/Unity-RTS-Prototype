@@ -11,8 +11,8 @@ public class PlayerObject : NetworkBehaviour {
 	public UnitSystem UnitSys;
 
 	public UIGameManager uiGameManager;
-	#endregion
-
+#endregion
+	
 	public List<GameObject> selectedUnits = new List<GameObject> ();
 	public List<GameObject> myUnits = new List<GameObject> ();
 	public List<GameObject> myBuildings = new List<GameObject> ();
@@ -20,7 +20,7 @@ public class PlayerObject : NetworkBehaviour {
 	[SerializeField]
 	BuildingFactionGroups buildingFactionGroups, buildableGroup;
 	[SerializeField]
-	UnitFactionGroup unitFactionGroup, townhallUnitGroup, barracksUnitGroup;
+	UnitFactionGroup unitFactionGroup,townhallUnitGroup, barracksUnitGroup;
 	public LayerMask movementMask;
 	//passed variables
 	[SyncVar]
@@ -155,9 +155,14 @@ public class PlayerObject : NetworkBehaviour {
 			s += "\nSelected:" + inspect.name;
 			try {
 				s += "\n • ID:" + inspect.GetComponent<NetworkBehaviour> ().netId;
+				s += "\n • Team:" + inspect.GetComponent<MonoUnitFramework>().team.ToString(); 
 				s += "\n • Is Able:" + ((inspect.GetComponent<MonoUnitFramework> () != null) ? "Yes | Count:" + inspect.GetComponent<MonoUnitFramework> ().abilities.Count : "No");
 				s += "\n • Is Damageable:" + ((inspect.GetComponent<Damageable> () != null) ? "Yes | Health:" + inspect.GetComponent<Damageable> ().currentHealth : "No");
 				s += "\n • Is Attacker:" + ((inspect.GetComponent<Attacker> () != null) ? "Yes | Skill(s):" + inspect.GetComponent<Attacker> ().skills.Count : "No");
+				if(inspect.GetComponent<MonoConstructableUnit>() != null){
+				s += "\n • Constructable: Inf Rad = " + inspect.GetComponent<MonoConstructableUnit>().rangeInfluence;
+				s += "\n •                Bldg  = " + inspect.GetComponent<MonoConstructableUnit>().assignedBuilding.name;
+				}
 			} catch (System.Exception) {
 				s += "\nNot Unit";
 			}
@@ -194,6 +199,10 @@ public class PlayerObject : NetworkBehaviour {
 		}
 
 		//DEBUGGING
+		
+		if(Input.GetKeyDown(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.BackQuote))
+		UIGameManager.singleton.debugTxt.gameObject.SetActive(!UIGameManager.singleton.debugTxt.gameObject.activeSelf);
+
 		Ray _ray = cam.ScreenPointToRay (Input.mousePosition);
 		RaycastHit _hit;
 		if (Physics.Raycast (_ray, out _hit, 100000)) {
@@ -597,12 +606,11 @@ public class PlayerObject : NetworkBehaviour {
 		Debug.Log ("SetDefeatStatus :: input : " + input);
 		CmdSetDefeatStatus (input);
 
-		uiGameManager.ShowSpectatorScreen ();
 	}
 
 	[Command]
 	void CmdSetDefeatStatus (bool input) {
-		Debug.Log ("CMD :: SetDefeatStatus :: input : " + input);
+		//Debug.Log ("CMD :: SetDefeatStatus :: input : " + input);
 
 		isDefeated = input;
 		RpcSetDefeatStatus (isDefeated);
@@ -613,12 +621,13 @@ public class PlayerObject : NetworkBehaviour {
 		Debug.Log ("RPC :: SetDefeatStatus :: input : " + input);
 
 		isDefeated = input;
+		uiGameManager.ShowSpectatorScreen ();
+
 	}
 
 	public void SetWinnerStatus (bool input) {
 		CmdSetWinnerStatus (input);
 
-		uiGameManager.ShowWinScreen (input);
 	}
 
 	[Command]
@@ -630,12 +639,14 @@ public class PlayerObject : NetworkBehaviour {
 	[ClientRpc]
 	void RpcSetWinnerStatus (bool input) {
 		isWinner = input;
+		if(uiGameManager != null)
+			uiGameManager.ShowWinScreen (input);
+
 	}
 
 	public void SetGameStatus (bool input) {
 		CmdSetGameStatus (input);
 
-		uiGameManager.ShowWinScreen (isWinner);
 	}
 
 	[Command]
@@ -647,6 +658,8 @@ public class PlayerObject : NetworkBehaviour {
 	[ClientRpc]
 	void RpcSetGameStatus (bool input) {
 		gameIsDone = input;
+		uiGameManager.ShowWinScreen (isWinner);
+
 	}
 	//Client
 

@@ -16,7 +16,10 @@ public abstract class MonoSkill : NetworkBehaviour {
 	private GameObject skillTarget;
 
 	public virtual void ActOn (GameObject go) {
-
+	/* 	if (go == null) {
+			Stop ();
+			return;
+		} */
 		isActing = true;
 	}
 
@@ -27,7 +30,7 @@ public abstract class MonoSkill : NetworkBehaviour {
 	}
 
 	public virtual void Stop () { isActing = false; isActive = false; }
-	
+
 	public bool isTargetInRange (Transform target) {
 		MonoUnitFramework targetUnit = target.gameObject.GetComponent<MonoUnitFramework> ();
 		float influence = 0;
@@ -94,10 +97,10 @@ public abstract class MonoSkill : NetworkBehaviour {
 	}
 	#endregion
 
-	public bool GetIsActing(){
+	public bool GetIsActing () {
 		return isActing;
-	}	
-	public void SetIsActing(bool input){
+	}
+	public void SetIsActing (bool input) {
 		isActing = input;
 	}
 

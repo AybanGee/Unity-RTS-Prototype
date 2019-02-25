@@ -21,17 +21,22 @@ public class UnitMotor : NetworkBehaviour {
 	}
 
 	IEnumerator corFollowTarget (Transform newTarget) {
+	
 		while (true) {
 			if (newTarget != null) {
 				if (hasAuthority)
 					CmdMove (newTarget.position);
 				FaceTarget ();
+			}else{
+				StopFollowingTarget();
 			}
 			yield return null;
 		}
 	}
 
 	public void MoveToPoint (Vector3 point) {
+
+
 		if (hasAuthority == false) {
 			return;
 		}
@@ -54,25 +59,28 @@ public class UnitMotor : NetworkBehaviour {
 	#endregion
 
 	public void FollowTarget (MonoUnitFramework newTarget, MonoSkill skill) {
+		
 		if (hasAuthority == false) {
 			return;
 		}
+		
 		agent.stoppingDistance = skill.range * .9f;
 		agent.updateRotation = false;
 		target = newTarget.transform;
 		//StartCoroutine (corFollowTarget (target));
-		CmdFollowTarget (target.GetComponent<NetworkIdentity> (),skill.range);
+		CmdFollowTarget (target.GetComponent<NetworkIdentity> (), skill.range);
 	}
 	#region  "followServer"
 	[Command]
 	void CmdFollowTarget (NetworkIdentity targetNi, float range) {
-		RpcFollowTarget (targetNi,range);
+		RpcFollowTarget (targetNi, range);
 	}
 
 	[ClientRpc]
 	void RpcFollowTarget (NetworkIdentity targetNi, float range) {
-		if (targetNi == null){
-		Debug.LogWarning("Interactable has is not on network");
+	
+		if (targetNi == null) {
+			Debug.LogWarning ("Interactable has is not on network");
 			return;
 		}
 		Transform newTarget = null;
@@ -81,7 +89,7 @@ public class UnitMotor : NetworkBehaviour {
 
 		if (newTarget == null) return;
 
-		agent.stoppingDistance =  range * .9f;
+		agent.stoppingDistance = range * .9f;
 		agent.updateRotation = false;
 		target = newTarget;
 		StartCoroutine (corFollowTarget (target));

@@ -28,5 +28,6 @@ public class MainMenu : MonoBehaviour {
 			Destroy (LobbyManager.singleton.gameObject);
 			Debug.Log ("Lobby Exists (STart)");
 		}
+
 	}
 }

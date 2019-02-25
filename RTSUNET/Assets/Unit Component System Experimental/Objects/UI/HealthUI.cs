@@ -14,6 +14,7 @@ public class HealthUI : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		cam = Camera.main.transform;
+		
 		foreach (Canvas c in FindObjectsOfType<Canvas> ()) {
 			if (c.renderMode == RenderMode.WorldSpace) {
 				ui = Instantiate (uiPrefab, c.transform).transform;
@@ -21,14 +22,18 @@ public class HealthUI : MonoBehaviour {
 				break;
 			}
 		}
+		
+		ui.GetComponent<HealthSlider>().parentUnit = this.gameObject;
+
 		if (isBuilding) {
 			target = transform.GetChild (0).GetChild (transform.GetChild (0).transform.childCount - 1).transform;
 		}
 
+
 	}
 
 	// Update is called once per frame
-	void Update () {
+	void LateUpdate () {
 
 		if (target == null)
 			target = transform.GetChild (0).GetChild (transform.GetChild (0).transform.childCount - 1).transform;

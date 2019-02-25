@@ -22,7 +22,7 @@ public class MonoUnitLibrary : NetworkBehaviour {
 	public void CmdDeath () {
 		//Destroy (healthUI.ui.gameObject);
 		RpcDeath ();
-		Destroy (this.gameObject);
+		//Destroy (this.gameObject);
 
 	}
 
@@ -37,7 +37,7 @@ public class MonoUnitLibrary : NetworkBehaviour {
 			transform.GetComponent<TownhallTrigger> ().SetIsDefeated ();
 		}
 		
-		if (isServer) return;
+		//if (isServer) return;
 		Destroy (this.gameObject);
 
 	}

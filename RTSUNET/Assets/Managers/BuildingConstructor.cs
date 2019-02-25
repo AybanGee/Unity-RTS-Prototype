@@ -92,6 +92,7 @@ public class BuildingConstructor : NetworkBehaviour {
 		Vector3 sizeHolder = new Vector3 (bldg.rubbleSize.x, bldg.rubbleSize.y, bldg.rubbleSize.z);
 		Vector3 rubbleSize = sizeHolder + new Vector3 (.1f, .1f, .1f);
 		rubble.transform.localScale = rubbleSize;
+		go.transform.localScale = rubbleSize;
 
 		// rubbleSize.x = buildingCollider.size.x;
 		//	rubbleSize.z = buildingCollider.size.z;
@@ -107,7 +108,15 @@ public class BuildingConstructor : NetworkBehaviour {
 				obstacleSize.z -= Mathf.Clamp (obstacleSizeCut, 1, int.MaxValue) / 10f; */
 		rubbleCollider.size = bldg.rubbleObstacleSize;
 		navMeshObstacle.size = bldg.rubbleObstacleSize;
-		//Move to RPC
+
+		string output = "";
+		output += "Constructor :: (Before) \n";
+		output += "  Building Index :: " + buildingSystem.selectedBuildingIndex + "\n";
+		output += "  Building :: Rubble Size : " +  bldg.rubbleObstacleSize + "\n";
+		output += "  Rubble   :: Rubble Size : " +  rubbleCollider.size + "\n";
+
+		Debug.Log(output);
+
 
 		//Assigning data
 		MonoConstructableUnit building = go.GetComponent<MonoConstructableUnit> ();
