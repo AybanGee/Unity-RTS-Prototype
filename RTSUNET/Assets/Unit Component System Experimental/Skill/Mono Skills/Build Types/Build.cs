@@ -14,7 +14,35 @@ public class Build : MonoSkill {
 	}
 
 	new void Update () {
-		base.Update ();
+		//activates a skill
+		if (isActive && skillTarget != null) {
+			Debug.Log ("Skill is Active");
+
+			if (isTargetInRange (skillTarget.transform)) {
+				Debug.Log ("Target is in Range");
+				ActOn (skillTarget);
+				Deactivate ();
+			} else {
+				if (GetComponent<UnitMotor> () != null) {
+					GetComponent<UnitMotor> ().FollowTarget (skillTarget.GetComponent<MonoUnitFramework>(),this);
+				}
+			}
+
+		} else if (isActive && skillTarget == null) {
+			Debug.Log ("Target Does Not Exist, Stopping Skill");
+
+			Act ();
+			Deactivate ();
+		}
+		//checks if target is still in range
+		if (isActing && skillTarget != null) {
+			Debug.Log ("Target Does Not Exist, Still Acting");
+			if (!isTargetInRange (skillTarget.transform)) {
+				Debug.Log ("Out of Range	");
+
+				Stop ();
+			}
+		}
 
 	}
 
@@ -44,7 +72,7 @@ public class Build : MonoSkill {
 					StopBuild ();
 
 				builder.DoBuild (targetConstructable[i], buildRate);
-				
+
 				if (GetComponent<CharacterAnimator> () != null)
 					GetComponent<CharacterAnimator> ().SetTrigger (pickAnimation ());
 			}

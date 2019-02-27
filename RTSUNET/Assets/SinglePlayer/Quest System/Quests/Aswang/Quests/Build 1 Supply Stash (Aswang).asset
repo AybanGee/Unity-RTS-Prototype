@@ -18,7 +18,7 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   questType: 0
   questName: Gather and Build(2/2)
-  instructions: 'Afterr training builders we need a Supply Stash to gather supplies.
+  instructions: 'After training builders we need a Supply Stash to gather supplies.
 
 
     Build one(1) Supply Stash.

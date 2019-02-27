@@ -11,15 +11,15 @@ public abstract class MonoSkill : NetworkBehaviour {
 	public List<string> animationTriggers;
 
 	public MonoAbility parentAbility;
-	private bool isActive = false;
-	private bool isActing = false;
-	private GameObject skillTarget;
+	public bool isActive = false;
+	public bool isActing = false;
+	public GameObject skillTarget;
 
 	public virtual void ActOn (GameObject go) {
-	/* 	if (go == null) {
-			Stop ();
-			return;
-		} */
+		/* 	if (go == null) {
+				Stop ();
+				return;
+			} */
 		isActing = true;
 	}
 
@@ -43,9 +43,12 @@ public abstract class MonoSkill : NetworkBehaviour {
 
 		if (distance - influence <= range) {
 			//Debug.Log("Target in range distance:" + distance + " - " + influence + " = " + (distance - influence) +" req range:" + range);
+			Debug.Log ("MonoSkill :: Target is in range :");
 			return true;
 		}
 		//Debug.Log("Target not in range distance: " + distance + " - " + influence + " = " + (distance - influence) + " req range:" + range);
+
+		Debug.Log ("MonoSkill :: Target is NOT in range :");
 		return false;
 	}
 
@@ -61,11 +64,14 @@ public abstract class MonoSkill : NetworkBehaviour {
 			}
 
 		} else if (isActive && skillTarget == null) {
+			Debug.Log ("Target Does Not Exist, Stopping Skill");
+
 			Act ();
 			Deactivate ();
 		}
 		//checks if target is still in range
 		if (isActing && skillTarget != null) {
+			Debug.Log ("Target Does Not Exist, Still Acting");
 			if (!isTargetInRange (skillTarget.transform)) {
 				Debug.Log ("Out of Range	");
 
@@ -85,7 +91,7 @@ public abstract class MonoSkill : NetworkBehaviour {
 		skillTarget = target;
 		isActive = true;
 	}
-	private void Deactivate () {
+	public void Deactivate () {
 		skillTarget = null;
 		isActive = false;
 	}

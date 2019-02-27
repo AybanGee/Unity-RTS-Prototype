@@ -13,7 +13,10 @@ public class Constructable : MonoAbility {
 	public void Construct (int amount) {
 		constructionTimeLeft -= amount;
 		if (constructionTimeLeft <= 0) {
-			if (isBuilt) return;
+			if (isBuilt) {
+				Debug.Log("This is already built");
+				return;
+			}
 
 			isBuilt = true;
 			EndConstruct ();

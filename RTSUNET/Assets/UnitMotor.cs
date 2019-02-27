@@ -59,7 +59,8 @@ public class UnitMotor : NetworkBehaviour {
 	#endregion
 
 	public void FollowTarget (MonoUnitFramework newTarget, MonoSkill skill) {
-		
+		Debug.Log("Unit Motor :: new Target : " + newTarget);
+
 		if (hasAuthority == false) {
 			return;
 		}
@@ -69,6 +70,8 @@ public class UnitMotor : NetworkBehaviour {
 		target = newTarget.transform;
 		//StartCoroutine (corFollowTarget (target));
 		CmdFollowTarget (target.GetComponent<NetworkIdentity> (), skill.range);
+
+		Debug.Log("Unit Motor :: FollowTarget : End");
 	}
 	#region  "followServer"
 	[Command]

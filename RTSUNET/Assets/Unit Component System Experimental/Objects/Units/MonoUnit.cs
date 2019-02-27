@@ -25,8 +25,13 @@ public class MonoUnit : MonoUnitFramework {
 		//VALIDATE FOCUS HERE
 		if(returnVal)
 		if (newFocus != focus) {
+			Debug.Log(" Focus being set ");
 			focus = newFocus;
+			
+			Debug.Log(" Focus to be followed ");
 			motor.FollowTarget (newFocus, skill);
+
+			Debug.Log(" skill to be activate ");
 			skill.Activate (newFocus.gameObject);
 		}
 

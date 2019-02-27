@@ -76,10 +76,7 @@ public class LoadMap : MonoBehaviour {
 	}
 
 	public void moveCamToBase () {
-		//di ko alam kung pano ipapasa yung base number
-		//PlayerObject PO = PlayerObject.singleton;
-		//error dito
-		//Vector3 baseLoc = baseholder.baseLocations[PO.baseNo].transform.position;
+	
 		Debug.Log ("Move cam to base");
 		PlayerObject PO = PlayerObject.singleton;
 		Debug.Log ("PO : " + PO);
@@ -88,7 +85,6 @@ public class LoadMap : MonoBehaviour {
 
 		Debug.Log ("baseLocation : " + baseLoc);
 
-		camGroup.transform.position = new Vector3 (baseLoc.transform.position.x, 0, baseLoc.transform.position.x);
 
 		//maybe spawn Town Center here?
 		int buildingIndex = 3;
@@ -98,6 +94,8 @@ public class LoadMap : MonoBehaviour {
 		PO.BuildSys.SpawnBuilding (buildingIndex, baseLoc.transform.position, baseLoc.transform.rotation);
 		
 		PO.uiGameManager.loadingScreen.SetActive(false);
+		camGroup.transform.position = new Vector3 (baseLoc.transform.position.x, 0, baseLoc.transform.position.z);
+
 		//PO.SpawnEnemyBuildings();
 	}
 
