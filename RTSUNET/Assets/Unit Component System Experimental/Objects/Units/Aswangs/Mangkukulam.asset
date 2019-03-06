@@ -15,7 +15,30 @@ MonoBehaviour:
   faction: 1
   tier: 0
   battleType: 0
-  description: A witch that uses magic to attack opponents.
+  description: 'The mangkukulam is well-versed in sorcery and witchcraft.
+
+    Uses voodoo dolls and needles to attack their targets from afar.'
+  descriptionExtra: '
+
+    These sorcerers bring magical insects or worms inside the victim''s body. After
+    which they burst out causing immense pain to the victim.
+
+
+    They need to have a body part or belonging of the victim before they can do their
+    attacks.
+
+
+    A single hairstrand is commonly used as it is easy to obtain and not obvious if
+    taken.
+
+
+    The rituals are usually done during midnights of Tuesday or Friday or during the
+    holy week.
+
+
+    They believe that the rituals and spells are more effective during these times.
+
+'
   artwork: {fileID: 21300000, guid: 19e0c338319db9c4ba2c242a30d19b2e, type: 3}
   manaCost: 100
   creationTime: 5

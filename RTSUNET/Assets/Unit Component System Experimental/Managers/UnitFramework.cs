@@ -8,6 +8,10 @@ public abstract class UnitFramework : ScriptableObject {
 	public BattleType battleType;
 	[TextArea (3, 9)]
 	public string description;
+
+	[TextArea (3, 9)]
+	public string descriptionExtra;
+
 	public Sprite artwork;
 	public int manaCost = 50;
 	public float creationTime = 50;

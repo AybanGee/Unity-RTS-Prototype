@@ -1856,7 +1856,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &307825476
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8946,7 +8946,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 315.0475, y: -16.4}
+  m_AnchoredPosition: {x: 315.0476, y: -16.4}
   m_SizeDelta: {x: 630.095, y: 32.8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &798589541
@@ -9130,7 +9130,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: JOIN GAME
+  m_Text: Join Local Host
 --- !u!222 &838034900
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -10308,7 +10308,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1148320472
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11319,11 +11319,11 @@ MonoBehaviour:
     lineCount: 1
     pageCount: 1
     materialCount: 1
-  m_havePropertiesChanged: 0
+  m_havePropertiesChanged: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_isInputParsingRequired: 0
+  m_isInputParsingRequired: 1
   m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
@@ -17898,6 +17898,7 @@ GameObject:
   - component: {fileID: 1906524432}
   - component: {fileID: 1906524431}
   - component: {fileID: 1906524430}
+  - component: {fileID: 1906524433}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -17965,6 +17966,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1906524433
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1906524429}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47fcf9c0f90f9c746a2cf20fbe4c2337, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LM: {fileID: 1770183461}
+  clientButton: {fileID: 307825475}
 --- !u!1 &1968479966
 GameObject:
   m_ObjectHideFlags: 0

@@ -7,21 +7,32 @@ public class MonoUnitLibrary : NetworkBehaviour {
 	//Unit Actions
 	//Damage
 	[Command] public void CmdDoDamage (NetworkIdentity targerStatsID, int damage) {
-		Debug.Log ("Do Damage");
-		RpcDoDamage (targerStatsID, damage);
+
+		Debug.Log ("CMD Do Damage :: target : " + targerStatsID);
+
+		if (targerStatsID.gameObject != null)
+			RpcDoDamage (targerStatsID, damage);
+
 	}
 
 	[ClientRpc]
 	public void RpcDoDamage (NetworkIdentity targerStatsID, int damage) {
 		Debug.Log ("MonoUnitLibrary :: RpcDoDamage : Server :" + isServer);
-		targerStatsID.gameObject.GetComponent<Damageable> ().TakeDamage (damage, GetComponent<NetworkIdentity> ());
+
+		if(targerStatsID == null) return;
+		if(targerStatsID.gameObject == null) return;
+
+		if (targerStatsID.gameObject != null)
+			targerStatsID.gameObject.GetComponent<Damageable> ().TakeDamage (damage, GetComponent<NetworkIdentity> ());
 
 	}
 
 	[Command]
 	public void CmdDeath () {
 		//Destroy (healthUI.ui.gameObject);
-		RpcDeath ();
+
+		StartCoroutine (SelfDestruct ());
+		//RpcDeath ();
 		//Destroy (this.gameObject);
 
 	}
@@ -30,15 +41,12 @@ public class MonoUnitLibrary : NetworkBehaviour {
 	public void RpcDeath () {
 		//when used unit stays in client afterdeath
 		//	GetComponent<MonoUnitFramework>().PO.RemoveUnit(this.gameObject);
-		
-		if (transform.GetComponent<TownhallTrigger> () != null) {
-			Debug.Log ("Die :: townhalltrigger : exists");
 
-			transform.GetComponent<TownhallTrigger> ().SetIsDefeated ();
-		}
-		
+		//if (this.gameObject != null) {
+		GetComponent<MonoUnitFramework> ().StopAbilities ();
+		NetworkServer.Destroy (this.gameObject);
+		//}
 		//if (isServer) return;
-		Destroy (this.gameObject);
 
 	}
 
@@ -52,6 +60,15 @@ public class MonoUnitLibrary : NetworkBehaviour {
 		float percentComplete = (float) constructable.constructionTimeLeft / (float) constructable.constructionTime;
 		percentComplete = 100f - (percentComplete * 100);
 		Debug.Log ("Do Build:(" + percentComplete + "%)");
+	}
+
+	IEnumerator SelfDestruct () {
+		/* NetworkServer.UnSpawn (this.gameObject); */
+
+		yield return new WaitForSeconds (.25f);
+		RpcDeath ();
+
+		yield return null;
 	}
 
 }

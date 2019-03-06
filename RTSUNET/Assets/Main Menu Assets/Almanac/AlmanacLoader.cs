@@ -6,9 +6,10 @@ using UnityEngine.UI;
 
 public class AlmanacLoader : MonoBehaviour {
 
-	public GameObject gfxHolder, buttonHolder, buttonPrefab;
+	public GameObject gfxHolder, buttonHolder, buttonPrefab, contentHolder;
 	public TextMeshProUGUI name, description;
 	public List<UnitFramework> units = new List<UnitFramework> ();
+	public Scrollbar verticalScroll;
 
 	// Use this for initialization
 	void Start () {
@@ -37,12 +38,16 @@ public class AlmanacLoader : MonoBehaviour {
 			Destroy (gfxHolder.transform.GetChild (0).gameObject);
 			
 		name.text = unit.name;
-		description.text = unit.description;
+		description.text = unit.description + "\n" + unit.descriptionExtra;
 		GameObject gfx = Instantiate (unit.graphics, Vector3.zero, Quaternion.identity);
 
 		gfx.transform.SetParent (gfxHolder.transform);
 
 		gfx.transform.position = new Vector3 (0, 0, 0);
+
+		contentHolder.GetComponent<RectTransform>().ForceUpdateRectTransforms();
+		Canvas.ForceUpdateCanvases();
+		verticalScroll.value = 1f;
 
 	}
 

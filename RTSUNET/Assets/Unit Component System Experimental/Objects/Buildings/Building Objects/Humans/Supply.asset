@@ -15,7 +15,7 @@ MonoBehaviour:
   faction: 0
   tier: 0
   battleType: 2
-  description: 'Used to generate Manna.
+  description: 'A structure used to mine and store Manna.
 
     Must be built near an Ore.
 

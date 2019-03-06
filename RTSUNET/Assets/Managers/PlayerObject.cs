@@ -284,6 +284,8 @@ public class PlayerObject : NetworkBehaviour {
 	#region "Unit Selection"
 
 	public void UpdateUI () {
+		if(!isLocalPlayer) return;
+		
 		buildingsAreShown = false;
 
 		//For Single Selection

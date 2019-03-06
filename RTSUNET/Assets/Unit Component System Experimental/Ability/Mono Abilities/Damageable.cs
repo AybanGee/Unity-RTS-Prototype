@@ -34,7 +34,7 @@ public class Damageable : MonoAbility {
 
 		currentHealth = maxHealth;
 		healthHolder = maxHealth;
-		
+
 		if (gameObject.GetComponent<HealthUI> () != null)
 			healthUI = gameObject.GetComponent<HealthUI> ();
 
@@ -42,10 +42,9 @@ public class Damageable : MonoAbility {
 		onDeath = new UnityEvent ();
 		onSpawn = new UnityEvent ();
 
-		if (QuestEventReciever.singleton != null)
-		{
+		if (QuestEventReciever.singleton != null) {
 			onDeath.AddListener (delegate { QuestEventReciever.singleton.OnReceiveQuestTrigger (new QuestEventData (QuestEventType.Death, parentUnit, this)); });
-			onSpawn.AddListener(delegate {QuestEventReciever.singleton.OnReceiveQuestTrigger (new QuestEventData (QuestEventType.Spawn, parentUnit, this)); });	
+			onSpawn.AddListener (delegate { QuestEventReciever.singleton.OnReceiveQuestTrigger (new QuestEventData (QuestEventType.Spawn, parentUnit, this)); });
 		}
 		//abilityEvent.AddListener (delegate{ QuestEventReciever.singleton.OnReceiveQuestTrigger (new QuestEventData(QuestEventType.Death,parentUnit,this));});
 
@@ -60,7 +59,9 @@ public class Damageable : MonoAbility {
 		currentHealth -= damage;
 		onChangedHealth.Invoke ();
 		UpdateHealthUI ();
+		Debug.Log (transform.name + " takes " + damage + " damage.");
 
+/* 		if(isLocalPlayer) return;
 		if (parentUnit.focus != null) return;
 		Attacker attack = GetComponent<Attacker> ();
 		Damageable damageable = ni.gameObject.GetComponent<Damageable> ();
@@ -71,9 +72,8 @@ public class Damageable : MonoAbility {
 				parentUnit.RemoveFocus ();
 				parentUnit.SetFocus (damageable.parentUnit, defaultSkill);
 			}
-		}
+		} */
 
-		Debug.Log (transform.name + " takes " + damage + " damage.");
 	}
 
 	public void TakeHealing (int healValue) {
@@ -117,13 +117,25 @@ public class Damageable : MonoAbility {
 	public virtual void Die () {
 		Debug.Log (transform.name + " died.");
 		onDeath.Invoke ();
-		//GetComponent<MonoUnitFramework>().PO.myUnits.Remove(this.gameObject);
 
+		if (transform.GetComponent<TownhallTrigger> () != null && isLocalPlayer) {
+			Debug.Log ("Die :: townhalltrigger : exists");
+			transform.GetComponent<TownhallTrigger> ().SetIsDefeated ();
+		}
+		//GetComponent<MonoUnitFramework>().PO.myUnits.Remove(this.gameObject);
+		parentUnit.PO.selectedUnits.Remove(this.gameObject);
+		parentUnit.PO.UpdateUI();
+
+		parentUnit.StopAbilities();
 		GetComponent<MonoUnitLibrary> ().CmdDeath ();
+		//StartCoroutine (SelfDestruct ());
 
 	}
 
 	void UpdateHealthUI () {
+		if(healthUI == null) return;
+		if(healthUI.healthSlider == null) return;
+
 		float fill = (float) currentHealth / (float) maxHealth;
 		healthUI.healthSlider.fillAmount = fill;
 	}
@@ -132,5 +144,7 @@ public class Damageable : MonoAbility {
 			Debug.Log ("Death :: Local Event");
 			base.EventSender (questEventData);
 		} */
+
+
 
 }

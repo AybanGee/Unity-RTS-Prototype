@@ -79,14 +79,17 @@ public abstract class Attack : MonoSkill {
 			for (int i = 0; i < targetDamageable.Length; i++) {
 				Debug.Log ("ATTACKING");
 				if (targetDamageable[i] == null) {
-
 					Debug.Log ("Target possible dead");
+
 					if (targetDamageable.Length == 1) {
 						//seearch for new target
 
 						parentAbility.parentUnit.RemoveFocus ();
 
 						SearchForNewTarget ();
+
+						isAttacking = false;
+						break;
 
 					}
 					continue;
